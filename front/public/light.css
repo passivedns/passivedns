@@ -1,0 +1,13 @@
+img.light {
+    filter: invert(1);
+}
+
+nav {
+    --bg-color: black;
+    --border-color: white;
+}
+
+nav.light {
+    --bg-color: white;
+    --border-color: black;
+}

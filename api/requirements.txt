@@ -1,0 +1,12 @@
+flask~=1.1.2
+python-arango
+pycryptodome
+flask-jwt-extended
+flask-cors
+dnspython~=2.1.0
+defang
+requests~=2.25.1
+pandas
+python-whois
+discord.py
+tabulate

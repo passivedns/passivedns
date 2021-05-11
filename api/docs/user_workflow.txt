@@ -1,0 +1,5 @@
+- ADMIN register new user with email
+- New user get mail with code
+- Use code to register
+- Set username/password
+- register
