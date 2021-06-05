@@ -11,4 +11,5 @@ The list of the environment variable  used by the API
 | VERSION         | gitlab    | the last tag used in the code         |
 | COMMIT_SHA      | gitlab    | the last commit                       |
 | JOB_URL         | gitlab    | the url of the gitlab pipeline        |
-| SMTP_PASSWORD   | user      | email connection                      |
+
+DB_HOST

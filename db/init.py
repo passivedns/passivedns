@@ -16,7 +16,7 @@ admin_hashed_password = bcrypt(admin_password, 14).decode()
 smtp_host = input("Enter the SMTP host to use when sending automated mails: ")
 smtp_port = input("Enter the SMTP port: ")
 sender_email = input("Enter the email address to use when sending automated mails: ")
-sender_password = input("Enter the SMTP password")
+sender_password = input("Enter the SMTP password: ")
 
 tmp_file = "db/_init_db_tmp.js"
 with open(tmp_file, "w") as f:

@@ -1,5 +1,9 @@
 FROM node:latest as build-stage
 
+ARG HOST
+
+RUN sed -i -e "s+{{HOST}}+$HOST+g" "src/services/config.json"
+
 WORKDIR /app
 COPY package*.json ./
 

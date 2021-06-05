@@ -1,0 +1,5 @@
+.idea
+venv
+*.tgn
+.local
+__pycache__

@@ -1,0 +1,5 @@
+.local
+.idea
+venv
+print_bench.py
+__pycache__
