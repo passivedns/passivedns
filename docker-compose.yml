@@ -4,6 +4,8 @@ services:
     build: ./db
     env_file:
       - ./env/db.env
+    volumes:
+      - ./db/volume:/var/lib/arangodb3
   api:
     image: docker.io/dadard29/passive-dns-api:latest
     env_file:
