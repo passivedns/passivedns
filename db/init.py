@@ -30,22 +30,3 @@ with open(tmp_file, "w") as f:
     script_js = script_js.replace("{sender_password}", sender_password)
     f.write(script_js)
 
-
-def execute(cmd):
-    popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-    for stdout_line in iter(popen.stdout.readline, ""):
-        yield stdout_line 
-    popen.stdout.close()
-    return_code = popen.wait()
-    if return_code:
-        raise subprocess.CalledProcessError(return_code, cmd)
-
-print("Enter the the database root password")
-for line in execute(["arangosh", "--javascript.execute", f"{tmp_file}"]):
-    print(line)
-
-
-
-os.unlink(tmp_file)
-
-

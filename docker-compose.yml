@@ -1,15 +1,17 @@
 version: "3.9"
 services:
   db:
-    image: docker.io/arangodb
+    build: ./db
     env_file:
       - ./env/db.env
   api:
     image: docker.io/dadard29/passive-dns-api:latest
     env_file:
       - ./env/api.env
+    ports:
+      - "8080:8080"
   front:
-    image: docker.io/dadard29/passive-dns-front:latest
+    build: ./front
     ports:
       - "8081:80"
   scheduler:

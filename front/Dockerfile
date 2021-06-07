@@ -1,8 +1,6 @@
 FROM node:latest as build-stage
 
-ARG HOST
-
-RUN sed -i -e "s+{{HOST}}+$HOST+g" "src/services/config.json"
+ARG HOST=http://localhost:8080
 
 WORKDIR /app
 COPY package*.json ./
@@ -11,6 +9,7 @@ RUN npm install
 
 COPY ./ .
 
+RUN sed -i -e "s+{{HOST}}+$HOST+g" "./src/services/config.json"
 RUN npm run build
 
 FROM nginx as production-stage
