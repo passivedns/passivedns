@@ -7,7 +7,7 @@ from getpass import getpass
 with open("db/_init_db.js", "r") as f:
     script_js = f.read()
 
-db_password = getpass("Enter the password to use with the Passive DNS database user\n")
+db_password = getpass("Enter the password for the database user (passive_dns_user)\n")
 
 admin_name = input("Enter the application administrator username: ")
 admin_email = input("Enter the application administrator email: ")
