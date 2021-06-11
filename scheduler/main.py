@@ -18,13 +18,28 @@ client = ApiClient(host, username, password)
 
 thread_count = int(os.environ['THREAD_COUNT'])
 
+retry_timeout = 5
+
+
+def first_login():
+    while True:
+        try:
+            client.login()
+            return
+        except Exception as e:
+            print(f"cant connect to the API: {str(e)}")
+            print(f"retrying in {retry_timeout} seconds...")
+            time.sleep(retry_timeout)
+            pass
+
+
 print('testing login...')
-client.login()
+first_login()
 print('login successful')
 
 while True:
     # get the next date of the job
-    launch_date = datetime.datetime.now().date()# + datetime.timedelta(days=days_frequency)
+    launch_date = datetime.datetime.now().date() + datetime.timedelta(days=days_frequency)
 
     # set the hour
     launch_time = datetime.time(launch_hour, launch_minute)
@@ -39,6 +54,3 @@ while True:
 
     print(f'{launch_timestamp} - waiting for run')
     scheduler.run()
-
-    # fixme
-    exit()

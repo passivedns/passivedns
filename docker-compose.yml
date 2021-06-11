@@ -6,6 +6,8 @@ services:
       - ./env/db.env
     volumes:
       - ./db/volume:/var/lib/arangodb3
+    ports:
+      - "8529:8529"
   api:
     image: docker.io/dadard29/passive-dns-api:latest
     env_file:

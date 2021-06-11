@@ -36,3 +36,8 @@ stmt.execute()
 stmt = db._createStatement({"query": "INSERT {\"_from\": \"Users/{admin_name}\", \"_to\": \"Channel/_default\", \"username\": \"{admin_name}\", \"channel_name\": \"_default\", \"contact\": \"{admin_email}\", \"token\": \"token\", \"verified\": true} INTO UsersChannel"})
 
 stmt.execute()
+
+
+stmt = db._createStatement({ "query": "INSERT {\"_key\": \"{scheduler_name}\", \"role\": \"scheduler\", \"email\": \"{admin_email}\", \"hashed_password\": \"{scheduler_hashed_password}\" } INTO Users" })
+
+stmt.execute()
