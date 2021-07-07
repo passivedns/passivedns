@@ -50,7 +50,7 @@ class IPAddressLocation(object):
             resp = requests.get(IPAddressLocation._base_url + address)
 
         if resp.status_code != 200 or resp.json()['status'] != 'success':
-            raise IPAddressLocationError(resp.status_code)
+            return None
 
         j = {}
         location_json = resp.json()
@@ -84,17 +84,18 @@ class IPAddress(Node):
         self.address = ip_json["key"]
         super().__init__(IP_ADDRESS_COLLECTION, self.address)
 
-        self.location = IPAddressLocation(**ip_json["location"])
+        if 'location' in ip_json:
+            self.location = IPAddressLocation(**ip_json["location"])
 
     def json(self):
         """
         Serialize the IPAddress
         :return: JSON
         """
-        return {
-            "_key": self.address,
-            "location": self.location.json()
-        }
+        js_dict = {"_key": self.address}
+        if hasattr(self,'location'):
+            js_dict['location'] = self.location.json()
+        return js_dict 
 
     @staticmethod
     def new(address):
@@ -104,7 +105,10 @@ class IPAddress(Node):
         :return: a new IPAddress
         """
         location = IPAddressLocation.new(address)
-        return IPAddress(key=address, location=location.json())
+        if location:
+            return IPAddress(key=address, location=location.json())
+        else:
+            return IPAddress(key=address)
 
     @staticmethod
     def exists(address: str):

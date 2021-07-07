@@ -1,1 +1,4 @@
 venv
+db/volume
+db/_init_db_tmp.js
+env/*.env
