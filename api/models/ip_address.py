@@ -141,4 +141,7 @@ class IPAddress(Node):
         :return: the existing IPAddress object
         """
         ip = IPAddress._get(IP_ADDRESS_COLLECTION, address)
-        return IPAddress(key=ip['_key'], location=ip['location'])
+        if 'location' in ip:
+            return IPAddress(key=ip['_key'], location=ip['location'])
+        else:
+            return IPAddress(key=ip['_key'])
