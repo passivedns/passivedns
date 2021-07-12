@@ -95,7 +95,6 @@ class IPAddress(Node):
         The IPAddress constructor
         :param ip_json: the JSON parsed object as returned by `self.json()`
         """
-        logging.warning(f"IPAddress.__init__: {ip_json}")
         self.address = ip_json["key"]
         super().__init__(IP_ADDRESS_COLLECTION, self.address)
 
