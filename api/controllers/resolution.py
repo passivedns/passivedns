@@ -1,13 +1,12 @@
-import logging
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 
 from controllers.utils import check_admin_user_role
+from models.domain_name import DomainNameResolutionError
+from models.ip_address import IPAddress
+from models.resolution import Resolution
 from views.misc import error_view
 from views.resolution import *
-from models.resolution import Resolution
-from models.ip_address import IPAddress
-from models.domain_name import DomainNameResolutionError
 
 resolution_blueprint = Blueprint("resolution", __name__)
 
@@ -45,7 +44,6 @@ def get_resolution_history(domain_name):
                 "last_updated_at": resolution.last_updated_at.isoformat(),
                 "ip": ip.json()
             })
-              
         return dn_resolution_history_view(out)
 
 

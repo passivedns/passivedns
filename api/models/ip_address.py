@@ -42,20 +42,7 @@ class IPAddressLocation(object):
         :param address: the IP address
         :return: the parsed location
         """
-        location_json ={
-            "country":"-",
-            "country_code":"-",
-            "region":"-",
-            "region_name":"-",
-            "city":"-",
-            "zip_code":"-",
-            "latitude":"-",
-            "longitude":"-",
-            "timezone":"-",
-            "ISP":"-",
-            "organization":"-",
-            "AS":"-"           
-        }
+
         resp = requests.get(IPAddressLocation._base_url + address)
         if resp.headers['X-Rl'] == "0":
             timeout = float(resp.headers['X-Ttl'])
@@ -64,7 +51,18 @@ class IPAddressLocation(object):
             resp = requests.get(IPAddressLocation._base_url + address)
 
         if resp.status_code != 200 or resp.json()['status'] != 'success':
-            return IPAddressLocation(**location_json)
+            # couldn't retrieve the location from an IP address
+            default = ""
+            return IPAddressLocation(
+                country=default, country_code=default,
+                region=default, region_name=default,
+                city=default, zip_code=default,
+                latitude=default, longitude=default,
+                timezone=default,
+                ISP=default,
+                organization=default,
+                AS=default,
+            )
 
         j = {}
         location_json = resp.json()
@@ -106,10 +104,11 @@ class IPAddress(Node):
         Serialize the IPAddress
         :return: JSON
         """
-        js_dict = {"_key": self.address}
-        if hasattr(self,'location'):
-            js_dict['location'] = self.location.json()
-        return js_dict 
+        js_dict = {
+            "_key": self.address,
+            "location": self.location.json()
+        }
+        return js_dict
 
     @staticmethod
     def new(address):
@@ -119,8 +118,7 @@ class IPAddress(Node):
         :return: a new IPAddress
         """
         location = IPAddressLocation.new(address)
-        if location:
-            return IPAddress(key=address, location=location.json())
+        return IPAddress(key=address, location=location.json())
 
     @staticmethod
     def exists(address: str):
@@ -153,5 +151,5 @@ class IPAddress(Node):
         :return: the existing IPAddress object
         """
         ip = IPAddress._get(IP_ADDRESS_COLLECTION, address)
-        
+
         return IPAddress(key=ip['_key'], location=ip['location'])
