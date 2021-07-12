@@ -35,5 +35,5 @@ jobs:
         with:
           context: ./api
           push: true
-          tags: "***/passive-dns-api:master"
+          tags: "***/passive-dns-api:latest"
           labels: ${{ steps.meta.outputs.labels }}
