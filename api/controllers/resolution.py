@@ -1,3 +1,4 @@
+import logging
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 
@@ -36,6 +37,7 @@ def get_resolution_history(domain_name):
         out = []
 
         resolution_list = Resolution.list_from_domain(domain_name)
+            
         for resolution in resolution_list:
             ip = IPAddress.get(resolution.ip_address)
             out.append({
@@ -43,7 +45,7 @@ def get_resolution_history(domain_name):
                 "last_updated_at": resolution.last_updated_at.isoformat(),
                 "ip": ip.json()
             })
-
+              
         return dn_resolution_history_view(out)
 
 

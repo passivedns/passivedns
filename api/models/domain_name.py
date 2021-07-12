@@ -87,7 +87,7 @@ class DomainName(Node):
                 return r['address']
 
         # in case resolution fails (no A record found), returns None
-        return None
+        return '127.0.0.1'
 
     @staticmethod
     def new(domain_name: str):

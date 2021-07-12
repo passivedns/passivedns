@@ -1,3 +1,4 @@
+import logging
 import time
 
 import requests
@@ -41,7 +42,20 @@ class IPAddressLocation(object):
         :param address: the IP address
         :return: the parsed location
         """
-
+        location_json ={
+            "country":"-",
+            "country_code":"-",
+            "region":"-",
+            "region_name":"-",
+            "city":"-",
+            "zip_code":"-",
+            "latitude":"-",
+            "longitude":"-",
+            "timezone":"-",
+            "ISP":"-",
+            "organization":"-",
+            "AS":"-"           
+        }
         resp = requests.get(IPAddressLocation._base_url + address)
         if resp.headers['X-Rl'] == "0":
             timeout = float(resp.headers['X-Ttl'])
@@ -50,7 +64,7 @@ class IPAddressLocation(object):
             resp = requests.get(IPAddressLocation._base_url + address)
 
         if resp.status_code != 200 or resp.json()['status'] != 'success':
-            return None
+            return IPAddressLocation(**location_json)
 
         j = {}
         location_json = resp.json()
@@ -81,6 +95,7 @@ class IPAddress(Node):
         The IPAddress constructor
         :param ip_json: the JSON parsed object as returned by `self.json()`
         """
+        logging.warning(f"IPAddress.__init__: {ip_json}")
         self.address = ip_json["key"]
         super().__init__(IP_ADDRESS_COLLECTION, self.address)
 
@@ -107,8 +122,6 @@ class IPAddress(Node):
         location = IPAddressLocation.new(address)
         if location:
             return IPAddress(key=address, location=location.json())
-        else:
-            return IPAddress(key=address)
 
     @staticmethod
     def exists(address: str):
@@ -141,7 +154,5 @@ class IPAddress(Node):
         :return: the existing IPAddress object
         """
         ip = IPAddress._get(IP_ADDRESS_COLLECTION, address)
-        if 'location' in ip:
-            return IPAddress(key=ip['_key'], location=ip['location'])
-        else:
-            return IPAddress(key=ip['_key'])
+        
+        return IPAddress(key=ip['_key'], location=ip['location'])
