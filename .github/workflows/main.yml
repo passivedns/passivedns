@@ -47,7 +47,9 @@ jobs:
         with:
           context: ./api
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            dadard29/passive-dns-api:latest
+            dadard29/passive-dns-api:$VERSION
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             VERSION=$VERSION
