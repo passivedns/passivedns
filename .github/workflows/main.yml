@@ -50,6 +50,6 @@ jobs:
           tags: dadard29/passive-dns-api:latest
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            VERSION=$VERSION
-            COMMIT_SHA=$COMMIT_SHA
-            JOB_URL=$JOB_URL
+            VERSION=${{ env.VERSION }}
+            COMMIT_SHA=${{ env.COMMIT_SHA }}
+            JOB_URL=${{ env.JOB_URL }}
