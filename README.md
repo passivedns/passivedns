@@ -2,7 +2,7 @@
 
 [![license](https://img.shields.io/github/license/PassiveDNS/PassiveDNS)](https://github.com/PassiveDNS/PassiveDNS)
 
-![logo](https://raw.githubusercontent.com/Dadard29/PassiveDNS/master/docs/images/passive_dns_black.png)]
+![logo](https://raw.githubusercontent.com/Dadard29/PassiveDNS/master/docs/images/passive_dns_black.png)
 
 # Overview
 
