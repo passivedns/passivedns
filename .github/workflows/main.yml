@@ -23,15 +23,12 @@ jobs:
           echo "VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
           echo "COMMIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
           echo "JOB_URL=https://github.com/PassiveDNS/PassiveDNS/actions/runs/${GITHUB_RUN_ID}" >> $GITHUB_ENV
-          echo "TAG_LATEST=dadard29/passive-dns-api:latest" >> $GITHUB_ENV
-          echo "TAG_VERSION=dadard29/passive-dns-api:${VERSION}" >> $GITHUB_ENV
       
       - name: Logging build args
         run: |
           echo "version: ${VERSION}"
           echo "commit SHA: ${COMMIT_SHA}"
           echo "job URL: ${JOB_URL}"
-          echo "pushing tag: ${TAG_LATEST}, ${TAG_VERSION}"
       
       - name: Log in to Docker Hub
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
@@ -50,9 +47,7 @@ jobs:
         with:
           context: ./api
           push: true
-          tags: |
-            $TAG_LATEST
-            $TAG_VERSION
+          tags: dadard29/passive-dns-api:latest
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             VERSION=$VERSION
