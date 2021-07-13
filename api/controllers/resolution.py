@@ -59,3 +59,14 @@ def get_reverse(ip_address):
             return error_view(404, "no resolution found for this IP")
 
         return dn_resolutions_list_view(resolution_list)
+
+
+@resolution_blueprint.route("/reverse/<ip_address>/history", methods=['GET'])
+@jwt_required()
+@check_admin_user_role()
+def get_reverse_history(ip_address):
+    if request.method == 'GET':
+        resolution_list = Resolution.list_from_ip(ip_address)       
+        if len(resolution_list) == 0:       
+            return error_view(404, "no resolution found for this IP")       
+        return dn_resolution_history_view(resolution_list)
