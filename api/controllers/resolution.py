@@ -68,5 +68,5 @@ def get_reverse_history(ip_address):
     if request.method == 'GET':
         resolution_list = Resolution.list_from_ip(ip_address)       
         if len(resolution_list) == 0:       
-            return error_view(404, "no resolution found for this IP")       
+            return error_view(404, "no resolution reverse found for this IP")       
         return dn_resolution_history_view(resolution_list)
