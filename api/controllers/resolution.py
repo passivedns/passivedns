@@ -1,3 +1,4 @@
+import logging
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 
@@ -55,10 +56,12 @@ def get_resolution_history(domain_name):
 def get_reverse(ip_address):
     if request.method == 'GET':
         resolution_list = Resolution.list_from_ip(ip_address)
+
         if len(resolution_list) == 0:
             return error_view(404, "no resolution found for this IP")
-
-        return dn_resolutions_list_view(resolution_list)
+        last_resolution = sorted(resolution_list, key=lambda x: x.last_updated_at, reverse=True)[0]
+        logging.debug("last resolution: %s" % last_resolution)
+        return dn_resolutions_view(last_resolution)
 
 
 @resolution_blueprint.route("/reverse/<ip_address>/history", methods=['GET'])
