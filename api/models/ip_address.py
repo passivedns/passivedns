@@ -1,3 +1,4 @@
+import logging
 import time
 
 import requests
@@ -50,7 +51,18 @@ class IPAddressLocation(object):
             resp = requests.get(IPAddressLocation._base_url + address)
 
         if resp.status_code != 200 or resp.json()['status'] != 'success':
-            raise IPAddressLocationError(resp.status_code)
+            # couldn't retrieve the location from an IP address
+            default = ""
+            return IPAddressLocation(
+                country=default, country_code=default,
+                region=default, region_name=default,
+                city=default, zip_code=default,
+                latitude=default, longitude=default,
+                timezone=default,
+                ISP=default,
+                organization=default,
+                AS=default,
+            )
 
         j = {}
         location_json = resp.json()
@@ -84,17 +96,19 @@ class IPAddress(Node):
         self.address = ip_json["key"]
         super().__init__(IP_ADDRESS_COLLECTION, self.address)
 
-        self.location = IPAddressLocation(**ip_json["location"])
+        if 'location' in ip_json:
+            self.location = IPAddressLocation(**ip_json["location"])
 
     def json(self):
         """
         Serialize the IPAddress
         :return: JSON
         """
-        return {
+        js_dict = {
             "_key": self.address,
             "location": self.location.json()
         }
+        return js_dict
 
     @staticmethod
     def new(address):
@@ -137,4 +151,5 @@ class IPAddress(Node):
         :return: the existing IPAddress object
         """
         ip = IPAddress._get(IP_ADDRESS_COLLECTION, address)
+
         return IPAddress(key=ip['_key'], location=ip['location'])
