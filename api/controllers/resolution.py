@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 
 from controllers.utils import check_admin_user_role
-from models.domain_name import DomainNameResolutionError
+from models.domain_name import DomainName,DomainNameResolutionError
 from models.ip_address import IPAddress
 from models.resolution import Resolution
 from views.misc import error_view
@@ -66,7 +66,15 @@ def get_reverse(ip_address):
 @check_admin_user_role()
 def get_reverse_history(ip_address):
     if request.method == 'GET':
-        resolution_list = Resolution.list_from_ip(ip_address)       
+        resolution_list = Resolution.list_from_ip(ip_address)
+        out = [] 
+        for r in resolution_list:
+            domain = DomainName.get(r.domain_name)
+            out.append( {
+                "first_udapted_at": r.first_updated_at.isoformat(),
+                "last_updated_at": r.last_updated_at.isoformat(),
+                "domain": domain.json()
+            })      
         if len(resolution_list) == 0:       
             return error_view(404, "no resolution reverse found for this IP")       
-        return dn_resolution_history_view(resolution_list)
+        return dn_resolution_history_view(out)
