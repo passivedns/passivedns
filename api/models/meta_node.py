@@ -86,7 +86,7 @@ class Node(object):
         session = get_db()
         o = session.exec_aql(f"""
             FOR u IN {col}
-                FILTER {key_name} == @key_value
+                FILTER u.{key_name} == @key_value
                 RETURN u
         """, bind_vars=({"key_value": key_value}))
 
