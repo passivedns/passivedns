@@ -4,9 +4,11 @@ pycryptodome
 flask-jwt-extended
 flask-cors
 dnspython~=2.1.0
-defang
+defang~=0.5.3
 requests~=2.25.1
-pandas
+pandas~=1.3.0
 python-whois
 discord.py
 tabulate
+
+python-dateutil~=2.8.2

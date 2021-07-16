@@ -13,6 +13,7 @@ from db.database import ObjectNotFound
 from models.channel import Channel
 from models.user_channel import UserChannel
 from models.user import User
+from utils import config, timezone
 
 users_channel_blueprint = Blueprint("user_channels", __name__)
 
@@ -135,7 +136,8 @@ def channel_test(channel_name):
             user_channel = UserChannel.get(user.username, channel.name)
 
             template = TEST_TEMPLATE
-            template.set_format(date=str(datetime.now().date()))
+            date = timezone.get_current_datetime(config.g.TIMEZONE)
+            template.set_format(date=str(date))
             send(user_channel.contact, channel, template)
 
             return user_ch_test_view(user_channel)

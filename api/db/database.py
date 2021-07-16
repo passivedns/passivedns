@@ -3,6 +3,8 @@ import os
 from arango import ArangoClient
 from flask import g
 
+from utils import config
+
 
 class ObjectNotFound(Exception):
     pass
@@ -17,8 +19,8 @@ class DatabaseSession(object):
     def __init__(self, host, database_name):
         self._client = ArangoClient(host)
 
-        username = os.environ['ARANGO_USERNAME']
-        password = os.environ['ARANGO_PASSWORD']
+        username = config.g.ARANGO_USERNAME
+        password = config.g.ARANGO_PASSWORD
         self._db = self._client.db(database_name, username, password)
 
     def exec_aql(self, aql, bind_vars=None) -> list:
@@ -41,7 +43,7 @@ def get_db():
     :return: the DatabaseSession object
     """
     if 'db' not in g:
-        db_host = os.environ['DB_HOST']
+        db_host = config.g.DB_HOST
         g.db = DatabaseSession(db_host, "passive_dns")
 
     return g.db

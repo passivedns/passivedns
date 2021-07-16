@@ -3,6 +3,7 @@ from datetime import datetime
 from models.meta_edge import Edge
 from models.domain_name import DOMAIN_NAME_COLLECTION, DomainNameResolutionError
 from models.ip_address import IP_ADDRESS_COLLECTION
+from utils import timezone, config
 
 RESOLUTION_COLLECTION = "DomainNameResolution"
 
@@ -46,7 +47,7 @@ class Resolution(Edge):
         Set the last updated date to now, and save in DB
         :return:
         """
-        self.last_updated_at = datetime.utcnow().isoformat()
+        self.last_updated_at = timezone.get_current_datetime(config.g.TIMEZONE)
         self._update(dict(
             last_updated_at=self.last_updated_at
         ))
@@ -61,7 +62,7 @@ class Resolution(Edge):
         """
         from_id = Resolution._get_id(DOMAIN_NAME_COLLECTION, domain_name)
         to_id = Resolution._get_id(IP_ADDRESS_COLLECTION, ip_address)
-        now = datetime.utcnow().isoformat()
+        now = timezone.get_current_datetime(config.g.TIMEZONE)
         return Resolution(
             _from=from_id,
             _to=to_id,
