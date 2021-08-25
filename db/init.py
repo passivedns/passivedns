@@ -29,6 +29,9 @@ admin_hashed_password = bcrypt(admin_password, 14).decode()
 print("\n[APPLICATION SECURITY]")
 jwt_key = getpass("Enter the key to use for creating JWT: ")
 
+print("\n[APPLICATION MISC]")
+timezone = input("Enter your timezone (i.e: 'Europe/Paris')")
+
 with open("env/default/default.api.env", "r") as f:
     api_env = f.read()
 
@@ -36,6 +39,7 @@ with open("env/default/default.api.env", "r") as f:
 with open("env/api.env", "w") as f:
     api_env = api_env.replace("{db_password}", db_password)
     api_env = api_env.replace("{jwt_key}", jwt_key)
+    api_env = api_env.replace("{timezone}", timezone)
     f.write(api_env)
 
 print("\n[DEFAULT MAIL CHANNEL]")

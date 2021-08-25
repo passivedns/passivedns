@@ -4,6 +4,8 @@ from multiprocessing import Process
 
 import requests
 
+from client import ApiClient
+
 
 def split_load(dn_list, thread_count):
 
@@ -28,7 +30,7 @@ def split_load(dn_list, thread_count):
     return buckets
 
 
-def resolve_all(client, thread_count):
+def resolve_all(client: ApiClient, thread_count):
     t1 = time()
 
     client.login()
@@ -44,11 +46,10 @@ def resolve_all(client, thread_count):
         for domain_name in bucket:
             print(f"{name} - resolving {domain_name}")
 
-            update_url = f"{client.host}/dn/{domain_name}"
-            r = requests.put(update_url, headers=client.headers)
+            status_code = client.dn_update(domain_name)
             response_list.append({
                 "domain_name": domain_name,
-                "response": r.status_code == 200
+                "response": status_code == 200
             })
 
     thread_list = []
