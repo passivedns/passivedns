@@ -19,11 +19,19 @@ from controllers.tag_dn_ip import tag_dn_ip_blueprint
 from controllers.user_channel import users_channel_blueprint
 from controllers.users import users_blueprint
 from controllers.users_admin import users_admin_blueprint
+from utils import config
 
+# global setup
+from utils.timezone import check_timezone
+
+config.init_config()
+check_timezone(config.g.TIMEZONE)
+
+# app setup
 app = Flask("Passive DNS API")
 CORS(app)
 
-app.config['JWT_SECRET_KEY'] = os.environ['JWT_SECRET_KEY']
+app.config['JWT_SECRET_KEY'] = config.g.JWT_SECRET_KEY
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
 jwt = JWTManager(app)
 
@@ -44,8 +52,7 @@ app.register_blueprint(alert_blueprint)
 
 app.register_blueprint(infos_blueprint)
 
-
-debug = os.environ['DEBUG'] == "1"
+debug = config.g.DEBUG == "1"
 
 if __name__ == "__main__":
     app.run("0.0.0.0", 8080, debug)

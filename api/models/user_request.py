@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from models.meta_node import Node
+from utils import timezone, config
 
 USER_REQUEST_COLLECTION = "UsersRequest"
 
@@ -35,7 +36,7 @@ class UserRequest(Node):
         :param email: the User email
         :return: a new User request
         """
-        requested_at = datetime.now().isoformat()
+        requested_at = timezone.get_current_datetime(config.g.TIMEZONE)
         return UserRequest(_key=email, requested_at=requested_at)
 
     @staticmethod

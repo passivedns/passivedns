@@ -9,6 +9,7 @@ from models.meta_node import Node
 from db.database import get_db
 from db.queries.dn_list import *
 from db.queries.alert_list import *
+from utils import timezone, config
 
 DOMAIN_NAME_COLLECTION = "DomainName"
 
@@ -102,7 +103,7 @@ class DomainName(Node):
         # if registrar is None:
         registrar = ""
 
-        created_at = datetime.now().isoformat()
+        created_at = timezone.get_current_datetime(config.g.TIMEZONE)
         return DomainName(key=domain_name, records=records, registrar=registrar, created_at=created_at)
 
     @staticmethod

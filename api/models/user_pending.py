@@ -2,6 +2,7 @@ import secrets
 from datetime import datetime
 
 from models.meta_node import Node
+from utils import timezone, config
 
 USER_PENDING_COLLECTION = "UsersPending"
 
@@ -49,7 +50,7 @@ class UserPending(Node):
         :return: a new User pending
         """
         token = secrets.token_hex(16)
-        invited_at = datetime.now().isoformat()
+        invited_at = timezone.get_current_datetime(config.g.TIMEZONE)
 
         return UserPending(_key=token, email=email, invited_at=invited_at)
 
