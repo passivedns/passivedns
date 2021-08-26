@@ -34,5 +34,5 @@ def get_full_dn_list():
 def update_dn(domain_name):
     if request.method == 'PUT':
         # use the same workflow as for the user
-        put(domain_name)
-
+        return put(domain_name)
+        

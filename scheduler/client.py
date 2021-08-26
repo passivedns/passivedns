@@ -35,7 +35,7 @@ class ApiClient(object):
         self.session.headers = self.headers
 
     def dn_update(self, domain_name) -> int:
-        r = self.session.put(f"{self.host}/dn/{domain_name}")
+        r = self.session.put(f"{self.host}/scheduler/dn/{domain_name}")
         return r.status_code
 
     def dn_list(self):
