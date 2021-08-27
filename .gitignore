@@ -1,8 +1,6 @@
-venv
+api/venv
 db/volume
 db/_init_db_tmp.js
-env
-env/api.env
-env/db.env
-env/scheduler.env
-scheduler/Dockerfile
+env/*.env
+front/node_modules
+

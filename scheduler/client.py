@@ -34,8 +34,9 @@ class ApiClient(object):
         }
         self.session.headers = self.headers
 
-    def resolve_url(self, domain_name):
-        return f"{self.host}/dn/{domain_name}"
+    def dn_update(self, domain_name) -> int:
+        r = self.session.put(f"{self.host}/scheduler/dn/{domain_name}")
+        return r.status_code
 
     def dn_list(self):
         r = self.session.get(f"{self.host}/scheduler/alerts")
