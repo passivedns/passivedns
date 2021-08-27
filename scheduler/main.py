@@ -2,6 +2,7 @@ import datetime
 import os
 import sched
 import time
+import sys
 
 from client import ApiClient
 from processing import resolve_all
@@ -33,24 +34,39 @@ def first_login():
             pass
 
 
-print('testing login...')
-first_login()
-print('login successful')
+def main():
+    print('testing login...')
+    first_login()
+    print('login successful')
 
-while True:
-    # get the next date of the job
-    launch_date = datetime.datetime.now().date() + datetime.timedelta(days=days_frequency)
+    
+    if len(sys.argv) > 1 and sys.argv[1]== "--now":
+        # excecute the job now
+        print("executing the job now...")
+        resolve_all(client, thread_count)
 
-    # set the hour
-    launch_time = datetime.time(launch_hour, launch_minute)
+    else:
+        print("launching the scheduler...")
+        # scheduled
 
-    # set timestamp
-    launch_timestamp = datetime.datetime.combine(
-        launch_date, launch_time
-    )
+        while True:
+            # get the next date of the job
+            launch_date = datetime.datetime.now().date() + datetime.timedelta(days=days_frequency)
 
-    # schedule next
-    scheduler.enterabs(launch_timestamp.timestamp(), 1, resolve_all, argument=(client, thread_count))
+            # set the hour
+            launch_time = datetime.time(launch_hour, launch_minute)
 
-    print(f'{launch_timestamp} - waiting for run')
-    scheduler.run()
+            # set timestamp
+            launch_timestamp = datetime.datetime.combine(
+                launch_date, launch_time
+            )
+
+            # schedule next
+            scheduler.enterabs(launch_timestamp.timestamp(), 1, resolve_all, argument=(client, thread_count))
+
+            print(f'{launch_timestamp} - waiting for run')
+            scheduler.run()
+
+
+if __name__ == "__main__":
+    main()
