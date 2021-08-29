@@ -35,7 +35,7 @@ jobs:
       - name: Deploy to pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
-          branch: docs
+          branch: demo
           folder: ./front/dist
           token: ${{ secrets.PAT }}
           repository-name: PassiveDNS/PassiveDNS.github.io
