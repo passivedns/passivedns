@@ -28,7 +28,7 @@
 
 <script>
     import AuthCheck from "@/components/connection/AuthCheck";
-    import PfaApi from "@/services/pfa-api";
+    import Services from "../../../services/services";
     export default {
         name: "UserPassword",
         components: {AuthCheck},
@@ -47,7 +47,7 @@
         },
         mounted() {
             let jwt = localStorage.getItem('jwt');
-            this.service = new PfaApi(jwt);
+            this.service = Services.getPfaApiService(jwt);
             this.invalidMessage = this.invalidMessageDefault;
         },
         methods: {

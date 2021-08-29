@@ -1,0 +1,56 @@
+{
+  "dn": {
+    "_key": "dadard.fr",
+    "records": [
+      {
+        "address": "51.83.46.84",
+        "type": "A"
+      },
+      {
+        "target": "dns108.ovh.net.",
+        "type": "NS"
+      },
+      {
+        "target": "ns108.ovh.net.",
+        "type": "NS"
+      },
+      {
+        "expire": "3600000",
+        "minimum": "300",
+        "mname": "dns108.ovh.net.",
+        "refresh": "86400",
+        "retry": "3600",
+        "rname": "tech.ovh.net.",
+        "serial": "2021021405",
+        "type": "SOA"
+      },
+      {
+        "exchange": "mx4.mail.ovh.net.",
+        "preference": "1",
+        "type": "MX"
+      },
+      {
+        "exchange": "mx3.mail.ovh.net.",
+        "preference": "10",
+        "type": "MX"
+      },
+      {
+        "strings": "(b'v=spf1 include:mx.ovh.com ~all',)",
+        "type": "TXT"
+      },
+      {
+        "type": "DS"
+      },
+      {
+        "type": "DNSKEY"
+      },
+      {
+        "type": "DNSKEY"
+      },
+      {
+        "type": "NSEC3PARAM"
+      }
+    ]
+  },
+  "msg": "domain name modified"
+}

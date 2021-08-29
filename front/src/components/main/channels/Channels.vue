@@ -45,12 +45,12 @@
 
 <script>
 
-    import PfaApi from "@/services/pfa-api";
-    import ChannelsLinkedList from "@/components/main/channels/ChannelsLinkedList";
+import ChannelsLinkedList from "@/components/main/channels/ChannelsLinkedList";
     import ChannelsAvailableList from "@/components/main/channels/ChannelsAvailableList";
     import ChannelSetupModal from "@/components/main/channels/ChannelSetupModal";
     import ChannelVerifyModal from "@/components/main/channels/ChannelVerifyModal";
     import ModalConfirm from "@/components/main/ModalConfirm";
+    import Services from "../../../services/services";
     export default {
         name: "Channels",
         components: {ModalConfirm, ChannelVerifyModal, ChannelSetupModal, ChannelsAvailableList, ChannelsLinkedList},
@@ -67,7 +67,7 @@
         },
         mounted() {
             let jwt = localStorage.getItem('jwt');
-            this.service = new PfaApi(jwt);
+            this.service = Services.getPfaApiService(jwt);
             this.refreshLists();
         },
         methods: {

@@ -10,9 +10,9 @@
 
 <script>
 import Connection from './components/Connection.vue'
-import PfaApiPublic from "@/services/pfa-api-public";
 import Main from "@/components/Main";
 import AuthCheck from "@/components/connection/AuthCheck";
+import Services from "./services/services";
 
 export default {
   name: 'App',
@@ -34,10 +34,15 @@ export default {
     }
   },
   mounted() {
+
+    if (process.env.VUE_APP_DEMO === 'true') {
+      console.log(" == DEMO FRONTEND == ")
+    }
+
     let token = localStorage.getItem('jwt');
     let self = this;
 
-    this.service = new PfaApiPublic();
+    this.service = Services.getPfaApiPublicService();
     this.service.checkJwt(token)
       .then(function(b) {
         self.connected = b

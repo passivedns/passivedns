@@ -56,9 +56,9 @@
 </template>
 
 <script>
-    import PfaApi from "@/services/pfa-api";
-    import DomainNameListView from "@/components/main/home/DomainNameListView";
+import DomainNameListView from "@/components/main/home/DomainNameListView";
     import DomainNameListStats from "@/components/main/home/DomainNameListStats";
+    import Services from "../../../services/services";
 
     export default {
         name: "DomainNameList",
@@ -96,7 +96,7 @@
         },
         mounted() {
             let jwt = localStorage.getItem('jwt');
-            this.service = new PfaApi(jwt);
+            this.service = Services.getPfaApiService(jwt);
 
             this.filter = this.$route.query.filter;
             if (this.filter == null) {

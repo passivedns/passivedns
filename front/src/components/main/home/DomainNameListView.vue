@@ -89,8 +89,8 @@
 <script>
     import DomainNameDetail from "@/components/main/home/DomainNameDetail";
     import DateUtil from "@/services/date-util";
-    import PfaApi from "@/services/pfa-api";
     import StringUtil from "@/services/string-util";
+    import Services from "../../../services/services";
 
     export default {
         name: "DomainNameListView",
@@ -131,7 +131,7 @@
         },
         mounted() {
             let jwt = localStorage.getItem('jwt');
-            this.service = new PfaApi(jwt);
+            this.service = Services.getPfaApiService(jwt);
         },
         methods: {
             pageIndexLast() {

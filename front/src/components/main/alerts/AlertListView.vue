@@ -74,7 +74,7 @@
     import DomainNameDetail from "@/components/main/home/DomainNameDetail";
     import DateUtil from "@/services/date-util";
     import StringUtil from "@/services/string-util";
-    import PfaApi from "@/services/pfa-api";
+    import Services from "../../../services/services";
 
     export default {
         name: "AlertListView",
@@ -115,7 +115,7 @@
         },
         mounted() {
             let jwt = localStorage.getItem('jwt');
-            this.service = new PfaApi(jwt);
+            this.service = Services.getPfaApiService(jwt);
         },
         methods: {
             pageIndexLast() {

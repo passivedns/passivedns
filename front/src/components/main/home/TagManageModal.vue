@@ -55,7 +55,7 @@
 </template>
 
 <script>
-    import PfaApi from "@/services/pfa-api";
+import Services from "../../../services/services";
 
     export default {
         name: "TagManageModal",
@@ -87,7 +87,7 @@
         },
         mounted() {
             let jwt = localStorage.getItem('jwt');
-            this.service = new PfaApi(jwt);
+            this.service = Services.getPfaApiService(jwt);
 
             // eslint-disable-next-line no-undef
             this.modal = new bootstrap.Modal(
