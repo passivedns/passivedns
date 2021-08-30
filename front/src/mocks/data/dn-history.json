@@ -1,6 +1,6 @@
 {
   "msg": "domain name resolutions retrieved",
-  "resolution_list": [
+  "history": [
     {
       "_from": "DomainName/dadard.fr",
       "_to": "IPAddress/51.83.46.84",

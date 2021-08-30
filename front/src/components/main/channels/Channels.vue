@@ -1,5 +1,6 @@
 <template>
     <div class="container" >
+<!--      fixme: add loader when loading the data-->
         <ChannelsAvailableList
                 @setup="setup"
                 :channels-list="channelsAvailableList"

@@ -23,10 +23,10 @@
 </template>
 
 <script>
-    import PfaApiAdmin from "@/services/pfa-api-admin";
-    import UsersList from "@/components/main/admin/users/UsersList";
+import UsersList from "@/components/main/admin/users/UsersList";
     import UsersInvite from "@/components/main/admin/users/UsersInvite";
     import UsersRequest from "@/components/main/admin/users/UsersRequest";
+    import Services from "../../../../services/services";
 
     export default {
         name: "Users",
@@ -45,7 +45,7 @@
         },
         mounted() {
             let jwt = localStorage.getItem('jwt');
-            this.service = new PfaApiAdmin(jwt);
+            this.service = Services.getPfaApiAdminService(jwt);
             this.refreshList();
         },
         methods: {

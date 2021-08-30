@@ -69,8 +69,8 @@
 </template>
 
 <script>
-    import PfaApiAdmin from "@/services/pfa-api-admin";
-    import AuthCheck from "@/components/connection/AuthCheck";
+import AuthCheck from "@/components/connection/AuthCheck";
+    import Services from "../../../../services/services";
 
     export default {
         name: "AdminChannelModalCreate",
@@ -98,7 +98,7 @@
             this.channelType = this.channelTypeEmail;
 
             let jwt = localStorage.getItem('jwt');
-            this.service = new PfaApiAdmin(jwt);
+            this.service = Services.getPfaApiAdminService(jwt);
 
             // eslint-disable-next-line no-undef
             this.modal = new bootstrap.Modal(

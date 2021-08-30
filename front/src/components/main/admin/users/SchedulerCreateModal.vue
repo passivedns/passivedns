@@ -38,7 +38,7 @@
 
 <script>
     import AuthCheck from "@/components/connection/AuthCheck";
-    import PfaApiAdmin from "@/services/pfa-api-admin";
+    import Services from "../../../../services/services";
 
     export default {
         name: "SchedulerCreateModal",
@@ -62,7 +62,7 @@
                 document.getElementById("schedulerCreateModal")
             );
             let jwt = localStorage.getItem('jwt');
-            this.service = new PfaApiAdmin(jwt);
+            this.service = Services.getPfaApiAdminService(jwt);
         },
         methods: {
             show() {

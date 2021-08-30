@@ -1,6 +1,7 @@
 {
   "dn": {
     "_key": "dadard.fr",
+    "created_at": "2021-08-30T12:04:59.731444+02:00",
     "records": [
       {
         "address": "51.83.46.84",
@@ -21,7 +22,7 @@
         "refresh": "86400",
         "retry": "3600",
         "rname": "tech.ovh.net.",
-        "serial": "2021021405",
+        "serial": "2021081901",
         "type": "SOA"
       },
       {
@@ -37,20 +38,30 @@
       {
         "strings": "(b'v=spf1 include:mx.ovh.com ~all',)",
         "type": "TXT"
-      },
-      {
-        "type": "DS"
-      },
-      {
-        "type": "DNSKEY"
-      },
-      {
-        "type": "DNSKEY"
-      },
-      {
-        "type": "NSEC3PARAM"
       }
-    ]
+    ],
+    "registrar": ""
   },
-  "msg": "domain name modified"
+  "dn_tags": [],
+  "followed": true,
+  "ip": {
+    "_key": "51.83.46.84",
+    "location": {
+      "AS": "AS16276 OVH SAS",
+      "ISP": "OVH SAS",
+      "city": "Gravelines",
+      "country": "France",
+      "country_code": "FR",
+      "latitude": 50.9871,
+      "longitude": 2.12554,
+      "organization": "OVH",
+      "region": "HDF",
+      "region_name": "Hauts-de-France",
+      "timezone": "Europe/Paris",
+      "zip_code": "59820"
+    }
+  },
+  "ip_tags": [],
+  "msg": "domain name retrieved",
+  "owned": true
 }

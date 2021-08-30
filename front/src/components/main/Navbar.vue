@@ -66,8 +66,7 @@
 </template>
 
 <script>
-    import * as jwt from "jsonwebtoken";
-    import PfaApi from "@/services/pfa-api";
+import Services from "../../services/services";
 
     export default {
         name: "Navbar",
@@ -80,11 +79,11 @@
         },
         mounted() {
             let token = localStorage.getItem('jwt');
-            let payload = jwt.decode(token);
+            let payload = Services.decodeJwt(token)
             this.user = payload.sub;
             this.role = payload.role;
 
-            this.service = new PfaApi(token);
+            this.service = Services.getPfaApiService(token);
             let self = this;
             this.service.getAlertList("", "", "domainName", 100)
                 .then(function(d) {

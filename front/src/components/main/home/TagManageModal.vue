@@ -114,6 +114,7 @@ import Services from "../../../services/services";
             removeTagLinked(t) {
                 let self = this;
                 this.service.deleteLinkedTag(this.object, this.type, t)
+                    // fixme: add catch error
                     .then(function() {
                         self.refreshTagList();
                         self.$emit('refresh')
@@ -122,6 +123,7 @@ import Services from "../../../services/services";
             addTagLinked(t) {
                 let self = this;
                 this.service.createLinkedTag(this.object, this.type, t)
+                    // fixme: add catch error
                     .then(function() {
                         self.refreshTagList();
                         self.$emit('refresh');
@@ -130,6 +132,7 @@ import Services from "../../../services/services";
             addTag() {
                 let self = this;
                 this.service.createTag(this.tagInput)
+                    // fixme: add catch error
                     .then(function(b) {
                         if (b) {
                             self.addTagLinked(self.tagInput)
