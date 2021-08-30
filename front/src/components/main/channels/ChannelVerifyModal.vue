@@ -29,8 +29,8 @@
 </template>
 
 <script>
-    import PfaApi from "@/services/pfa-api";
-    import AuthCheck from "@/components/connection/AuthCheck";
+import AuthCheck from "@/components/connection/AuthCheck";
+    import Services from "../../../services/services";
 
     export default {
         name: "ChannelVerifyModal",
@@ -58,7 +58,7 @@
             );
 
             let jwt = localStorage.getItem('jwt');
-            this.service = new PfaApi(jwt);
+            this.service = Services.getPfaApiService(jwt);
         },
         methods: {
             show(channel) {

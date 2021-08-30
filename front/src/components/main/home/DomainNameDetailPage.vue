@@ -16,10 +16,10 @@
 </template>
 
 <script>
-    import PfaApi from "@/services/pfa-api";
-    import DomainNameDetailPageDn from "@/components/main/home/DomainNameDetailPageDn";
+import DomainNameDetailPageDn from "@/components/main/home/DomainNameDetailPageDn";
     import DomainNameDetailPageIP from "@/components/main/home/DomainNameDetailPageIP";
     import DomainNameDetailPageHistory from "@/components/main/home/DomainNameDetailPageHistory";
+    import Services from "../../../services/services";
 
     export default {
         name: "DomainNameDetailPage",
@@ -33,7 +33,7 @@
         },
         mounted() {
             let jwt = localStorage.getItem('jwt');
-            this.service = new PfaApi(jwt);
+            this.service = Services.getPfaApiService(jwt);
 
             this.dn = this.$route.params.dn;
             this.getDn();

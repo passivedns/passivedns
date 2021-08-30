@@ -47,9 +47,9 @@
 </template>
 
 <script>
-    import PfaApi from "@/services/pfa-api";
-    import AlertListView from "@/components/main/alerts/AlertListView";
+import AlertListView from "@/components/main/alerts/AlertListView";
     import DomainNameListStats from "@/components/main/home/DomainNameListStats";
+    import Services from "../../../services/services";
     export default {
         name: "AlertsList",
         components: {DomainNameListStats, AlertListView},
@@ -76,7 +76,7 @@
         },
         mounted() {
             let jwt = localStorage.getItem('jwt');
-            this.service = new PfaApi(jwt);
+            this.service = Services.getPfaApiService(jwt);
 
             this.filter = this.$route.query.filter;
             if (this.filter == null) {

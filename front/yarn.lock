@@ -1646,14 +1646,6 @@
     "micromatch" "^3.1.4"
     "normalize-path" "^2.1.1"
 
-"anymatch@~3.1.1":
-  "integrity" "sha512-mM8522psRCqzV+6LhomX5wgp25YVibjh8Wj23I5RPkPppSVSjyKD2A2mBJmWGa+KN7f2D6LNh9jkBCeyLktzjg=="
-  "resolved" "https://registry.npmjs.org/anymatch/-/anymatch-3.1.1.tgz"
-  "version" "3.1.1"
-  dependencies:
-    "normalize-path" "^3.0.0"
-    "picomatch" "^2.0.4"
-
 "aproba@^1.1.1":
   "integrity" "sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw=="
   "resolved" "https://registry.npmjs.org/aproba/-/aproba-1.2.0.tgz"
@@ -1899,11 +1891,6 @@
   "resolved" "https://registry.npmjs.org/binary-extensions/-/binary-extensions-1.13.1.tgz"
   "version" "1.13.1"
 
-"binary-extensions@^2.0.0":
-  "integrity" "sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA=="
-  "resolved" "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.2.0.tgz"
-  "version" "2.2.0"
-
 "bluebird@^3.1.1", "bluebird@^3.5.5":
   "integrity" "sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg=="
   "resolved" "https://registry.npmjs.org/bluebird/-/bluebird-3.7.2.tgz"
@@ -1985,13 +1972,6 @@
     "snapdragon-node" "^2.0.1"
     "split-string" "^3.0.2"
     "to-regex" "^3.0.1"
-
-"braces@~3.0.2":
-  "integrity" "sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A=="
-  "resolved" "https://registry.npmjs.org/braces/-/braces-3.0.2.tgz"
-  "version" "3.0.2"
-  dependencies:
-    "fill-range" "^7.0.1"
 
 "brorand@^1.0.1", "brorand@^1.1.0":
   "integrity" "sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8="
@@ -2329,20 +2309,6 @@
     "upath" "^1.1.1"
   optionalDependencies:
     "fsevents" "^1.2.7"
-
-"chokidar@^3.4.1":
-  "integrity" "sha512-9+s+Od+W0VJJzawDma/gvBNQqkTiqYTWLuZoyAsivsI4AaWTCzHG06/TMjsf1cYe9Cb97UCEhjz7HvnPk2p/tw=="
-  "resolved" "https://registry.npmjs.org/chokidar/-/chokidar-3.5.1.tgz"
-  "version" "3.5.1"
-  dependencies:
-    "anymatch" "~3.1.1"
-    "braces" "~3.0.2"
-    "fsevents" "~2.3.1"
-    "glob-parent" "~5.1.0"
-    "is-binary-path" "~2.1.0"
-    "is-glob" "~4.0.1"
-    "normalize-path" "~3.0.0"
-    "readdirp" "~3.5.0"
 
 "chownr@^1.1.1", "chownr@^1.1.2":
   "integrity" "sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg=="
@@ -3817,13 +3783,6 @@
     "repeat-string" "^1.6.1"
     "to-regex-range" "^2.1.0"
 
-"fill-range@^7.0.1":
-  "integrity" "sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ=="
-  "resolved" "https://registry.npmjs.org/fill-range/-/fill-range-7.0.1.tgz"
-  "version" "7.0.1"
-  dependencies:
-    "to-regex-range" "^5.0.1"
-
 "finalhandler@~1.1.2":
   "integrity" "sha512-aAWcW57uxVNrQZqFXjITpW3sIUQmHGG3qSb9mUah9MgMC4NeWhNOlNjXEYq3HjRAvL6arUviZGGJsBg6z0zsWA=="
   "resolved" "https://registry.npmjs.org/finalhandler/-/finalhandler-1.1.2.tgz"
@@ -3989,16 +3948,6 @@
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
 
-"fsevents@^1.2.7":
-  "integrity" "sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw=="
-  "resolved" "https://registry.npmjs.org/fsevents/-/fsevents-1.2.13.tgz"
-  "version" "1.2.13"
-
-"fsevents@~2.3.1":
-  "integrity" "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA=="
-  "resolved" "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
-  "version" "2.3.2"
-
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
   "resolved" "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz"
@@ -4067,7 +4016,7 @@
     "is-glob" "^3.1.0"
     "path-dirname" "^1.0.0"
 
-"glob-parent@^5.0.0", "glob-parent@~5.1.0":
+"glob-parent@^5.0.0":
   "integrity" "sha512-FnI+VGOpnlGHWZxthPGR+QhR78fuiK0sNLkHQv+bL9fQi57lNNdquIbna/WrfROrolq8GK5Ek6BiMwqL/voRYQ=="
   "resolved" "https://registry.npmjs.org/glob-parent/-/glob-parent-5.1.1.tgz"
   "version" "5.1.1"
@@ -4655,13 +4604,6 @@
   dependencies:
     "binary-extensions" "^1.0.0"
 
-"is-binary-path@~2.1.0":
-  "integrity" "sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw=="
-  "resolved" "https://registry.npmjs.org/is-binary-path/-/is-binary-path-2.1.0.tgz"
-  "version" "2.1.0"
-  dependencies:
-    "binary-extensions" "^2.0.0"
-
 "is-buffer@^1.1.5":
   "integrity" "sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w=="
   "resolved" "https://registry.npmjs.org/is-buffer/-/is-buffer-1.1.6.tgz"
@@ -4788,7 +4730,7 @@
   dependencies:
     "is-extglob" "^2.1.0"
 
-"is-glob@^4.0.0", "is-glob@^4.0.1", "is-glob@~4.0.1":
+"is-glob@^4.0.0", "is-glob@^4.0.1":
   "integrity" "sha512-5G0tKtBTFImOqDnLB2hG6Bp2qcKEFduo4tZu9MT/H6NQv/ghhy30o55ufafxJ/LdH79LLs2Kfrn85TLKyA7BUg=="
   "resolved" "https://registry.npmjs.org/is-glob/-/is-glob-4.0.1.tgz"
   "version" "4.0.1"
@@ -4806,11 +4748,6 @@
   "version" "3.0.0"
   dependencies:
     "kind-of" "^3.0.2"
-
-"is-number@^7.0.0":
-  "integrity" "sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng=="
-  "resolved" "https://registry.npmjs.org/is-number/-/is-number-7.0.0.tgz"
-  "version" "7.0.0"
 
 "is-obj@^2.0.0":
   "integrity" "sha512-drqDG3cbczxxEJRoOXcOjtdp1J/lyp1mNn0xaznRs8+muBhgQcrnbspox5X5fOw0HnMnbfDzvnEMEtqDEJEo8w=="
@@ -5750,7 +5687,7 @@
   dependencies:
     "remove-trailing-separator" "^1.0.1"
 
-"normalize-path@^3.0.0", "normalize-path@~3.0.0":
+"normalize-path@^3.0.0":
   "integrity" "sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA=="
   "resolved" "https://registry.npmjs.org/normalize-path/-/normalize-path-3.0.0.tgz"
   "version" "3.0.0"
@@ -6207,11 +6144,6 @@
   "integrity" "sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns="
   "resolved" "https://registry.npmjs.org/performance-now/-/performance-now-2.1.0.tgz"
   "version" "2.1.0"
-
-"picomatch@^2.0.4", "picomatch@^2.2.1":
-  "integrity" "sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg=="
-  "resolved" "https://registry.npmjs.org/picomatch/-/picomatch-2.2.2.tgz"
-  "version" "2.2.2"
 
 "pify@^2.0.0":
   "integrity" "sha1-7RQaasBDqEnqWISY59yosVMw6Qw="
@@ -6867,13 +6799,6 @@
     "graceful-fs" "^4.1.11"
     "micromatch" "^3.1.10"
     "readable-stream" "^2.0.2"
-
-"readdirp@~3.5.0":
-  "integrity" "sha512-cMhu7c/8rdhkHXWsY+osBhfSy0JikwpHK/5+imo+LpeasTF8ouErHrlYkwT0++njiyuDvc7OFY5T3ukvZ8qmFQ=="
-  "resolved" "https://registry.npmjs.org/readdirp/-/readdirp-3.5.0.tgz"
-  "version" "3.5.0"
-  dependencies:
-    "picomatch" "^2.2.1"
 
 "regenerate-unicode-properties@^8.2.0":
   "integrity" "sha512-F9DjY1vKLo/tPePDycuH3dn9H1OTPIkVD9Kz4LODu+F2C75mgjAJ7x/gwy6ZcSNRAAkhNlJSOHRe8k3p+K9WhA=="
@@ -7955,13 +7880,6 @@
     "is-number" "^3.0.0"
     "repeat-string" "^1.6.1"
 
-"to-regex-range@^5.0.1":
-  "integrity" "sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ=="
-  "resolved" "https://registry.npmjs.org/to-regex-range/-/to-regex-range-5.0.1.tgz"
-  "version" "5.0.1"
-  dependencies:
-    "is-number" "^7.0.0"
-
 "to-regex@^3.0.1", "to-regex@^3.0.2":
   "integrity" "sha512-FWtleNAtZ/Ki2qtqej2CXTOayOH9bHDQF+Q48VpWyDXjbYxA4Yz8iDB31zXOBUlOHHKidDbqGVrTUvQMPmBGBw=="
   "resolved" "https://registry.npmjs.org/to-regex/-/to-regex-3.0.2.tgz"
@@ -8363,13 +8281,6 @@
   "integrity" "sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-2.6.12.tgz"
   "version" "2.6.12"
-
-"watchpack-chokidar2@^2.0.1":
-  "integrity" "sha512-nCFfBIPKr5Sh61s4LPpy1Wtfi0HE8isJ3d2Yb5/Ppw2P2B/3eVSEBjKfN0fmHJSK14+31KwMKmcrzs2GM4P0Ww=="
-  "resolved" "https://registry.npmjs.org/watchpack-chokidar2/-/watchpack-chokidar2-2.0.1.tgz"
-  "version" "2.0.1"
-  dependencies:
-    "chokidar" "^2.1.8"
 
 "watchpack@^1.7.4":
   "integrity" "sha512-9P3MWk6SrKjHsGkLT2KHXdQ/9SNkyoJbabxnKOoJepsvJjJG8uYTR3yTPxPQvNDI3w4Nz1xnE0TLHK4RIVe/MQ=="

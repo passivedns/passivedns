@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import PfaApiPublic from "@/services/pfa-api-public";
+    import Services from "../services/services";
 
     export default {
         name: "Ribbon",
@@ -18,7 +18,7 @@
         mounted() {
             let self = this;
 
-            this.service = new PfaApiPublic();
+            this.service = Services.getPfaApiPublicService();
             this.service.getInfos()
                 .then(function(infos) {
                     self.infos = {

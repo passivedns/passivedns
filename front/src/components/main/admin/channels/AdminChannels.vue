@@ -39,11 +39,12 @@
 </template>
 
 <script>
-    import PfaApiAdmin from "@/services/pfa-api-admin";
+
     import AdminChannelsList from "@/components/main/admin/channels/AdminChannelsList";
     import ModalConfirm from "@/components/main/ModalConfirm";
     import AdminChannelModalUpdate from "@/components/main/admin/channels/AdminChannelModalUpdate";
     import AdminChannelModalCreate from "@/components/main/admin/channels/AdminChannelModalCreate";
+    import Services from "../../../../services/services";
 
     export default {
         name: "AdminChannels",
@@ -58,7 +59,7 @@
         },
         mounted() {
             let jwt = localStorage.getItem('jwt');
-            this.service = new PfaApiAdmin(jwt);
+            this.service = Services.getPfaApiAdminService(jwt);
             this.getChannelList()
         },
         methods: {

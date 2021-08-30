@@ -1,0 +1,19 @@
+{
+  "msg": "domain name resolutions retrieved",
+  "history": [
+    {
+      "_from": "DomainName/dadard.fr",
+      "_to": "IPAddress/51.83.46.84",
+      "domain_name": "dadard.fr",
+      "ip_address": "51.83.46.84",
+      "last_updated_at": "2021-03-06T13:20:44.351868"
+    },
+    {
+      "_from": "DomainName/dadard.fr",
+      "_to": "IPAddress/10.10.10.10",
+      "domain_name": "dadard.fr",
+      "ip_address": "10.10.10.10",
+      "last_updated_at": "2021-03-06T12:20:44.351868"
+    }
+  ]
+}

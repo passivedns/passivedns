@@ -105,8 +105,8 @@
 
 <script>
 import Ribbon from "@/components/Ribbon";
-import PfaApiPublic from "@/services/pfa-api-public";
 import AuthCheck from "@/components/connection/AuthCheck";
+import Services from "../services/services";
 
 export default {
   name: 'Connection',
@@ -136,7 +136,7 @@ export default {
     }
   },
   mounted() {
-    this.service = new PfaApiPublic()
+    this.service = Services.getPfaApiPublicService()
   },
   methods: {
     toTabPassword() {
