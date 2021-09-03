@@ -109,7 +109,8 @@ def get(domain_name):
     username = get_jwt_identity()
     try:
         dn = DomainName.get(domain_name)
-        dn_tags = TagDnIP.list_tags_from_object(dn.domain_name, DOMAIN_NAME_COLLECTION)
+        dn_tags = TagDnIP.list_tags_from_object(
+            dn.domain_name, DOMAIN_NAME_COLLECTION)
 
         if not UserDn.exists(username, domain_name):
             owned = False
@@ -154,6 +155,7 @@ def put(domain_name):
             resolution = Resolution.get(domain_name, ip_address)
             resolution.update()
 
+        dn.update()
         return dn_modified_view(dn)
 
     except ObjectNotFound as o:
@@ -177,7 +179,8 @@ def delete(domain_name):
         user_dn.delete()
 
         # remove tags
-        dn_linked_tags = TagDnIP.list_tags_from_object(domain_name, DOMAIN_NAME_COLLECTION)
+        dn_linked_tags = TagDnIP.list_tags_from_object(
+            domain_name, DOMAIN_NAME_COLLECTION)
         for t in dn_linked_tags:
             t.delete()
 
@@ -189,7 +192,8 @@ def delete(domain_name):
             ip_address = r.ip_address
             res_ip_list = Resolution.list_from_ip(ip_address)
             if len(res_ip_list) == 0:
-                ip_linked_tags = TagDnIP.list_tags_from_object(ip_address, IP_ADDRESS_COLLECTION)
+                ip_linked_tags = TagDnIP.list_tags_from_object(
+                    ip_address, IP_ADDRESS_COLLECTION)
                 for t in ip_linked_tags:
                     t.delete()
 

@@ -90,6 +90,13 @@ class DomainName(Node):
         # in case resolution fails (no A record found), returns None
         return None
 
+    def update(self):
+        """
+        Update the DNS records of the domain name, into the database
+        :return:
+        """
+        self._update()
+
     @staticmethod
     def new(domain_name: str):
         """
