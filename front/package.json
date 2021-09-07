@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "chokidar": "^2.1.8",
     "core-js": "^3.6.5",
     "gridjs-vue": "^3.2.3",
     "jsonwebtoken": "^8.5.1",
