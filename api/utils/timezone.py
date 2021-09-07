@@ -1,7 +1,7 @@
 import os
 from dateutil import tz
 from datetime import datetime
-
+import logging
 
 class InvalidTimezone(Exception):
     pass
@@ -16,4 +16,5 @@ def get_current_datetime(timezone):
 def check_timezone(timezone):
     tzinfo = tz.gettz(timezone)
     if tzinfo is None:
-        raise InvalidTimezone(f"Wrong timezone value: {timezone}")
+       logging.error("Invalid timezone: {}".format(timezone)) 
+       tzinfo = tz.gettz('UTC')
