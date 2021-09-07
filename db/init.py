@@ -18,7 +18,7 @@ with open("env/default/default.db.env", "r") as f:
 with open("env/db.env", "w") as f:
     db_env = db_env.replace("{db_root_password}", db_root_password)
     f.write(db_env)
-    
+
 
 print("\n[APPLICATION ADMIN]")
 admin_name = input("Enter the application administrator username: ")
@@ -30,7 +30,9 @@ print("\n[APPLICATION SECURITY]")
 jwt_key = getpass("Enter the key to use for creating JWT: ")
 
 print("\n[APPLICATION MISC]")
-timezone = input("Enter your timezone (i.e: 'Europe/Paris')")
+timezone = input("Enter your timezone (i.e: 'Europe/Paris') (if not provided, UTC is used): ")
+if timezone == '':
+    timezone = "UTC"
 
 with open("env/default/default.api.env", "r") as f:
     api_env = f.read()
@@ -74,4 +76,3 @@ with open(tmp_file, "w") as f:
     script_js = script_js.replace("{scheduler_name}", scheduler_name)
     script_js = script_js.replace("{scheduler_hashed_password}", scheduler_hashed_password)
     f.write(script_js)
-
