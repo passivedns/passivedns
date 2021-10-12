@@ -41,6 +41,7 @@ ALERT_SORT = {
 
 DOMAIN_NAME_FILTERS = {
     "domainName": DOMAIN_NAME_LIST_FILTER_DN,
+    "ipAddress": DOMAIN_NAME_LIST_FILTER_IP,
     "dnTags": DOMAIN_NAME_LIST_FILTER_DN_TAG,
     "ipTags": DOMAIN_NAME_LIST_FILTER_IP_TAG,
 }
@@ -48,7 +49,7 @@ DOMAIN_NAME_FILTERS = {
 DOMAIN_NAME_SORT = {
     "domainName": DOMAIN_NAME_LIST_SORT_DN,
     "ipAddress": DOMAIN_NAME_LIST_SORT_IP,
-    "lastIpChange": DOMAIN_NAME_LIST_SORT_CHANGE
+    "lastIpChange": DOMAIN_NAME_LIST_SORT_CHANGE,
 }
 
 
@@ -58,12 +59,12 @@ class DomainName(Node):
         The DomainName constructor
         :param dn_json: the JSON parsed object as returned by `self.json()`
         """
-        self.domain_name = dn_json['key']
+        self.domain_name = dn_json["key"]
         super().__init__(DOMAIN_NAME_COLLECTION, self.domain_name)
 
-        self.records = dn_json['records']
-        self.registrar = dn_json['registrar']
-        self.created_at = datetime.fromisoformat(dn_json['created_at'])
+        self.records = dn_json["records"]
+        self.registrar = dn_json["registrar"]
+        self.created_at = datetime.fromisoformat(dn_json["created_at"])
 
     def json(self):
         """
@@ -74,7 +75,7 @@ class DomainName(Node):
             _key=self.domain_name,
             records=self.records,
             registrar=self.registrar,
-            created_at=self.created_at.isoformat()
+            created_at=self.created_at.isoformat(),
         )
 
     def resolve(self) -> IPAddress:
@@ -84,8 +85,8 @@ class DomainName(Node):
         """
         self.records = DomainName._extract_records(self.domain_name)
         for r in self.records:
-            if r['type'] == dns.rdatatype.A.name:
-                return r['address']
+            if r["type"] == dns.rdatatype.A.name:
+                return r["address"]
 
         # in case resolution fails (no A record found), returns None
         return None
@@ -111,7 +112,9 @@ class DomainName(Node):
         registrar = ""
 
         created_at = timezone.get_current_datetime(config.g.TIMEZONE)
-        return DomainName(key=domain_name, records=records, registrar=registrar, created_at=created_at)
+        return DomainName(
+            key=domain_name, records=records, registrar=registrar, created_at=created_at
+        )
 
     @staticmethod
     def exists(domain_name: str):
@@ -120,9 +123,7 @@ class DomainName(Node):
         :param domain_name: the domain name
         :return: True if exists, False else
         """
-        return DomainName._exists(
-            DOMAIN_NAME_COLLECTION, domain_name
-        )
+        return DomainName._exists(DOMAIN_NAME_COLLECTION, domain_name)
 
     @staticmethod
     def full_list():
@@ -132,10 +133,18 @@ class DomainName(Node):
         """
         # returns a list of domain_names string
         dn_list = DomainName._list(DOMAIN_NAME_COLLECTION)
-        return [dn['_key'] for dn in dn_list]
+        return [dn["_key"] for dn in dn_list]
 
     @staticmethod
-    def list(username, input_filter, input_filter_by, owned_filter: bool, followed_filter: bool, sort_by, limit: int):
+    def list(
+        username,
+        input_filter,
+        input_filter_by,
+        owned_filter: bool,
+        followed_filter: bool,
+        sort_by,
+        limit: int,
+    ):
         """
         List the DomainName, filter, sort, and limit the
         results (all in the AQL query)
@@ -151,15 +160,15 @@ class DomainName(Node):
 
         query = DOMAIN_NAME_LIST_QUERY
         bind_vars = dict()
-        bind_vars['username'] = username
-        if input_filter != '':
+        bind_vars["username"] = username
+        if input_filter != "":
             # unhandled filter type
             if input_filter_by not in DOMAIN_NAME_FILTERS.keys():
                 raise DomainNameFilterNotFound
 
             filter_query = DOMAIN_NAME_FILTERS[input_filter_by]
             query += filter_query
-            bind_vars['filter'] = input_filter
+            bind_vars["filter"] = input_filter
 
         # unhandled sort type
         if sort_by not in DOMAIN_NAME_SORT.keys():
@@ -178,18 +187,18 @@ class DomainName(Node):
             query += DOMAIN_NAME_LIST_FILTER_OWNED
 
         query += DOMAIN_NAME_LIST_RETURN
-        bind_vars['limit'] = limit
+        bind_vars["limit"] = limit
 
         session = get_db()
-        dn_list = session.exec_aql(
-            query,
-            bind_vars=bind_vars
-        )
+
+        dn_list = session.exec_aql(query, bind_vars=bind_vars)
 
         return dn_list
 
     @staticmethod
-    def list_recent_changes(username: str, days: int, input_filter, input_filter_by, sort_by, limit: int):
+    def list_recent_changes(
+        username: str, days: int, input_filter, input_filter_by, sort_by, limit: int
+    ):
         """
         List the DomainName from which the IP recently changed
         :param username: the User name
@@ -202,15 +211,15 @@ class DomainName(Node):
         """
         bind_vars = dict()
         query = ALERT_LIST_QUERY
-        bind_vars['username'] = username
+        bind_vars["username"] = username
 
-        if input_filter != '':
+        if input_filter != "":
             if input_filter_by not in ALERT_FILTERS.keys():
                 raise DomainNameFilterNotFound
 
             filter_query = ALERT_FILTERS[input_filter_by]
             query += filter_query
-            bind_vars['filter'] = input_filter
+            bind_vars["filter"] = input_filter
 
         if sort_by not in ALERT_SORT.keys():
             raise DomainNameSortNotFound
@@ -219,8 +228,8 @@ class DomainName(Node):
         query += sort_query
 
         query += ALERT_LIST_RETURN
-        bind_vars['limit'] = limit
-        bind_vars['days'] = days
+        bind_vars["limit"] = limit
+        bind_vars["days"] = days
 
         session = get_db()
         alert_list = session.exec_aql(query, bind_vars=bind_vars)
@@ -235,10 +244,10 @@ class DomainName(Node):
         """
         dn = DomainName._get(DOMAIN_NAME_COLLECTION, domain_name)
         return DomainName(
-            key=dn['_key'],
-            records=dn['records'],
-            registrar=dn['registrar'],
-            created_at=dn['created_at']
+            key=dn["_key"],
+            records=dn["records"],
+            registrar=dn["registrar"],
+            created_at=dn["created_at"],
         )
 
     @staticmethod
@@ -250,19 +259,15 @@ class DomainName(Node):
         """
         out = []
         records = []
-        query_types = ['A', 'NS', 'SOA', 'MX', 'TXT', 'AAAA']
+        query_types = ["A", "NS", "SOA", "MX", "TXT", "AAAA"]
         for query_type in query_types:
             try:
-                records.extend(list(
-                    dns.resolver.resolve(domain_name, query_type)
-                ))
+                records.extend(list(dns.resolver.resolve(domain_name, query_type)))
             except dns.exception.DNSException:
                 continue
 
         for r in records:
-            out.append(
-                DomainName._parse_rdatatype_record(r).json()
-            )
+            out.append(DomainName._parse_rdatatype_record(r).json())
 
         return out
 

@@ -43,6 +43,10 @@ DOMAIN_NAME_LIST_FILTER_DN = """
     FILTER CONTAINS(d._key, @filter)
 """
 
+DOMAIN_NAME_LIST_FILTER_IP = """
+    FILTER CONTAINS(resolution.ip_address, @filter)
+"""
+
 DOMAIN_NAME_LIST_FILTER_DN_TAG = """
     FILTER POSITION(dn_tags, @filter)
 """
