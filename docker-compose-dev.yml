@@ -17,7 +17,9 @@ services:
       - "8080:8080"
 
   front:
-    build: ./front
+    build: 
+      context: ./front
+      dockerfile: docker/dev/Dockerfile
     ports:
       - "8081:80"
     volumes:
