@@ -1,0 +1,29 @@
+version: "3.3"
+services:
+  db:
+    build: ./db
+    env_file:
+      - ./env/db.env
+    volumes:
+      - ./db/volume:/var/lib/arangodb3
+    ports:
+      - "8529:8529"
+
+  api:
+    image: docker.io/dadard29/passive-dns-api:latest
+    env_file:
+      - ./env/api.env
+    ports:
+      - "8080:8080"
+
+  front:
+    build: ./front
+    ports:
+      - "8081:80"
+    volumes:
+      - ./front:/app
+
+  scheduler:
+    image: docker.io/dadard29/passive-dns-scheduler:latest
+    env_file:
+      - ./env/scheduler.env
