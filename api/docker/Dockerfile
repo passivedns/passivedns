@@ -18,7 +18,8 @@ ENV VERSION=$VERSION
 ENV JOB_URL=$JOB_URL
 ENV COMMIT_SHA=$COMMIT_SHA
 
-WORKDIR /usr/src/app
+ADD . /app
+WORKDIR /app
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt

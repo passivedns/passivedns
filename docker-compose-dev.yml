@@ -10,12 +10,16 @@ services:
       - "8529:8529"
 
   api:
-    image: docker.io/dadard29/passive-dns-api:latest
+    build: 
+      context: ./api
+      dockerfile: docker/Dockerfile
+
     env_file:
       - ./env/api.env
     ports:
       - "8080:8080"
-
+    volumes:
+      - ./api:/app
   front:
     build: 
       context: ./front
@@ -32,6 +36,10 @@ services:
     tty: true        # docker run -t
 
   scheduler:
-    image: docker.io/dadard29/passive-dns-scheduler:latest
+    build:
+      context: ./scheduler
+      dockerfile: docker/Dockerfile
     env_file:
       - ./env/scheduler.env
+    volumes:
+      - ./scheduler:/app
