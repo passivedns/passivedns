@@ -21,7 +21,7 @@ services:
       context: ./front
       dockerfile: docker/dev/Dockerfile
     ports:
-      - "8081:80"
+      - "8081:8081"
     volumes:
       - ./front:/app
     entrypoint:
