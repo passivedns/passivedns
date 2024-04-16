@@ -28,6 +28,8 @@ services:
       - /docker-entrypoint.sh
     command:
       - /bin/bash
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
 
   scheduler:
     image: docker.io/dadard29/passive-dns-scheduler:latest
