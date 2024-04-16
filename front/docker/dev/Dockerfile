@@ -1,15 +1,15 @@
 FROM node:latest
 
-ARG HOST=http://localhost:8080
-
 ENV NODE_OPTIONS=--openssl-legacy-provider
 
+
+ADD . /app
 WORKDIR /app
-COPY package*.json ./
 
-RUN npm install
+EXPOSE 8080
 
-COPY ./ .
+COPY ./docker/docker-entrypoint.sh /docker-entrypoint.sh
 
-RUN sed -i -e "s+{{HOST}}+$HOST+g" "./src/services/config.json"
-RUN npm run serve
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD [ "dev" ]

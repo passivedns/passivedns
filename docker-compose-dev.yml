@@ -24,6 +24,10 @@ services:
       - "8081:80"
     volumes:
       - ./front:/app
+    entrypoint:
+      - /docker-entrypoint.sh
+    command:
+      - /bin/bash
 
   scheduler:
     image: docker.io/dadard29/passive-dns-scheduler:latest
