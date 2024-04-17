@@ -20,6 +20,7 @@ services:
       - "8080:8080"
     volumes:
       - ./api:/app
+      
   front:
     build: 
       context: ./front
