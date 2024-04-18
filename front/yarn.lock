@@ -1328,15 +1328,6 @@
     semver "^6.1.0"
     strip-ansi "^6.0.0"
 
-"@vue/compat@^3.4.23":
-  version "3.4.23"
-  resolved "https://registry.npmjs.org/@vue/compat/-/compat-3.4.23.tgz"
-  integrity sha512-oLQQEOwEi8BFEHkKpIPCrOJXoFwS9jCMQxHYoA5jeFbLyQwCoH4pEkpEn/1cxGsfxYKno0Zi2PirGhEvUbP3Rg==
-  dependencies:
-    "@babel/parser" "^7.24.1"
-    estree-walker "^2.0.2"
-    source-map-js "^1.2.0"
-
 "@vue/compiler-core@3.4.23":
   version "3.4.23"
   resolved "https://registry.npmjs.org/@vue/compiler-core/-/compiler-core-3.4.23.tgz"

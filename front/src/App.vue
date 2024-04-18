@@ -103,7 +103,5 @@ export default {
 </script>
 
 <style>
-#app {
-  /*font-family: Lucida, Consolas, monospace, sans-serif;*/
-}
+
 </style>
