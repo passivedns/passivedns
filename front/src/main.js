@@ -2,14 +2,14 @@ import { createApp } from 'vue'
 import App from './App.vue'
 //import VueRouter from "vue-router";
 import { createWebHistory, createRouter } from "vue-router";
-import Home from "@/components/main/home/Home"
-import User from "@/components/main/user/User";
-import NotFound from "@/components/NotFound";
-import Channels from "@/components/main/channels/Channels";
-import Alerts from "@/components/main/alerts/Alerts";
-import Admin from "@/components/main/admin/Admin";
-import Users from "@/components/main/admin/users/Users";
-import DomainNameDetailPage from "@/components/main/home/DomainNameDetailPage";
+import Home from "@/components/main/home/Home.vue";
+import User from "@/components/main/user/User.vue";
+import NotFound from "@/components/NotFound.vue";
+import Channels from "@/components/main/channels/Channels.vue";
+import Alerts from "@/components/main/alerts/Alerts.vue";
+import Admin from "@/components/main/admin/Admin.vue";
+import Users from "@/components/main/admin/users/Users.vue";
+import DomainNameDetailPage from "@/components/main/home/DomainNameDetailPage.vue";
 
 
 const routes = [

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import AlertsList from "@/components/main/alerts/AlertsList";
+    import AlertsList from "@/components/main/alerts/AlertsList.vue";
     export default {
         name: "Alerts",
         components: {AlertsList}

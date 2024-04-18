@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import DateUtil from "@/services/date-util";
+    import DateUtil from "@/services/date-util.js";
     export default {
         name: "UsersInvite",
         props: {

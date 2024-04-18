@@ -46,12 +46,12 @@
 
 <script>
 
-import ChannelsLinkedList from "@/components/main/channels/ChannelsLinkedList";
-    import ChannelsAvailableList from "@/components/main/channels/ChannelsAvailableList";
-    import ChannelSetupModal from "@/components/main/channels/ChannelSetupModal";
-    import ChannelVerifyModal from "@/components/main/channels/ChannelVerifyModal";
-    import ModalConfirm from "@/components/main/ModalConfirm";
-    import Services from "../../../services/services";
+import ChannelsLinkedList from "@/components/main/channels/ChannelsLinkedList.vue";
+    import ChannelsAvailableList from "@/components/main/channels/ChannelsAvailableList.vue";
+    import ChannelSetupModal from "@/components/main/channels/ChannelSetupModal.vue";
+    import ChannelVerifyModal from "@/components/main/channels/ChannelVerifyModal.vue";
+    import ModalConfirm from "@/components/main/ModalConfirm.vue";
+    import Services from "../../../services/services.js";
     export default {
         name: "Channels",
         components: {ModalConfirm, ChannelVerifyModal, ChannelSetupModal, ChannelsAvailableList, ChannelsLinkedList},

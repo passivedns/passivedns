@@ -40,11 +40,11 @@
 
 <script>
 
-    import AdminChannelsList from "@/components/main/admin/channels/AdminChannelsList";
-    import ModalConfirm from "@/components/main/ModalConfirm";
-    import AdminChannelModalUpdate from "@/components/main/admin/channels/AdminChannelModalUpdate";
-    import AdminChannelModalCreate from "@/components/main/admin/channels/AdminChannelModalCreate";
-    import Services from "../../../../services/services";
+    import AdminChannelsList from "@/components/main/admin/channels/AdminChannelsList.vue";
+    import ModalConfirm from "@/components/main/ModalConfirm.vue";
+    import AdminChannelModalUpdate from "@/components/main/admin/channels/AdminChannelModalUpdate.vue";
+    import AdminChannelModalCreate from "@/components/main/admin/channels/AdminChannelModalCreate.vue";
+    import Services from "../../../../services/services.js";
 
     export default {
         name: "AdminChannels",

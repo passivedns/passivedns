@@ -38,8 +38,8 @@
 </template>
 
 <script>
-    import DateUtil from "@/services/date-util";
-    import ModalConfirm from "@/components/main/ModalConfirm";
+    import DateUtil from "@/services/date-util.js";
+    import ModalConfirm from "@/components/main/ModalConfirm.vue";
     export default {
         name: "UsersRequest",
         components: {

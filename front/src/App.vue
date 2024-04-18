@@ -10,9 +10,9 @@
 
 <script>
 import Connection from './components/Connection.vue'
-import Main from "@/components/Main";
-import AuthCheck from "@/components/connection/AuthCheck";
-import Services from "./services/services";
+import Main from "@/components/Main.vue";
+import AuthCheck from "@/components/connection/AuthCheck.vue";
+import Services from "./services/services.js";
 
 export default {
   name: 'App',

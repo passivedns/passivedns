@@ -1,12 +1,12 @@
-import PfaApiMock from "../mocks/pfa-api-mock";
-import PfaApi from "./pfa-api";
-import PfaApiPublic from "./pfa-api-public";
-import PfaApiPublicMock from "../mocks/pfa-api-public-mock";
+import PfaApiMock from "../mocks/pfa-api-mock.js";
+import PfaApi from "./pfa-api.js";
+import PfaApiPublic from "./pfa-api-public.js";
+import PfaApiPublicMock from "../mocks/pfa-api-public-mock.js";
 import * as jwt from "jsonwebtoken";
 import user_token from "../mocks/data/user_token.json"
 import admin_token from "../mocks/data/admin-token.json"
-import PfaApiAdminMock from "../mocks/pfa-api-admin-mock";
-import PfaApiAdmin from "./pfa-api-admin";
+import PfaApiAdminMock from "../mocks/pfa-api-admin-mock.js";
+import PfaApiAdmin from "./pfa-api-admin.js";
 
 export default class Services {
 

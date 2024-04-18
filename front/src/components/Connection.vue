@@ -104,9 +104,9 @@
 </template>
 
 <script>
-import Ribbon from "@/components/Ribbon";
-import AuthCheck from "@/components/connection/AuthCheck";
-import Services from "../services/services";
+import Ribbon from "@/components/Ribbon.vue";
+import AuthCheck from "@/components/connection/AuthCheck.vue";
+import Services from "../services/services.js";
 
 export default {
   name: 'Connection',

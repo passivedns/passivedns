@@ -6,8 +6,8 @@
 </template>
 
 <script>
-    import DomainNameList from "@/components/main/home/DomainNameList";
-    import DomainNameCreate from "@/components/main/home/DomainNameCreate";
+    import DomainNameList from "@/components/main/home/DomainNameList.vue";
+    import DomainNameCreate from "@/components/main/home/DomainNameCreate.vue";
 
     export default {
         name: "Home",
