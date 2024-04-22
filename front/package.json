@@ -12,7 +12,6 @@
     "@vitejs/plugin-vue": "^4.0.0",
     "axios": "^0.21.1",
     "chokidar": "^2.1.8",
-    "core-js": "^3.6.5",
     "gridjs-vue": "^5.0.4",
     "jsonwebtoken": "^8.5.1",
     "vue": "^3.1.0-0",
@@ -22,7 +21,8 @@
     "@vue/compiler-sfc": "^3.1.0-0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "vite": "^4.5.2"
+    "vite": "^4.5.2",
+    "vite-plugin-node-polyfills": "^0.21.0"
   },
   "eslintConfig": {
     "root": true,
