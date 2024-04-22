@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
-    "axios": "^0.21.1",
-    "chokidar": "^2.1.8",
+    "axios": "^1.6.8",
+    "chokidar": "^3.6.0",
     "gridjs-vue": "^5.0.4",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.2",
     "vue": "^3.1.0-0",
     "vue-router": "^4.0.11"
   },
