@@ -1,25 +1,23 @@
 import axios from "axios";
-import config from "./config.json"
 
 export default class PfaApiAdmin {
     constructor(jwt) {
         this.service = axios.create({
-            baseURL: config.host,
             headers: {
                 Authorization: `Bearer ${jwt}`
             }
         });
 
         this.routes = {
-            "invite": "/admin/invite",
-            "verify": "/admin/verify",
-            "request": "/admin/request",
-            "requestList": "/admin/request/list",
-            "inviteList": "/admin/invite/list",
-            "userList": "/admin/users/list",
-            "users": "/admin/users",
-            "channels": "/admin/channels",
-            "scheduler": "/admin/scheduler"
+            "invite": "/api/admin/invite",
+            "verify": "/api/admin/verify",
+            "request": "/api/admin/request",
+            "requestList": "/api/admin/request/list",
+            "inviteList": "/api/admin/invite/list",
+            "userList": "/api/admin/users/list",
+            "users": "/api/admin/users",
+            "channels": "/api/admin/channels",
+            "scheduler": "/api/admin/scheduler"
         };
     }
 

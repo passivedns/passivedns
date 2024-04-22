@@ -62,9 +62,9 @@
 </template>
 
 <script>
-    import ModalConfirm from "@/components/main/ModalConfirm";
-    import SchedulerCreateModal from "@/components/main/admin/users/SchedulerCreateModal";
-    import SchedulerUpdateModal from "@/components/main/admin/users/SchedulerUpdateModal";
+    import ModalConfirm from "@/components/main/ModalConfirm.vue";
+    import SchedulerCreateModal from "@/components/main/admin/users/SchedulerCreateModal.vue";
+    import SchedulerUpdateModal from "@/components/main/admin/users/SchedulerUpdateModal.vue";
     export default {
         name: "UsersList",
         components: {SchedulerUpdateModal, SchedulerCreateModal, ModalConfirm},

@@ -5,3 +5,5 @@ env/*.env
 front/node_modules
 api/*.env
 .idea/*
+.venv
+venv/*

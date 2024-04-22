@@ -71,10 +71,10 @@
 </template>
 
 <script>
-    import DomainNameDetail from "@/components/main/home/DomainNameDetail";
-    import DateUtil from "@/services/date-util";
-    import StringUtil from "@/services/string-util";
-    import Services from "../../../services/services";
+    import DomainNameDetail from "@/components/main/home/DomainNameDetail.vue";
+    import DateUtil from "@/services/date-util.js";
+    import StringUtil from "@/services/string-util.js";
+    import Services from "../../../services/services.js";
 
     export default {
         name: "AlertListView",

@@ -1,4 +1,4 @@
-flask~=1.1.2
+flask
 python-arango
 pycryptodome
 flask-jwt-extended
@@ -6,7 +6,7 @@ flask-cors
 dnspython~=2.1.0
 defang~=0.5.3
 requests~=2.25.1
-pandas~=1.3.0
+pandas
 python-whois
 discord.py
 tabulate

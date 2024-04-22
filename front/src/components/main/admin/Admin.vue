@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import AdminChannels from "@/components/main/admin/channels/AdminChannels";
+    import AdminChannels from "@/components/main/admin/channels/AdminChannels.vue";
     export default {
         name: "Admin",
         components: {AdminChannels},

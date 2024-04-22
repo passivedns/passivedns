@@ -30,8 +30,8 @@
 
 
 <script>
-import AuthCheck from "@/components/connection/AuthCheck";
-    import Services from "../../../../services/services";
+import AuthCheck from "@/components/connection/AuthCheck.vue";
+    import Services from "../../../../services/services.js";
 
     export default {
         name: "SchedulerUpdateModal",

@@ -1,18 +1,16 @@
 import axios from "axios";
-import config from "./config.json"
 
 export default class PfaApiPublic {
     constructor() {
         this.service = axios.create({
-            baseURL: config.host,
         });
 
         this.routes = {
-            "infos": "/infos",
-            "login": "/login",
-            "request": "/request",
-            "registerCheck": "/register/check",
-            "register": "/register"
+            "infos": "/api/infos",
+            "login": "/api/login",
+            "request": "/api/request",
+            "registerCheck": "/api/register/check",
+            "register": "/api/register"
         };
     }
 

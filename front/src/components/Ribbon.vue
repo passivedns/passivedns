@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import Services from "../services/services";
+    import Services from "../services/services.js";
 
     export default {
         name: "Ribbon",

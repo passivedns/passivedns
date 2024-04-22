@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import DomainNameDetailPageDn from "@/components/main/home/DomainNameDetailPageDn";
-    import DomainNameDetailPageIP from "@/components/main/home/DomainNameDetailPageIP";
-    import DomainNameDetailPageHistory from "@/components/main/home/DomainNameDetailPageHistory";
-    import Services from "../../../services/services";
+import DomainNameDetailPageDn from "@/components/main/home/DomainNameDetailPageDn.vue";
+    import DomainNameDetailPageIP from "@/components/main/home/DomainNameDetailPageIP.vue";
+    import DomainNameDetailPageHistory from "@/components/main/home/DomainNameDetailPageHistory.vue";
+    import Services from "../../../services/services.js";
 
     export default {
         name: "DomainNameDetailPage",

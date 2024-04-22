@@ -81,9 +81,9 @@
 </template>
 
 <script>
-import DomainNameListView from "@/components/main/home/DomainNameListView";
-import DomainNameListStats from "@/components/main/home/DomainNameListStats";
-import Services from "../../../services/services";
+import DomainNameListView from "@/components/main/home/DomainNameListView.vue";
+import DomainNameListStats from "@/components/main/home/DomainNameListStats.vue";
+import Services from "../../../services/services.js";
 
 export default {
   name: "DomainNameList",

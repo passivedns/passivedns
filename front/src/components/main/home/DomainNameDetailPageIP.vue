@@ -37,7 +37,7 @@
 </template>
 
 <script>
-    import TagManageModal from "@/components/main/home/TagManageModal";
+    import TagManageModal from "@/components/main/home/TagManageModal.vue";
     export default {
         name: "DomainNameDetailPageIP",
         components: {TagManageModal},

@@ -47,9 +47,9 @@
 </template>
 
 <script>
-import AlertListView from "@/components/main/alerts/AlertListView";
-    import DomainNameListStats from "@/components/main/home/DomainNameListStats";
-    import Services from "../../../services/services";
+import AlertListView from "@/components/main/alerts/AlertListView.vue";
+    import DomainNameListStats from "@/components/main/home/DomainNameListStats.vue";
+    import Services from "../../../services/services.js";
     export default {
         name: "AlertsList",
         components: {DomainNameListStats, AlertListView},

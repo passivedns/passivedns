@@ -23,10 +23,10 @@
 </template>
 
 <script>
-import UsersList from "@/components/main/admin/users/UsersList";
-    import UsersInvite from "@/components/main/admin/users/UsersInvite";
-    import UsersRequest from "@/components/main/admin/users/UsersRequest";
-    import Services from "../../../../services/services";
+import UsersList from "@/components/main/admin/users/UsersList.vue";
+    import UsersInvite from "@/components/main/admin/users/UsersInvite.vue";
+    import UsersRequest from "@/components/main/admin/users/UsersRequest.vue";
+    import Services from "../../../../services/services.js";
 
     export default {
         name: "Users",

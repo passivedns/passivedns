@@ -14,8 +14,10 @@ services:
       - ./env/api.env
     ports:
       - "8080:8080"
-  front:
-    build: ./front
+  front: 
+    build: 
+      context: ./front
+      dockerfile: docker/prod/Dockerfile
     ports:
       - "8081:80"
   scheduler:

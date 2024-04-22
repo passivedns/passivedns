@@ -1,0 +1,46 @@
+version: "3.3"
+services:
+  db:
+    build: ./db
+    env_file:
+      - ./env/db.env
+    volumes:
+      - ./db/volume:/var/lib/arangodb3
+    ports:
+      - "8529:8529"
+
+  api:
+    build: 
+      context: ./api
+      dockerfile: docker/Dockerfile
+
+    env_file:
+      - ./env/api.env
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./api:/app
+      
+  front:
+    build: 
+      context: ./front
+      dockerfile: docker/dev/Dockerfile
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./front:/app
+    entrypoint:
+      - /docker-entrypoint.sh
+    command:
+      - /bin/bash
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+
+  scheduler:
+    build:
+      context: ./scheduler
+      dockerfile: docker/Dockerfile
+    env_file:
+      - ./env/scheduler.env
+    volumes:
+      - ./scheduler:/app

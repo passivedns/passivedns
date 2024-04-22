@@ -1,7 +1,7 @@
 import infos from "./data/infos.json"
 import user_token from "./data/user_token.json"
 import admin_token from "./data/admin-token.json"
-import Services from "../services/services";
+import Services from "../services/services.js";
 
 export default class PfaApiPublicMock {
     getInfos() {

@@ -1,26 +1,24 @@
 import axios from "axios";
-import config from "./config.json";
 
 export default class PfaApi {
     constructor(jwt) {
         this.service = axios.create({
-            baseURL: config.host,
             headers: {
                 Authorization: `Bearer ${jwt}`
             }
         });
 
         this.routes = {
-            "dnList": "/dn",
-            "dn": "/dn",
-            "alert": "/alert",
-            "resolution": "/resolution",
-            "channels": "/channels",
-            "userChannels": "/user/channels",
-            "tag": "/tag",
-            "tagLinked": "/tag_dn_ip",
-            "tagLinkedList": "/tag_dn_ip/list/from",
-            "password": "/password"
+            "dnList": "/api/dn",
+            "dn": "/api/dn",
+            "alert": "/api/alert",
+            "resolution": "/api/resolution",
+            "channels": "/api/channels",
+            "userChannels": "/api/user/channels",
+            "tag": "/api/tag",
+            "tagLinked": "/api/tag_dn_ip",
+            "tagLinkedList": "/api/tag_dn_ip/list/from",
+            "password": "/api/password"
         };
     }
 
