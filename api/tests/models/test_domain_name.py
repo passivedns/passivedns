@@ -19,7 +19,7 @@ class TestDomainName(TestCase):
         d = DomainName.new(domain_name)
         ip = d.resolve()
 
-        expected_ip_address = "149.62.158.57"
+        expected_ip_address = "149.62.158.51"
         self.assertEqual(ip, expected_ip_address)
 
     def test_resolve_exception(self):
