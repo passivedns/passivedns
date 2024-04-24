@@ -3,6 +3,9 @@ from unittest.mock import MagicMock
 
 from models.user import User, UserRole
 
+from utils import config
+config.init_config()
+
 username = 'dadard'
 password = 'password'
 hashed_password = 'stuff'

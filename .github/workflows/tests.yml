@@ -1,0 +1,25 @@
+name: Tests
+
+on: [pull_request]
+
+jobs: 
+
+    unittest:
+        runs-on: ubuntu-latest
+        env:
+            ARANGO_USERNAME: passive_dns_user
+            ARANGO_PASSWORD: user
+            DB_HOST: http://db:8529
+            JWT_SECRET_KEY: key
+            TIMEZONE: Europe/Paris
+            DEBUG: 0
+
+        steps:
+            - uses: actions/checkout@v2
+            - run: sudo apt-get install -y python3-pip
+            - name: Run db and api
+              run: |
+                docker compose -f docker-compose-dev.yml build api
+                docker compose -f docker-compose-dev.yml up -d db api
+            - name: Test
+              run: docker compose -f docker-compose-dev.yml exec api sh -c "python -m unittest discover -s tests/models -p '*.py'"

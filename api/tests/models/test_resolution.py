@@ -6,6 +6,9 @@ from models.domain_name import DOMAIN_NAME_COLLECTION
 from models.ip_address import IP_ADDRESS_COLLECTION
 from db.database import ObjectNotFound
 
+from utils import config
+config.init_config()
+
 domain_name = "dadard.fr"
 ip_address = "51.83.46.84"
 

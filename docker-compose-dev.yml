@@ -1,9 +1,11 @@
 version: "3.3"
 services:
   db:
-    build: ./db
-    env_file:
-      - ./env/db.env
+    build: 
+      context: ./db
+      dockerfile: docker/dev/Dockerfile
+    environment:
+      - ARANGO_ROOT_PASSWORD=root
     volumes:
       - ./db/volume:/var/lib/arangodb3
     ports:
@@ -14,8 +16,13 @@ services:
       context: ./api
       dockerfile: docker/Dockerfile
 
-    env_file:
-      - ./env/api.env
+    environment :
+      - ARANGO_USERNAME=passive_dns_user
+      - ARANGO_PASSWORD=user
+      - JWT_SECRET_KEY=key
+      - DB_HOST=http://db:8529
+      - IMEZONE=Europe/Paris
+      - DEBUG=0
     ports:
       - "8080:8080"
     volumes:
@@ -40,7 +47,14 @@ services:
     build:
       context: ./scheduler
       dockerfile: docker/Dockerfile
-    env_file:
-      - ./env/scheduler.env
+    environment:
+      - LAUNCH_HOUR=8
+      - LAUNCH_MINUTE=0
+      - DAYS_FREQUENCY=1
+      - API_HOST=http://api:8080
+      - API_USERNAME=sched1
+      - API_PASSWORD=scheduler
+      - THREAD_COUNT=5
+
     volumes:
       - ./scheduler:/app

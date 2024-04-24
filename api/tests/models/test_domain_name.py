@@ -4,7 +4,10 @@ from unittest.mock import MagicMock
 from models.domain_name import DomainName, DomainNameResolutionError
 from db.database import ObjectNotFound
 
-domain_name = "dadard.fr"
+from utils import config
+config.init_config()
+
+domain_name = "esiea.fr"
 
 
 class TestDomainName(TestCase):
@@ -16,8 +19,8 @@ class TestDomainName(TestCase):
         d = DomainName.new(domain_name)
         ip = d.resolve()
 
-        expected_ip_address = "51.83.46.84"
-        self.assertEqual(ip.address, expected_ip_address)
+        expected_ip_address = "149.62.158.51"
+        self.assertEqual(ip, expected_ip_address)
 
     def test_resolve_exception(self):
         d = DomainName.new("stuff")
@@ -39,6 +42,7 @@ class TestDomainName(TestCase):
                 {"type": "A", "address": "address"}
             ],
             "registrar": "registrar",
+            "created_at":"2024-04-23T16:42:11.583591+02:00"
         }
         DomainName._get = MagicMock(return_value=j)
         d = DomainName.get(domain_name)
