@@ -4,7 +4,6 @@ from models.meta_edge import Edge
 from models.domain_name import DOMAIN_NAME_COLLECTION, DomainNameResolutionError
 from models.ip_address import IP_ADDRESS_COLLECTION
 from utils import timezone, config
-config.init_config()
 
 RESOLUTION_COLLECTION = "DomainNameResolution"
 

@@ -3,6 +3,9 @@ from unittest.mock import MagicMock
 
 from models.channel import Channel, ChannelTypeError
 
+from utils import config
+config.init_config()
+
 channel_email = {
     "_key": "email_chan",
     "type": "email",

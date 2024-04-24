@@ -4,6 +4,9 @@ from unittest.mock import MagicMock
 from models.ip_address import IPAddress, IPAddressLocationError
 from db.database import ObjectNotFound
 
+from utils import config
+config.init_config()
+
 address = "51.83.46.84"
 
 
