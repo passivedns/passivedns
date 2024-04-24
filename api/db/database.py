@@ -4,6 +4,7 @@ from arango import ArangoClient
 from flask import g
 
 from utils import config
+config.init_config()
 
 
 class ObjectNotFound(Exception):

@@ -14,7 +14,7 @@ channel_email = Channel.new("test", ChannelEmail.TYPE, {
     "sender_password": os.environ['SMTP_PASSWORD']
 })
 
-user_mail = "florian.charpentier67@gmail.com"
+user_mail = "oquidam@et.esiea.fr"
 
 
 class TestEmail(TestCase):

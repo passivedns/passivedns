@@ -2,6 +2,7 @@ from datetime import datetime
 
 from models.meta_node import Node
 from utils import timezone, config
+config.init_config()
 
 USER_REQUEST_COLLECTION = "UsersRequest"
 

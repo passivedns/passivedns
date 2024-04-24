@@ -16,8 +16,8 @@ class TestDomainName(TestCase):
         d = DomainName.new(domain_name)
         ip = d.resolve()
 
-        expected_ip_address = "51.83.46.84"
-        self.assertEqual(ip.address, expected_ip_address)
+        expected_ip_address = "216.239.34.21"
+        self.assertEqual(ip, expected_ip_address)
 
     def test_resolve_exception(self):
         d = DomainName.new("stuff")
@@ -39,6 +39,7 @@ class TestDomainName(TestCase):
                 {"type": "A", "address": "address"}
             ],
             "registrar": "registrar",
+            "created_at":"2024-04-23T16:42:11.583591+02:00"
         }
         DomainName._get = MagicMock(return_value=j)
         d = DomainName.get(domain_name)

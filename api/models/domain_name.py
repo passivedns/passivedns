@@ -10,6 +10,7 @@ from db.database import get_db
 from db.queries.dn_list import *
 from db.queries.alert_list import *
 from utils import timezone, config
+config.init_config()
 
 DOMAIN_NAME_COLLECTION = "DomainName"
 
