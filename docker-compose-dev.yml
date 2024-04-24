@@ -1,7 +1,9 @@
 version: "3.3"
 services:
   db:
-    build: ./db
+    build: 
+      context: ./db
+      dockerfile: docker/dev/Dockerfile
     environment:
       - ARANGO_ROOT_PASSWORD=root
     volumes:
