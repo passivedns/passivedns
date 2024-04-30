@@ -1,7 +1,7 @@
 import os
 
 from arango import ArangoClient
-from flask import g
+from fastapi import Depends
 
 from utils import config
 
@@ -42,8 +42,5 @@ def get_db():
     Manage the session into the Flask application context
     :return: the DatabaseSession object
     """
-    if 'db' not in g:
-        db_host = config.g.DB_HOST
-        g.db = DatabaseSession(db_host, "passive_dns")
-
-    return g.db
+    db_host = config.g.DB_HOST
+    return DatabaseSession(db_host, "passive_dns")
