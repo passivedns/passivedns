@@ -7,7 +7,7 @@ from db.database import ObjectNotFound
 from utils import config
 config.init_config()
 
-domain_name = "esiea.fr"
+domain_name = "dns.google.com"
 
 
 class TestDomainName(TestCase):
@@ -19,7 +19,7 @@ class TestDomainName(TestCase):
         d = DomainName.new(domain_name)
         ip = d.resolve()
 
-        expected_ip_address = "149.62.158.51"
+        expected_ip_address = "8.8.4.4"
         self.assertEqual(ip, expected_ip_address)
 
     def test_resolve_exception(self):
