@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import pandas
-from flask import jsonify, Response
+from fastapi import Response
 
 from models.domain_name import DomainName
 from models.ip_address import IPAddress
@@ -12,17 +12,17 @@ EXPORT_JSON = 'json'
 
 
 def dn_created_view(dn: DomainName):
-    return jsonify({
+    return {
         "msg": "domain name created",
         "dn": dn.json()
-    }), 201
+    }, 201
 
 
 def dn_modified_view(dn: DomainName):
-    return jsonify({
+    return {
         "msg": "domain name modified",
         "dn": dn.json()
-    }), 200
+    }, 200
 
 
 def dn_retrieved_view(
@@ -38,32 +38,32 @@ def dn_retrieved_view(
     else:
         ip_json = ip.json()
 
-    return jsonify({
+    return {
         "msg": "domain name retrieved",
         "dn": dn.json(),
         "dn_tags": [t.tag for t in dn_tags],
         "ip": ip_json,
         "ip_tags": [t.tag for t in ip_tags],
         "owned": owned, "followed": followed
-    }), 200
+    }, 200
 
 
 def dn_deleted_view(dn: DomainName):
-    return jsonify({
+    return {
         "msg": "domain name deleted",
         "dn": dn.json()
-    }), 200
+    }, 200
 
 
 def dn_list_view(dn_list: list, transaction_time):
-    return jsonify({
+    return {
         "msg": "domain name list retrieved",
         "stats": {
             "transaction_time": transaction_time,
             "count": len(dn_list),
         },
         "dn_list": dn_list
-    }), 200
+    }, 200
 
 
 def dn_list_export(dn_list: list, export):
@@ -95,14 +95,14 @@ def dn_list_export(dn_list: list, export):
 
 
 def alert_list(dn_list: list, transaction_time):
-    return jsonify({
+    return {
         "msg": "domain name list retrieved",
         "stats": {
             "transaction_time": transaction_time,
             "count": len(dn_list),
         },
         "dn_list": dn_list
-    }), 200
+    }, 200
 
 
 def alert_list_export(dn_list: list, export):

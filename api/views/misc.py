@@ -1,13 +1,11 @@
-from flask import jsonify
-
 
 def error_view(code, message):
-    return jsonify({
+    return {
         "msg": message
-    }), code
+    }, code
 
 
 def valid_view(message):
-    return jsonify({
+    return {
         "msg": message
-    }), 200
+    }, 200

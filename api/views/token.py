@@ -1,7 +1,5 @@
-from flask import jsonify
-
 
 def token_view(token):
-    return jsonify({
+    return {
         "access_token": token
-    }), 200
+    }, 200
