@@ -6,7 +6,7 @@ from channels.email import MailSendingError
 from channels.send import send
 from channels.telegram import TelegramSendingError
 from channels.templates_list import CHANNEL_VERIFY_TEMPLATE, TEST_TEMPLATE
-from controllers.utils import check_scheduler_role, check_admin_user_role
+from api.utils import check_scheduler_role, check_admin_user_role
 from views.misc import error_view
 from views.user_channel import *
 from db.database import ObjectNotFound

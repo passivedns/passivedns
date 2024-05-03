@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from controllers.utils import check_admin_role
+from api.utils import check_admin_role
 from models.user import User
 from views.misc import error_view
 from views.scheduler import scheduler_created_view, scheduler_updated_view, scheduler_deleted_view

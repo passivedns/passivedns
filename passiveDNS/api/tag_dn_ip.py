@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 
-from controllers.utils import check_scheduler_role, check_admin_user_role
+from api.utils import check_scheduler_role, check_admin_user_role
 from views.misc import error_view
 from models.tag_dn_ip import TagDnIP
 from models.tag import Tag

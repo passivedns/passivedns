@@ -2,8 +2,8 @@ from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from channels.send import alert_all
-from controllers.domain_name import put
-from controllers.utils import check_scheduler_role
+from api.domain_name import put
+from api.utils import check_scheduler_role
 from views.domain_name import dn_modified_view
 from views.misc import valid_view, error_view
 from views.scheduler import dn_full_list_view

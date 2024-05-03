@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from controllers.utils import check_admin_user_role
+from api.utils import check_admin_user_role
 from models.channel import Channel
 from models.user_channel import UserChannel
 from db.database import ObjectNotFound

@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 
-from controllers.utils import check_admin_user_role
+from api.utils import check_admin_user_role
 from models.domain_name import DomainNameResolutionError
 from models.ip_address import IPAddress
 from models.resolution import Resolution

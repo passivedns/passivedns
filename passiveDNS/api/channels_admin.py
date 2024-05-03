@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 
-from controllers.utils import check_admin_role
+from api.utils import check_admin_role
 from views.channels_admin import *
 from models.channel import Channel, ChannelTypeError
 from models.user_channel import UserChannel

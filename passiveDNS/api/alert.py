@@ -3,7 +3,7 @@ from time import time
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from controllers.utils import check_admin_user_role
+from api.utils import check_admin_user_role
 from models.domain_name import DomainNameFilterNotFound, DomainNameSortNotFound, DomainName
 from views.domain_name import alert_list_export, alert_list
 from views.misc import error_view

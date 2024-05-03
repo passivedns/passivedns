@@ -5,7 +5,7 @@ from channels.email import MailSendingError
 from channels.send import send
 from channels.telegram import TelegramSendingError
 from channels.templates_list import INVITE_TEMPLATE
-from controllers.utils import check_admin_role
+from api.utils import check_admin_role
 from db.database import ObjectNotFound
 from models.channel import Channel
 from models.user import User, UserRole

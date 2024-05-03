@@ -4,20 +4,20 @@ from datetime import timedelta
 from fastapi import APIRouter, FastAPI
 from starlette.middleware.sessions import SessionMiddleware
 
-from controllers.alert import alert_router
-from controllers.auth import auth_router
-from controllers.channels import channels_router
-from controllers.channels_admin import channels_admin_router
-from controllers.domain_name import domain_name_router
-from controllers.infos import infos_router
-from controllers.resolution import resolution_router
-from controllers.scheduler import scheduler_router
-from controllers.scheduler_admin import scheduler_admin_router
-from controllers.tag import tag_router
-from controllers.tag_dn_ip import tag_dn_ip_router
-from controllers.user_channel import users_channel_router
-from controllers.users import users_router
-from controllers.users_admin import users_admin_router
+from api.alert import alert_router
+from api.auth import auth_router
+from api.channels import channels_router
+from api.channels_admin import channels_admin_router
+from api.domain_name import domain_name_router
+from api.infos import infos_router
+from api.resolution import resolution_router
+from api.scheduler import scheduler_router
+from api.scheduler_admin import scheduler_admin_router
+from api.tag import tag_router
+from api.tag_dn_ip import tag_dn_ip_router
+from api.user_channel import users_channel_router
+from api.users import users_router
+from api.users_admin import users_admin_router
 from utils import config
 
 # global setup
@@ -52,6 +52,7 @@ app.include_router(infos_router)
 
 debug = config.g.DEBUG == "1"
 
+#à la main avec poetry après
 if __name__ == "__main__":
     import uvicorn
 

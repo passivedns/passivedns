@@ -4,7 +4,7 @@ from defang import refang
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from controllers.utils import check_admin_user_role
+from api.utils import check_admin_user_role
 from views.domain_name import *
 from views.misc import error_view, valid_view
 from db.database import ObjectNotFound
