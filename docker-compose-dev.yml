@@ -23,6 +23,7 @@ services:
       - DB_HOST=http://db:8529
       - IMEZONE=Europe/Paris
       - DEBUG=0
+      - ALGORITHM=HS256
     ports:
       - "8080:8080"
     volumes:

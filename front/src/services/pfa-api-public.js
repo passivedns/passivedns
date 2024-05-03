@@ -7,7 +7,7 @@ export default class PfaApiPublic {
 
         this.routes = {
             "infos": "/api/infos",
-            "login": "/api/login",
+            "login": "/api/token",
             "request": "/api/request",
             "registerCheck": "/api/register/check",
             "register": "/api/register"

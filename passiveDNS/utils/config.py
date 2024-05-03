@@ -46,3 +46,4 @@ class Config(object):
         self.JWT_SECRET_KEY = self.get_env_value('JWT_SECRET_KEY')
         self.TIMEZONE = self.get_env_value('TIMEZONE')
         self.DEBUG = self.get_env_value('DEBUG')
+        self.ALGORITHM = self.get_env_value('ALGORITHM')

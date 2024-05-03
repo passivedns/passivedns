@@ -4,20 +4,20 @@ from datetime import timedelta
 from fastapi import APIRouter, FastAPI
 from starlette.middleware.sessions import SessionMiddleware
 
-from api.alert import alert_router
+#from api.alert import alert_router
 from api.auth import auth_router
-from api.channels import channels_router
-from api.channels_admin import channels_admin_router
-from api.domain_name import domain_name_router
-from api.infos import infos_router
-from api.resolution import resolution_router
-from api.scheduler import scheduler_router
-from api.scheduler_admin import scheduler_admin_router
-from api.tag import tag_router
-from api.tag_dn_ip import tag_dn_ip_router
-from api.user_channel import users_channel_router
-from api.users import users_router
-from api.users_admin import users_admin_router
+#from api.channels import channels_router
+#from api.channels_admin import channels_admin_router
+#from api.domain_name import domain_name_router
+#from api.infos import infos_router
+#from api.resolution import resolution_router
+#from api.scheduler import scheduler_router
+#from api.scheduler_admin import scheduler_admin_router
+#from api.tag import tag_router
+#from api.tag_dn_ip import tag_dn_ip_router
+#from api.user_channel import users_channel_router
+from apiv2.users import users_router
+#from api.users_admin import users_admin_router
 from utils import config
 
 # global setup
@@ -30,25 +30,28 @@ check_timezone(config.g.TIMEZONE)
 app = FastAPI(title="Passive DNS API")
 app.add_middleware(SessionMiddleware, secret_key=config.g.JWT_SECRET_KEY)
 
-app.jwt_secret_key = config.g.JWT_SECRET_KEY
+
 app.access_token_expires = timedelta(hours=1)
 
+api_router = APIRouter()
 
-app.include_router(auth_router)
-app.include_router(users_router)
-app.include_router(users_admin_router)
-app.include_router(domain_name_router)
-app.include_router(resolution_router)
-app.include_router(scheduler_router)
-app.include_router(scheduler_admin_router)
-app.include_router(channels_router)
-app.include_router(channels_admin_router)
-app.include_router(users_channel_router)
-app.include_router(tag_router)
-app.include_router(tag_dn_ip_router)
-app.include_router(alert_router)
+api_router.include_router(auth_router)
+api_router.include_router(users_router)
+#api_router.include_router(users_admin_router)
+#api_router.include_router(domain_name_router)
+#api_router.include_router(resolution_router)
+#api_router.include_router(scheduler_router)
+#api_router.include_router(scheduler_admin_router)
+#api_router.include_router(channels_router)
+#api_router.include_router(channels_admin_router)
+#api_router.include_router(users_channel_router)
+#api_router.include_router(tag_router)
+#api_router.include_router(tag_dn_ip_router)
+#api_router.include_router(alert_router)
 
-app.include_router(infos_router)
+#api_router.include_router(infos_router)
+
+app.include_router(api_router, prefix="/api/v2")
 
 debug = config.g.DEBUG == "1"
 
