@@ -13,7 +13,7 @@ services:
 
   api:
     build: 
-      context: ./api
+      context: ./passiveDNS
       dockerfile: docker/Dockerfile
 
     environment :
@@ -27,7 +27,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./api:/app
+      - ./passiveDNS:/app
       
   front:
     build: 

@@ -10,7 +10,7 @@ from models.user_channel import UserChannel
 from views.misc import error_view, valid_view
 from views.users import *
 
-from apiv2.auth import get_current_active_user
+from apiv2.auth import get_current_user
 
 users_router = APIRouter()
 
@@ -88,9 +88,9 @@ def request_access(access_data: Access):
     return user_request_created_view(user_request)
 
 
-@users_router.put("/password",dependencies=[Depends(get_current_active_user)])
+@users_router.put("/password",dependencies=[Depends(get_current_user)])
 # !! @jwt_required()
-def change_password(password_data: ChangePassword, current_user: User= Depends(get_current_active_user)):
+def change_password(password_data: ChangePassword, current_user: User= Depends(get_current_user)):
 
     current_password = password_data.current_password
     new_password = password_data.new_password

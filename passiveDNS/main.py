@@ -4,8 +4,11 @@ from datetime import timedelta
 from fastapi import APIRouter, FastAPI
 from starlette.middleware.sessions import SessionMiddleware
 
+from utils import config
+config.init_config()
+
 #from api.alert import alert_router
-from api.auth import auth_router
+from apiv2.auth import auth_router
 #from api.channels import channels_router
 #from api.channels_admin import channels_admin_router
 #from api.domain_name import domain_name_router
@@ -18,12 +21,11 @@ from api.auth import auth_router
 #from api.user_channel import users_channel_router
 from apiv2.users import users_router
 #from api.users_admin import users_admin_router
-from utils import config
 
 # global setup
 from utils.timezone import check_timezone
 
-config.init_config()
+
 check_timezone(config.g.TIMEZONE)
 
 # app setup
@@ -59,4 +61,4 @@ debug = config.g.DEBUG == "1"
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8080, debug=debug)
+    uvicorn.run(app, host="0.0.0.0", port=8080)

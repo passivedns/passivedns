@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timedelta, UTC
 
 from fastapi import APIRouter, Depends, HTTPException, Response, Security, status
 from fastapi.security import (
@@ -19,7 +19,7 @@ from utils import config
 SECRET_KEY = config.g.JWT_SECRET_KEY
 ALGORITHM = config.g.ALGORITHM
 SESSION_STORE = set()
-ACCESS_TOKEN_EXPIRE_MINUTES = datetime.timedelta(minutes=60)
+ACCESS_TOKEN_EXPIRE_MINUTES = timedelta(minutes=60)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="apiv2/auth/token", auto_error=False)
 cookie_scheme = APIKeyCookie(name="passiveDNS_session", auto_error=False)
@@ -27,12 +27,12 @@ cookie_scheme = APIKeyCookie(name="passiveDNS_session", auto_error=False)
 auth_router = APIRouter()
 
 
-def create_access_token(data: dict, expires_delta: datetime.timedelta | None = None):
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
     if expires_delta:
-        expire = datetime.now(datetime.UTC) + expires_delta
+        expire = datetime.now(UTC) + expires_delta
     else:
-        expire = datetime.now(datetime.UTC) + datetime.timedelta(minutes=15)
+        expire = datetime.now(UTC) + timedelta(minutes=15)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -74,7 +74,7 @@ def get_current_user(
 @auth_router.post("/token")
 def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
     try:
-        identity = form_data.identity
+        identity = form_data.username
         password = form_data.password
 
         if User.exists_from_email(identity):
