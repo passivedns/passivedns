@@ -1,7 +1,6 @@
 import os
 
 from arango import ArangoClient
-from fastapi import Depends
 
 from utils import config
 

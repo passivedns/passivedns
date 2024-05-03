@@ -2,8 +2,7 @@ import os
 from datetime import timedelta
 
 from fastapi import APIRouter, FastAPI
-from fastapi.middlewear.cors import CORSMiddlewear
-from fastapi_jwt_auth import AuthJWT
+from starlette.middleware.sessions import SessionMiddleware
 
 from controllers.alert import alert_router
 from controllers.auth import auth_router
@@ -29,15 +28,10 @@ check_timezone(config.g.TIMEZONE)
 
 # app setup
 app = FastAPI(title="Passive DNS API")
-app.add_middleware(CORSMiddlewear, 
-                   allow_origins=["*"], 
-                   allow_credentials=True, 
-                   allow_methods=["*"], 
-                   allow_headers=["*"])
+app.add_middleware(SessionMiddleware, secret_key=config.g.JWT_SECRET_KEY)
 
 app.jwt_secret_key = config.g.JWT_SECRET_KEY
 app.access_token_expires = timedelta(hours=1)
-authjwt = AuthJWT(app)
 
 
 app.include_router(auth_router)
