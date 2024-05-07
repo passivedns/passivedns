@@ -11,8 +11,6 @@ from jose import JWTError, jwt
 
 from db.database import ObjectNotFound
 from models.user import User
-from views.misc import error_view, valid_view
-from views.token import token_view
 
 from utils import config
 
@@ -91,7 +89,7 @@ def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
             user = User.get(identity)
 
         if not user.verify_password(password):
-            return error_view(401, "error logging in")
+            raise HTTPException(status_code=401, detail="error logging in")
 
         # creating JWT
         access_token = create_access_token(
@@ -101,20 +99,19 @@ def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
         response.set_cookie(key="passiveDNS_session", value=access_token, httponly=True)
         SESSION_STORE.add(access_token)
 
-        return token_view(access_token)
+        return {
+            "access_token": access_token,
+            "token_type": "bearer"
+        }
 
     except ObjectNotFound:
-        return error_view(404, "error logging in")
+        raise HTTPException(status_code=404, detail="error logging in")
 
 
 @auth_router.get("/token")
 def check_jwt(token: str = Depends(cookie_scheme)):
     if not token or token not in SESSION_STORE:
-        print(token)
-        print(SESSION_STORE)
-        return error_view(400, "invalid token")
+        raise HTTPException(status_code=400, detail="invalid token")
     
-    print(token)
-    print(SESSION_STORE)
-    return valid_view("token is valid")
+    return {"msg":"token is valid"}
 

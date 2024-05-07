@@ -1,8 +1,8 @@
 from functools import wraps
 
+from fastapi import HTTPException
 from apiv2.auth import get_current_user
 
-from views.misc import error_view
 from models.user import User, UserRole
 
 
@@ -18,7 +18,7 @@ def check_admin_user_role():
             current_username = current_user.username
             user = User.get(current_username)
             if user.role != UserRole.USER.value and user.role != UserRole.ADMIN.value:
-                return error_view(403, "not enough permission")
+                raise HTTPException(status_code=403, detail="not enough permission")
 
             return func(*args, **kwargs)
 
@@ -39,7 +39,7 @@ def check_scheduler_role():
             current_username = current_user.username
             user = User.get(current_username)
             if user.role != UserRole.SCHEDULER.value:
-                return error_view(403, "not enough permission")
+                raise HTTPException(status_code=403, detail="not enough permission")
 
             return func(*args, **kwargs)
 
@@ -60,7 +60,7 @@ def check_admin_role():
             current_username = current_user.username
             user = User.get(current_username)
             if user.role != UserRole.ADMIN.value:
-                return error_view(403, "not enough permission")
+                raise HTTPException(status_code=403, detail="not enough permission")
 
             return func(*args, **kwargs)
 

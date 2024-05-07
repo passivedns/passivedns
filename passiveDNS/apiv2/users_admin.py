@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from channels.email import MailSendingError
@@ -12,8 +12,6 @@ from models.user import User, UserRole
 from models.user_pending import UserPending
 from models.user_request import UserRequest
 from models.user_channel import UserChannel
-from views.misc import error_view
-from views.users_admin import *
 
 users_admin_router = APIRouter()
 
@@ -32,16 +30,21 @@ class VerifyUser(BaseModel):
 # get the list of all the requested access
 # require admin JWT
 @users_admin_router.get("/admin/request/list")
-@check_admin_user_role()
+@check_admin_user_role() #Change with check_admin_role()
 def request_list():
     user_request_list = UserRequest.list()
-    return user_request_list_view(user_request_list)
+    return {
+        "msg": "requested user list retrieved",
+        "user_request_list": [
+            ur.json() for ur in user_request_list
+        ]
+    }
 
 
 # remove a user access
 # require admin JWT
 @users_admin_router.delete("/admin/request")
-@check_admin_user_role()
+@check_admin_user_role() #Change with check_admin_role()
 def request_remove(user_data: DeleteRequest):
     try:
         email = user_data.email
@@ -49,34 +52,49 @@ def request_remove(user_data: DeleteRequest):
         user_request = UserRequest.get(email)
         user_request.delete()
 
-        return user_request_deleted_view(user_request)
+        return {
+            "msg": "user request removed",
+            "user_request_list": [
+                user_request.json()
+            ]
+        }
 
     except ObjectNotFound:
-        return error_view(404, "object not found")
+        raise HTTPException(status_code=404, detail="object not found")
 
 
 # get the list of all the requested access
 # require admin JWT
 @users_admin_router.get("/admin/invite/list")
-@check_admin_user_role()
+@check_admin_user_role() #Change with check_admin_role()
 def pending_list():
     user_invite_list = UserPending.list()
-    return user_pending_list_view(user_invite_list)
+    return {
+        "msg": "requested user list retrieved",
+        "user_pending_list": [
+            up.safe_json() for up in user_invite_list
+        ]
+    }
 
 
 # the list of the users registered
 # require admin JWT
 @users_admin_router.get("/admin/users/list")
-@check_admin_user_role()
+@check_admin_user_role() #Change with check_admin_role()
 def get_user_list():
     user_list = User.list()
-    return user_list_view(user_list)
+    return {
+        "msg": "user list retrieved",
+        "user_list": [
+            u.safe_json() for u in user_list
+        ]
+    }
 
 
 # remove a user
 # require admin JWT
 @users_admin_router.delete("/admin/users")
-@check_admin_user_role()
+@check_admin_user_role() #Change with check_admin_role()
 def remove_user(user_data: DeleteUser):
     username = user_data.username
 
@@ -88,32 +106,35 @@ def remove_user(user_data: DeleteUser):
         for user_ch in user_channels:
             user_ch.delete()
 
-        return user_deleted_view(user)
+        return {
+            "msg": f"user {user.username} deleted",
+            "user": user.safe_json()
+        }
 
     else:
-        return error_view(500, "cannot remove an admin user")
+        raise HTTPException(status_code=500, detail="cannot remove an admin user")
 
 
 # require admin JWT
 @users_admin_router.post("/admin/invite")
-@check_admin_user_role()
+@check_admin_user_role() #Change with check_admin_role()
 def invite(user_data: Invite):
     user_pending = None
 
     try:
         email = user_data.email
         if email is None:
-            return error_view(400, "invalid email value")
+            raise HTTPException(status_code=400, detail="invalid email value")
 
         # check if mail is already used
         if User.exists_from_email(email):
-            return error_view(500, f"email already used by an existing user")
+            raise HTTPException(status_code=500, detail=f"email already used by an existing user")
 
         if UserRequest.exists(email):
-            return error_view(500, f"a request for this email already exists")
+            raise HTTPException(status_code=500, detail=f"a request for this email already exists")
 
         if UserPending.exists_from_email(email):
-            return error_view(500, f"a user with this email has already been invited")
+            raise HTTPException(status_code=500, detail=f"a user with this email has already been invited")
 
         # create a new pending user in database
         user_pending = UserPending.new(email)
@@ -129,31 +150,34 @@ def invite(user_data: Invite):
             template
         )
 
-        return user_pending_created_view(user_pending)
+        return {
+            "msg": f"user with mail {user_pending.email} invited",
+            "user_pending": user_pending.safe_json()
+        }
 
     except ObjectNotFound as o:
-        return error_view(404, str(o))
+        raise HTTPException(status_code=404, detail=str(o))
 
     except (MailSendingError, TelegramSendingError):
         # in case the mail cannot be sent, abort the invitation and delete the pending user in database
         if user_pending is not None:
             user_pending.delete()
 
-        return error_view(500, f"error sending the invitation")
+        raise HTTPException(status_code=500, detail=f"error sending the invitation")
 
 
 @users_admin_router.post("/admin/verify")
-@check_admin_user_role()
+@check_admin_user_role() #Change with check_admin_role()
 def verify_requested_user(user_data: VerifyUser):
     user_pending = None
     try:
         email = user_data.email
 
         if not UserRequest.exists(email):
-            return error_view(404, "a request with this email not found")
+            raise HTTPException(status_code=404, detail="a request with this email not found")
 
         if User.exists_from_email(email):
-            return error_view(500, "a user with this email already exists")
+            raise HTTPException(status_code=500, detail="a user with this email already exists")
 
         # switch user request to user pending
         user_request = UserRequest.get(email)
@@ -172,14 +196,17 @@ def verify_requested_user(user_data: VerifyUser):
             default_channel,
             template
         )
-        return user_pending_created_view(user_pending)
+        return {
+            "msg": f"user with mail {user_pending.email} invited",
+            "user_pending": user_pending.safe_json()
+        }
 
     except ObjectNotFound as o:
-        return error_view(404, str(o))
+        raise HTTPException(status_code=404, detail=str(o))
 
     except (MailSendingError, TelegramSendingError):
         # in case the mail cannot be sent, abort the invitation and delete the pending user in database
         if user_pending is not None:
             user_pending.delete()
 
-        return error_view(500, f"error sending the invitation")
+        raise HTTPException(status_code=500, detail=f"error sending the invitation")
