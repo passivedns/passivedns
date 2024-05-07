@@ -1,14 +1,14 @@
 import os
 from datetime import timedelta
 
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, FastAPI, Depends
 from starlette.middleware.sessions import SessionMiddleware
 
 from utils import config
 config.init_config()
 
-#from api.alert import alert_router
-from apiv2.auth import auth_router
+from apiv2.alert import alert_router
+from apiv2.auth import auth_router, get_current_user
 #from api.channels import channels_router
 #from api.channels_admin import channels_admin_router
 #from api.domain_name import domain_name_router
@@ -20,7 +20,7 @@ from apiv2.auth import auth_router
 #from api.tag_dn_ip import tag_dn_ip_router
 #from api.user_channel import users_channel_router
 from apiv2.users import users_router
-#from api.users_admin import users_admin_router
+from apiv2.users_admin import users_admin_router
 
 # global setup
 from utils.timezone import check_timezone
@@ -39,7 +39,7 @@ api_router = APIRouter()
 
 api_router.include_router(auth_router)
 api_router.include_router(users_router)
-#api_router.include_router(users_admin_router)
+api_router.include_router(users_admin_router, dependencies=[Depends(get_current_user)])
 #api_router.include_router(domain_name_router)
 #api_router.include_router(resolution_router)
 #api_router.include_router(scheduler_router)
@@ -49,7 +49,7 @@ api_router.include_router(users_router)
 #api_router.include_router(users_channel_router)
 #api_router.include_router(tag_router)
 #api_router.include_router(tag_dn_ip_router)
-#api_router.include_router(alert_router)
+api_router.include_router(alert_router, dependencies=[Depends(get_current_user)])
 
 #api_router.include_router(infos_router)
 

@@ -7,7 +7,7 @@ from fastapi.security import (
     OAuth2PasswordRequestForm,
 )
 from jose import JWTError, jwt
-from starlette.requests import Request
+#from starlette.requests import Request
 
 from db.database import ObjectNotFound
 from models.user import User
@@ -38,21 +38,25 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     return encoded_jwt
 
 def get_current_user(
-    request: Request,
+    #request: Request,
     token: str = Depends(oauth2_scheme),
-    cookie: str = Security(cookie_scheme),
+    cookie: str = Depends(cookie_scheme),
 ) -> User:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    request.state.username = None
+    #request.state.username = None
     if not token and not cookie:
+        print("not token and not cookie")
         raise credentials_exception
 
     # When dealing with cookies, check that we haven't logged out the user.
     if cookie and cookie not in SESSION_STORE:
+        print("cookie not in session_store")
+        print(cookie)
+        print(SESSION_STORE)
         raise credentials_exception
 
     token = token or cookie
@@ -61,14 +65,16 @@ def get_current_user(
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username = payload.get("sub")
         if username is None:
+            print("username is none")
             raise credentials_exception
     except JWTError:
         raise credentials_exception
 
-    user = User.find(username=username)
+    user = User.get(username)
     if user is None:
+        print("user is none")
         raise credentials_exception
-    request.state.username = user.username
+    #request.state.username = user.username
     return user
     
 @auth_router.post("/token")
@@ -102,10 +108,14 @@ def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
 
 
 @auth_router.get("/token")
-def check_jwt():
-    try:
-        user = get_current_user
-        return valid_view("token is valid")
-    except Exception:
+def check_jwt(token: str = Depends(cookie_scheme)):
+    if not token:
+        print(token)
         return error_view(400, "invalid token")
+    if token not in SESSION_STORE:
+        print(token)
+        print(SESSION_STORE)
+        return error_view(400, "invalid token")
+    
+    return valid_view("token is valid")
 

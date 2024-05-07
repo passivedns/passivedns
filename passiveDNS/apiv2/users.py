@@ -89,7 +89,6 @@ def request_access(access_data: Access):
 
 
 @users_router.put("/password",dependencies=[Depends(get_current_user)])
-# !! @jwt_required()
 def change_password(password_data: ChangePassword, current_user: User= Depends(get_current_user)):
 
     current_password = password_data.current_password
