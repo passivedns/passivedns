@@ -109,13 +109,12 @@ def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
 
 @auth_router.get("/token")
 def check_jwt(token: str = Depends(cookie_scheme)):
-    if not token:
-        print(token)
-        return error_view(400, "invalid token")
-    if token not in SESSION_STORE:
+    if not token or token not in SESSION_STORE:
         print(token)
         print(SESSION_STORE)
         return error_view(400, "invalid token")
     
+    print(token)
+    print(SESSION_STORE)
     return valid_view("token is valid")
 

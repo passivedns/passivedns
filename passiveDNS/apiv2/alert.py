@@ -1,7 +1,6 @@
 from time import time
 
 from fastapi import APIRouter
-from pydantic import BaseModel
 
 from apiv2.auth import get_current_user
 from apiv2.utils import check_admin_user_role
@@ -11,29 +10,21 @@ from views.misc import error_view
 
 alert_router = APIRouter()
 
-class List(BaseModel):
-    filter: str
-    filter_by: str
-    sort_by: str
-    limit: str
-    days: str
-    export: str
-
 
 @alert_router.get("/alert")
 @check_admin_user_role()
-def manage_alert(list_data: List):
+def manage_alert(filter: str, filter_by: str, sort_by: str, limit: str, days: str, export: str):
     try:
         user = get_current_user()
         username = user.username
 
-        input_filter = list_data.filter
-        input_filter_by = list_data.filter_by
-        sort_by = list_data.sort_by
-        limit_str = list_data.limit
-        days_str = list_data.days
+        input_filter = filter
+        input_filter_by = filter_by
+        sort_by = sort_by
+        limit_str = limit
+        days_str = days
 
-        export = list_data.export
+        export = export
 
         if not limit_str.isdigit():
             return error_view(400, 'invalid limit')
