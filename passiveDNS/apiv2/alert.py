@@ -1,21 +1,19 @@
 from time import time
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
-from apiv2.auth import get_current_user
-from apiv2.utils import check_admin_user_role
+from apiv2.auth import get_current_user, check_admin_user_role
 from models.domain_name import DomainNameFilterNotFound, DomainNameSortNotFound, DomainName
 from views.domain_name import alert_list_export, alert_list
 from views.misc import error_view
+from models.user import User
 
 alert_router = APIRouter()
 
 
-@alert_router.get("/alert")
-@check_admin_user_role()
-def manage_alert(filter: str, filter_by: str, sort_by: str, limit: str, days: str, export: str):
+@alert_router.get("/alert", dependencies =[Depends(check_admin_user_role)])
+def manage_alert(filter: str, filter_by: str, sort_by: str, limit: str, days: str, export: str, user: User=Depends(get_current_user)):
     try:
-        user = get_current_user()
         username = user.username
 
         input_filter = filter

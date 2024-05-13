@@ -1,11 +1,11 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 
 from channels.email import MailSendingError
 from channels.send import send
 from channels.telegram import TelegramSendingError
 from channels.templates_list import INVITE_TEMPLATE
-from apiv2.utils import check_admin_user_role
+from apiv2.auth import check_admin_role
 from db.database import ObjectNotFound
 from models.channel import Channel
 from models.user import User, UserRole
@@ -29,8 +29,7 @@ class VerifyUser(BaseModel):
 
 # get the list of all the requested access
 # require admin JWT
-@users_admin_router.get("/admin/request/list")
-@check_admin_user_role() #Change with check_admin_role()
+@users_admin_router.get("/admin/request/list", dependencies =[Depends(check_admin_role)]) 
 def request_list():
     user_request_list = UserRequest.list()
     return {
@@ -43,8 +42,7 @@ def request_list():
 
 # remove a user access
 # require admin JWT
-@users_admin_router.delete("/admin/request")
-@check_admin_user_role() #Change with check_admin_role()
+@users_admin_router.delete("/admin/request", dependencies =[Depends(check_admin_role)])
 def request_remove(user_data: DeleteRequest):
     try:
         email = user_data.email
@@ -65,8 +63,7 @@ def request_remove(user_data: DeleteRequest):
 
 # get the list of all the requested access
 # require admin JWT
-@users_admin_router.get("/admin/invite/list")
-@check_admin_user_role() #Change with check_admin_role()
+@users_admin_router.get("/admin/invite/list", dependencies =[Depends(check_admin_role)])
 def pending_list():
     user_invite_list = UserPending.list()
     return {
@@ -79,8 +76,7 @@ def pending_list():
 
 # the list of the users registered
 # require admin JWT
-@users_admin_router.get("/admin/users/list")
-@check_admin_user_role() #Change with check_admin_role()
+@users_admin_router.get("/admin/users/list", dependencies =[Depends(check_admin_role)])
 def get_user_list():
     user_list = User.list()
     return {
@@ -93,8 +89,7 @@ def get_user_list():
 
 # remove a user
 # require admin JWT
-@users_admin_router.delete("/admin/users")
-@check_admin_user_role() #Change with check_admin_role()
+@users_admin_router.delete("/admin/users", dependencies =[Depends(check_admin_role)])
 def remove_user(user_data: DeleteUser):
     username = user_data.username
 
@@ -116,15 +111,12 @@ def remove_user(user_data: DeleteUser):
 
 
 # require admin JWT
-@users_admin_router.post("/admin/invite")
-@check_admin_user_role() #Change with check_admin_role()
+@users_admin_router.post("/admin/invite", dependencies =[Depends(check_admin_role)])
 def invite(user_data: Invite):
     user_pending = None
 
     try:
         email = user_data.email
-        if email is None:
-            raise HTTPException(status_code=400, detail="invalid email value")
 
         # check if mail is already used
         if User.exists_from_email(email):
@@ -166,18 +158,18 @@ def invite(user_data: Invite):
         raise HTTPException(status_code=500, detail=f"error sending the invitation")
 
 
-@users_admin_router.post("/admin/verify")
-@check_admin_user_role() #Change with check_admin_role()
+@users_admin_router.post("/admin/verify", dependencies =[Depends(check_admin_role)])
 def verify_requested_user(user_data: VerifyUser):
     user_pending = None
     try:
         email = user_data.email
 
+        if User.exists_from_email(email):
+            raise HTTPException(status_code=500, detail="a user with this email already exists")
+        
         if not UserRequest.exists(email):
             raise HTTPException(status_code=404, detail="a request with this email not found")
 
-        if User.exists_from_email(email):
-            raise HTTPException(status_code=500, detail="a user with this email already exists")
 
         # switch user request to user pending
         user_request = UserRequest.get(email)

@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, UTC
+from functools import wraps
 
 from fastapi import APIRouter, Depends, HTTPException, Response, Security, status
 from fastapi.security import (
@@ -7,10 +8,10 @@ from fastapi.security import (
     OAuth2PasswordRequestForm,
 )
 from jose import JWTError, jwt
-#from starlette.requests import Request
+from starlette.requests import Request
 
 from db.database import ObjectNotFound
-from models.user import User
+from models.user import User, UserRole
 
 from utils import config
 
@@ -36,7 +37,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     return encoded_jwt
 
 def get_current_user(
-    #request: Request,
+    request: Request,
     token: str = Depends(oauth2_scheme),
     cookie: str = Depends(cookie_scheme),
 ) -> User:
@@ -45,7 +46,7 @@ def get_current_user(
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    #request.state.username = None
+    request.state.username = None
     if not token and not cookie:
         print("not token and not cookie")
         raise credentials_exception
@@ -72,9 +73,74 @@ def get_current_user(
     if user is None:
         print("user is none")
         raise credentials_exception
-    #request.state.username = user.username
+    request.state.username = user.username
     return user
-    
+
+# Check roles
+def check_admin_user_role():
+    """
+    Check if the JWT belongs to a User or an Admin
+    :return: error view if condition not reached
+    """
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            current_user = get_current_user()
+            current_username = current_user.username
+            user = User.get(current_username)
+            if user.role != UserRole.USER.value and user.role != UserRole.ADMIN.value:
+                raise HTTPException(status_code=403, detail="not enough permission")
+
+            return func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
+
+
+def check_scheduler_role():
+    """
+    Check if the JWT belongs to a Scheduler
+    :return: error view if condition not reached
+    """
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            current_user = get_current_user()
+            current_username = current_user.username
+            user = User.get(current_username)
+            if user.role != UserRole.SCHEDULER.value:
+                raise HTTPException(status_code=403, detail="not enough permission")
+
+            return func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
+
+
+def check_admin_role():
+    """
+    Check if the JWT belongs to an Admin
+    :return: error view if condition not reached
+    """
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            current_user = get_current_user()
+            current_username = current_user.username
+            user = User.get(current_username)
+            if user.role != UserRole.ADMIN.value:
+                raise HTTPException(status_code=403, detail="not enough permission")
+
+            return func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
+
+
+#Routes
 @auth_router.post("/token")
 def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
     try:
