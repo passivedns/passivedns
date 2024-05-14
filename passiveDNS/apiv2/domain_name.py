@@ -4,7 +4,8 @@ from defang import refang
 from fastapi import APIRouter, Depends, HTTPException
 
 from apiv2.auth import get_current_user
-from views.domain_name import *
+from models.domain_name import DomainName
+from views.domain_name import dn_list_export
 from db.database import ObjectNotFound
 from models.domain_name import DomainNameResolutionError, DomainNameFilterNotFound, DomainNameSortNotFound,\
     DOMAIN_NAME_COLLECTION
@@ -103,7 +104,7 @@ def create_domain_name(domain_name, user: User=Depends(get_current_user)):
             "dn": dn.json()
         }
 
-    except DomainNameResolutionError as dre:
+    except HTTPException as dre:
         raise HTTPException(status_code=500, detail=str(dre))
 
 @domain_name_router.get("/dn/{domain_name}")
