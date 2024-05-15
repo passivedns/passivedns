@@ -1,11 +1,11 @@
 from time import time
 
 from defang import refang
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 
+import pandas
 from apiv2.auth import get_current_user
 from models.domain_name import DomainName
-from views.domain_name import dn_list_export
 from db.database import ObjectNotFound
 from models.domain_name import DomainNameResolutionError, DomainNameFilterNotFound, DomainNameSortNotFound,\
     DOMAIN_NAME_COLLECTION
@@ -17,6 +17,8 @@ from models.user import User
 
 domain_name_router = APIRouter()
 
+EXPORT_CSV = 'csv'
+EXPORT_JSON = 'json'
 
 @domain_name_router.get("/dn")
 def manage_domain_name_list(
@@ -55,7 +57,32 @@ def manage_domain_name_list(
 
         if export is not None and export != '':
             # export file data
-            return dn_list_export(dn_list, export)
+            data = []
+            for dn in dn_list:
+                data.append([
+                    dn['domain_name'],
+                    dn['ip_address'],
+                    dn['last_ip_change'],
+                ])
+
+            columns = ['Domain name', 'IP address', 'Last IP change']
+            df = pandas.DataFrame(data=data, columns=columns)
+
+            if export == EXPORT_CSV:
+                exported_data = df.to_csv(index=False)
+                mimetype = "text/csv"
+
+            elif export == EXPORT_JSON:
+                exported_data = df.to_json(orient='split', index=False)
+                mimetype = "application/json"
+
+            else:
+                raise HTTPException(status_code=400, detail="invalid export field")
+
+            return Response(exported_data, headers={
+                "Content-Type": mimetype
+            })
+        
         else:
             # export json data
             return {

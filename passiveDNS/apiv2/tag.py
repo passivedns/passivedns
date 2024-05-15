@@ -1,7 +1,5 @@
 from fastapi import APIRouter, HTTPException
 
-
-from views.tag import *
 from models.tag import Tag
 from models.tag_dn_ip import TagDnIP
 

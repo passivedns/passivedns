@@ -1,12 +1,14 @@
 from time import time
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, Response
 
+import pandas
 from apiv2.auth import get_current_user
 from models.domain_name import DomainNameFilterNotFound, DomainNameSortNotFound, DomainName
-from views.domain_name import alert_list_export, alert_list
-from views.misc import error_view
 from models.user import User
+
+EXPORT_CSV = 'csv'
+EXPORT_JSON = 'json'
 
 alert_router = APIRouter()
 
@@ -25,10 +27,10 @@ def manage_alert(filter: str, filter_by: str, sort_by: str, limit: str, days: st
         export = export
 
         if not limit_str.isdigit():
-            return error_view(400, 'invalid limit')
+            raise HTTPException(status_code=400, detail='invalid limit')
 
         if not days_str.isdigit():
-            return error_view(400, 'invalid days count')
+            raise HTTPException(status_code=400, detail='invalid days count')
 
         limit = int(limit_str)
         days = int(days_str)
@@ -41,12 +43,49 @@ def manage_alert(filter: str, filter_by: str, sort_by: str, limit: str, days: st
         transaction_time = round(t2 - t1, 2)
 
         if export is not None and export != '':
-            return alert_list_export(dn_list, export)
+            data = []
+            for dn in dn_list:
+                data.append([
+                    dn['domain_name'],
+                    dn['domain_name_tags'],
+                    dn['last_ip_address'],
+                    dn['last_ip_tags'],
+                    dn['current_ip_address'],
+                    dn['current_ip_tags']
+                ])
+
+            columns = [
+                'Domain name', 'Domain name tags', 'Last IP address', 'Last IP tags',
+                'Current IP address', 'Current IP tags'
+            ]
+            df = pandas.DataFrame(data=data, columns=columns)
+            if export == EXPORT_CSV:
+                exported_data = df.to_csv(index=False)
+                mimetype = "text/csv"
+
+            elif export == EXPORT_JSON:
+                exported_data = df.to_json(orient='split', index=False)
+                mimetype = "application/json"
+
+            else:
+                raise HTTPException(status_code=400, detail="invalid export field")
+
+            return Response(exported_data, headers={
+                "Content-Type": mimetype
+            })
+
         else:
-            return alert_list(dn_list, transaction_time)
+            return {
+                "msg": "domain name list retrieved",
+                "stats": {
+                    "transaction_time": transaction_time,
+                    "count": len(dn_list),
+                },
+                "dn_list": dn_list
+            }
 
     except DomainNameFilterNotFound:
-        return error_view(400, "invalid filter field")
+        raise HTTPException(status_code=400, detail="invalid filter field")
 
     except DomainNameSortNotFound:
-        return error_view(400, "invalid sort field")
+        raise HTTPException(status_code=400, detail="invalid sort field")

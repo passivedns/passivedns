@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from views.channels_admin import *
 from models.channel import Channel, ChannelTypeError
 from models.user_channel import UserChannel
 

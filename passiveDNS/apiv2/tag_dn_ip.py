@@ -5,7 +5,6 @@ from models.tag_dn_ip import TagDnIP
 from models.tag import Tag
 from models.domain_name import DOMAIN_NAME_COLLECTION, DomainName
 from models.ip_address import IP_ADDRESS_COLLECTION, IPAddress
-from views.tag_dn_ip import *
 
 tag_dn_ip_router = APIRouter()
 
