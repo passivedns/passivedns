@@ -30,31 +30,35 @@ class ChangePassword(BaseModel):
 # require a token from the UsersPending table (sent by email)
 @users_router.post("/register")
 def register(user_data: UserRegistration):
+
+    if User.exists(user_data.username):
+        raise HTTPException(status_code=500, detail=f"user with username `{user_data.username}` already exists")
+
     try:
-        if User.exists(user_data.username):
-            raise HTTPException(status_code=500, detail=f"user with username `{user_data.username}` already exists")
-
         user_pending = UserPending.get(user_data.token)
-        created_user = User.new(user_data.username, user_data.password, user_pending.email)
-        created_user.insert()
-        user_pending.delete()
-
-        default_channel = Channel.get(Channel.DEFAULT)
-        user_channel = UserChannel.new(
-            created_user.username,
-            default_channel.name,
-            created_user.email
-        )
-        user_channel.verified = True
-        user_channel.insert()
-
-        return {
-            "msg": f"user {created_user.username} created",
-            "user": created_user.safe_json()
-        }
-
     except ObjectNotFound as o:
-        raise HTTPException(status_code=404, detail=str(o))
+        raise HTTPException(status_code=404, detail=f"user pending not found: {str(o)}")
+    
+    created_user = User.new(user_data.username, user_data.password, user_pending.email)
+    created_user.insert()
+    user_pending.delete()
+
+    try:
+        default_channel = Channel.get(Channel.DEFAULT)
+    except ObjectNotFound as o:
+        raise HTTPException(status_code=404, detail=f"default channel not found: {str(o)}")
+    user_channel = UserChannel.new(
+        created_user.username,
+        default_channel.name,
+        created_user.email
+    )
+    user_channel.verified = True
+    user_channel.insert()
+
+    return {
+        "msg": f"user {created_user.username} created",
+        "user": created_user.safe_json()
+    }
 
 
 # require a token from the UsersPending table (sent by email)

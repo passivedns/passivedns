@@ -39,9 +39,10 @@ def channels_list(user: User=Depends(get_current_user)):
 def channel_get(channel_name):
     try:
         ch = Channel.get(channel_name)
-        return {
-            "msg": f"channel {ch.name} retrieved",
-            "channel": ch.safe_json()
-        }
     except ObjectNotFound:
         raise HTTPException(status_code=404, detail="channel not found")
+    
+    return {
+        "msg": f"channel {ch.name} retrieved",
+        "channel": ch.safe_json()
+    }

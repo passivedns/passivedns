@@ -30,7 +30,10 @@ def users_channel_list(user: User=Depends(get_current_user)):
     ch_list = []
     user_channels = UserChannel.list_from_username(username)
     for u_ch in user_channels:
-        channel = Channel.get(u_ch.channel_name)
+        try:
+            channel = Channel.get(u_ch.channel_name)
+        except ObjectNotFound as o:
+            raise HTTPException(status_code=404, detail=str(o))
         ch_list.append({
             "user_channel": u_ch,
             "channel": channel

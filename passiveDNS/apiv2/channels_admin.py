@@ -25,20 +25,15 @@ def channels_admin_list():
 
 @channels_admin_router.post("/admin/channels/{name}")
 def channel_create(name, data: ChannelData):
+    ch_type = data.type
+    infos = data.infos
+
+    if Channel.exists(name):
+        raise HTTPException(status_code=500, detail="a channel with this name already exists")
+
     try:
-        ch_type = data.type
-        infos = data.infos
-
-        if Channel.exists(name):
-            raise HTTPException(status_code=500, detail="a channel with this name already exists")
-
         new_ch = Channel.new(name, ch_type, infos)
         new_ch.insert()
-
-        return {
-            "msg": f"channel {new_ch.name} created",
-            "channel": new_ch.json()
-        }
 
     except KeyError:
         raise HTTPException(status_code=500, detail="error parsing json input")
@@ -46,11 +41,17 @@ def channel_create(name, data: ChannelData):
     except ChannelTypeError:
         raise HTTPException(status_code=400, detail="invalid channel type")
 
+    return {
+        "msg": f"channel {new_ch.name} created",
+        "channel": new_ch.json()
+    }
+
 
 @channels_admin_router.get("/admin/channels/{name}")
 def channel_get(name):
     if not Channel.exists(name):
         raise HTTPException(status_code=404, detail=f"channel {name} not found")
+    
     ch = Channel.get(name)
     return {
         "msg": f"channel {ch.name} retrieved",

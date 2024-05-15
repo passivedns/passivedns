@@ -14,12 +14,13 @@ def get_resolutions(domain_name):
     try:
         # return the list of IPs resolved by this domain name
         r = Resolution.get_current_from_domain(domain_name)
-        return {
-            "msg": f"domain name resolutions retrieved",
-            "resolution": r.json()
-        }
     except DomainNameResolutionError as de:
         raise HTTPException(status_code=404, detail=str(de))
+    
+    return {
+        "msg": f"domain name resolutions retrieved",
+        "resolution": r.json()
+    }
 
 
 @resolution_router.get("/resolution/{domain_name}/history")

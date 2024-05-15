@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, UTC
 from functools import wraps
 
-from fastapi import APIRouter, Depends, HTTPException, Response, Security, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from fastapi.security import (
     APIKeyCookie,
     OAuth2PasswordBearer,
@@ -48,14 +48,10 @@ def get_current_user(
     )
     request.state.username = None
     if not token and not cookie:
-        print("not token and not cookie")
         raise credentials_exception
 
     # When dealing with cookies, check that we haven't logged out the user.
     if cookie and cookie not in SESSION_STORE:
-        print("cookie not in session_store")
-        print(cookie)
-        print(SESSION_STORE)
         raise credentials_exception
 
     token = token or cookie
@@ -64,14 +60,12 @@ def get_current_user(
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username = payload.get("sub")
         if username is None:
-            print("username is none")
             raise credentials_exception
     except JWTError:
         raise credentials_exception
 
     user = User.get(username)
     if user is None:
-        print("user is none")
         raise credentials_exception
     request.state.username = user.username
     return user
@@ -143,36 +137,34 @@ def check_admin_role():
 #Routes
 @auth_router.post("/token")
 def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
+    identity = form_data.username
+    password = form_data.password
+    
     try:
-        identity = form_data.username
-        password = form_data.password
-
         if User.exists_from_email(identity):
             # assume identity is email
             user = User.get_from_email(identity)
         else:
             # assume identity is username
             user = User.get(identity)
+    except ObjectNotFound as o:
+        raise HTTPException(status_code=404, detail=f"error logging in : {str(o)}")
 
-        if not user.verify_password(password):
-            raise HTTPException(status_code=401, detail="error logging in")
+    if not user.verify_password(password):
+        raise HTTPException(status_code=401, detail="error logging in")
 
-        # creating JWT
-        access_token = create_access_token(
-            data={"sub": user.username},
-            expires_delta=ACCESS_TOKEN_EXPIRE_MINUTES,
-        )
-        response.set_cookie(key="passiveDNS_session", value=access_token, httponly=True)
-        SESSION_STORE.add(access_token)
+    # creating JWT
+    access_token = create_access_token(
+        data={"sub": user.username},
+        expires_delta=ACCESS_TOKEN_EXPIRE_MINUTES,
+    )
+    response.set_cookie(key="passiveDNS_session", value=access_token, httponly=True)
+    SESSION_STORE.add(access_token)
 
-        return {
-            "access_token": access_token,
-            "token_type": "bearer"
-        }
-
-    except ObjectNotFound:
-        raise HTTPException(status_code=404, detail="error logging in")
-
+    return {
+        "access_token": access_token,
+        "token_type": "bearer"
+    }
 
 @auth_router.get("/token")
 def check_jwt(token: str = Depends(cookie_scheme)):

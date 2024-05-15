@@ -43,21 +43,21 @@ def request_list():
 # require admin JWT
 @users_admin_router.delete("/admin/request")
 def request_remove(user_data: DeleteRequest):
+
+    email = user_data.email
     try:
-        email = user_data.email
-
         user_request = UserRequest.get(email)
-        user_request.delete()
-
-        return {
-            "msg": "user request removed",
-            "user_request_list": [
-                user_request.json()
-            ]
-        }
-
     except ObjectNotFound:
         raise HTTPException(status_code=404, detail="object not found")
+    
+    user_request.delete()
+
+    return {
+        "msg": "user request removed",
+        "user_request_list": [
+            user_request.json()
+        ]
+    }
 
 
 # get the list of all the requested access
@@ -114,90 +114,96 @@ def remove_user(user_data: DeleteUser):
 def invite(user_data: Invite):
     user_pending = None
 
+    email = user_data.email
+
+    # check if mail is already used
+    if User.exists_from_email(email):
+        raise HTTPException(status_code=500, detail=f"email already used by an existing user")
+
+    if UserRequest.exists(email):
+        raise HTTPException(status_code=500, detail=f"a request for this email already exists")
+
+    if UserPending.exists_from_email(email):
+        raise HTTPException(status_code=500, detail=f"a user with this email has already been invited")
+
+    # create a new pending user in database
+    user_pending = UserPending.new(email)
+    user_pending.insert()
+
+
+    # send a mail with the token
     try:
-        email = user_data.email
-
-        # check if mail is already used
-        if User.exists_from_email(email):
-            raise HTTPException(status_code=500, detail=f"email already used by an existing user")
-
-        if UserRequest.exists(email):
-            raise HTTPException(status_code=500, detail=f"a request for this email already exists")
-
-        if UserPending.exists_from_email(email):
-            raise HTTPException(status_code=500, detail=f"a user with this email has already been invited")
-
-        # create a new pending user in database
-        user_pending = UserPending.new(email)
-        user_pending.insert()
-
-        # send a mail with the token
         default_channel = Channel.get(Channel.DEFAULT)
-        template = INVITE_TEMPLATE
-        template.set_format(token=user_pending.token)
+    except ObjectNotFound as o:
+        raise HTTPException(status_code=404, detail=str(o))
+    template = INVITE_TEMPLATE
+    template.set_format(token=user_pending.token)
+
+    try:
         send(
             user_pending.email,
             default_channel,
             template
         )
-
-        return {
-            "msg": f"user with mail {user_pending.email} invited",
-            "user_pending": user_pending.safe_json()
-        }
-
-    except ObjectNotFound as o:
-        raise HTTPException(status_code=404, detail=str(o))
-
     except (MailSendingError, TelegramSendingError):
         # in case the mail cannot be sent, abort the invitation and delete the pending user in database
         if user_pending is not None:
             user_pending.delete()
 
         raise HTTPException(status_code=500, detail=f"error sending the invitation")
+    
+    return {
+        "msg": f"user with mail {user_pending.email} invited",
+        "user_pending": user_pending.safe_json()
+    }
 
 
 @users_admin_router.post("/admin/verify")
 def verify_requested_user(user_data: VerifyUser):
     user_pending = None
+    
+    email = user_data.email
+
+    if User.exists_from_email(email):
+        raise HTTPException(status_code=500, detail="a user with this email already exists")
+    
+    if not UserRequest.exists(email):
+        raise HTTPException(status_code=404, detail="a request with this email not found")
+
+
+    # switch user request to user pending
     try:
-        email = user_data.email
-
-        if User.exists_from_email(email):
-            raise HTTPException(status_code=500, detail="a user with this email already exists")
-        
-        if not UserRequest.exists(email):
-            raise HTTPException(status_code=404, detail="a request with this email not found")
-
-
-        # switch user request to user pending
         user_request = UserRequest.get(email)
-        user_request.delete()
+    except ObjectNotFound as o:
+        raise HTTPException(status_code=404, detail=f"user not found: {str(o)}")
+    user_request.delete()
 
-        user_pending = UserPending.new(email)
-        user_pending.insert()
+    user_pending = UserPending.new(email)
+    user_pending.insert()
 
-        # send mail with token
-        # send a mail with the token
+    # send mail with token
+    # send a mail with the token
+    try:
         default_channel = Channel.get(Channel.DEFAULT)
-        template = INVITE_TEMPLATE
-        template.set_format(token=user_pending.token)
+    except ObjectNotFound as o:
+        raise HTTPException(status_code=404, detail=f"channel not found: {str(o)}")
+    template = INVITE_TEMPLATE
+    template.set_format(token=user_pending.token)
+    try:
         send(
             user_pending.email,
             default_channel,
             template
         )
-        return {
-            "msg": f"user with mail {user_pending.email} invited",
-            "user_pending": user_pending.safe_json()
-        }
-
-    except ObjectNotFound as o:
-        raise HTTPException(status_code=404, detail=str(o))
-
     except (MailSendingError, TelegramSendingError):
         # in case the mail cannot be sent, abort the invitation and delete the pending user in database
         if user_pending is not None:
             user_pending.delete()
 
         raise HTTPException(status_code=500, detail=f"error sending the invitation")
+    
+    return {
+        "msg": f"user with mail {user_pending.email} invited",
+        "user_pending": user_pending.safe_json()
+    }
+
