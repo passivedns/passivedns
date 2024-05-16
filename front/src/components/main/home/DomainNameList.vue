@@ -176,7 +176,6 @@ export default {
           this.filterType,
           this.sortByType,
           this.limit,
-          ""
         )
         .then(function (l) {
           self.dnList = l.dn_list;
@@ -189,6 +188,8 @@ export default {
       }
       this.service
         .exportDnList(
+          owned,
+          followed,
           this.filter,
           this.filterType,
           this.sortByType,
@@ -206,6 +207,8 @@ export default {
       }
       this.service
         .exportDnList(
+          owned,
+          followed,
           this.filter,
           this.filterType,
           this.sortByType,

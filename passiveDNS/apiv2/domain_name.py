@@ -71,13 +71,13 @@ def get_domain_name_list(
 #Export in csv or json
 @domain_name_router.get("/dn/export")
 def export_domain_name_list(
-    filter: str, 
     filter_by: str, 
     sort_by: str, 
     limit: str, 
     export: str, 
     owned: str, 
     followed: str, 
+    filter: str = '', 
     user: User=Depends(get_current_user)
 ):
 

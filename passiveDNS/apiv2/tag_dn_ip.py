@@ -8,16 +8,10 @@ from models.ip_address import IP_ADDRESS_COLLECTION, IPAddress
 
 tag_dn_ip_router = APIRouter()
 
-class TagDNIP(BaseModel):
-    tag: str
-    object: str
-    type: str
-
 @tag_dn_ip_router.post("/tag_dn_ip")
-def create_tag_dn_ip(data: TagDNIP):
-    tag = data.tag
-    object_key = data.object
-    object_type = data.type
+def create_tag_dn_ip(tag: str, object: str, type: str):
+    object_key = object
+    object_type = type
 
         
     if TagDnIP.exists(tag, object_key, object_type):
@@ -45,10 +39,9 @@ def create_tag_dn_ip(data: TagDNIP):
     }
 
 @tag_dn_ip_router.delete("/tag_dn_ip")
-def delete_tag_dn_ip(data: TagDNIP):
-    tag = data.tag
-    object_key = data.object
-    object_type = data.type
+def delete_tag_dn_ip(tag: str, object: str, type: str):
+    object_key = object
+    object_type = type
 
     if not TagDnIP.exists(tag, object_key, object_type):
         raise HTTPException(status_code=404, detail="tag link not found")

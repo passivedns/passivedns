@@ -53,7 +53,7 @@ api_router.include_router(alert_router, dependencies=[Depends(get_current_user),
 
 api_router.include_router(infos_router)
 
-app.include_router(api_router, prefix="/api/v2")
+app.include_router(api_router)
 
 debug = config.g.DEBUG == "1"
 

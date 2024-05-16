@@ -6,11 +6,11 @@ export default class PfaApiPublic {
         });
 
         this.routes = {
-            "infos": "/api/infos",
-            "login": "/api/token",
-            "request": "/api/request",
-            "registerCheck": "/api/register/check",
-            "register": "/api/register"
+            "infos": "/apiv2/infos",
+            "login": "/apiv2/token",
+            "request": "/apiv2/request",
+            "registerCheck": "/apiv2/register/check",
+            "register": "/apiv2/register"
         };
     }
 

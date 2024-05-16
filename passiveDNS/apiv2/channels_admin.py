@@ -1,14 +1,21 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+from typing import TypedDict
 
 from models.channel import Channel, ChannelTypeError
 from models.user_channel import UserChannel
 
 channels_admin_router = APIRouter()
 
+class InfosDict(TypedDict):
+    smtp_host: str
+    smtp_port: str
+    sender_email: str
+    sender_password: str
+
 class ChannelData(BaseModel):
     type: str
-    infos: dict[str, str]
+    infos: InfosDict
 
 # get channel list - admin view
 @channels_admin_router.get("/admin/channels")

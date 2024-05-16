@@ -9,6 +9,7 @@ from fastapi.security import (
 )
 from jose import JWTError, jwt
 from starlette.requests import Request
+from pydantic import BaseModel
 
 from db.database import ObjectNotFound
 from models.user import User, UserRole
@@ -25,6 +26,9 @@ cookie_scheme = APIKeyCookie(name="passiveDNS_session", auto_error=False)
 
 auth_router = APIRouter()
 
+class LoginCred(BaseModel):
+    identity: str
+    password: str
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
@@ -136,8 +140,8 @@ def check_admin_role():
 
 #Routes
 @auth_router.post("/token")
-def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
-    identity = form_data.username
+def login(response: Response, form_data:LoginCred):
+    identity = form_data.identity
     password = form_data.password
     
     try:
@@ -173,3 +177,8 @@ def check_jwt(token: str = Depends(cookie_scheme)):
     
     return {"msg":"token is valid"}
 
+@auth_router.get("/logout")
+def logout(response: Response, cookie: str = Depends(cookie_scheme)):
+    response.delete_cookie(key="passiveDNS_session")
+    SESSION_STORE.remove(cookie)
+    return {"msg": "Logged out"}
