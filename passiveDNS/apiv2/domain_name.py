@@ -18,12 +18,11 @@ from models.user import User
 domain_name_router = APIRouter()
 
 @domain_name_router.get("/dn")
-def manage_domain_name_list(
+def get_domain_name_list(
     filter: str, 
     filter_by: str, 
     sort_by: str, 
-    limit: str, 
-    export: str, 
+    limit: str,  
     owned: str, 
     followed: str, 
     user: User=Depends(get_current_user)
@@ -59,44 +58,83 @@ def manage_domain_name_list(
     except DomainNameSortNotFound:
         raise HTTPException(status_code=400, detail="invalid sort field")
 
-    if export is not None and export != '':
-        # export file data
-        data = []
-        for dn in dn_list:
-            data.append([
-                dn['domain_name'],
-                dn['ip_address'],
-                dn['last_ip_change'],
-            ])
+    # export json data
+    return {
+        "msg": "domain name list retrieved",
+        "stats": {
+            "transaction_time": transaction_time,
+            "count": len(dn_list),
+        },
+        "dn_list": dn_list
+    }
 
-        columns = ['Domain name', 'IP address', 'Last IP change']
-        df = pandas.DataFrame(data=data, columns=columns)
+#Export in csv or json
+@domain_name_router.get("/dn/export")
+def export_domain_name_list(
+    filter: str, 
+    filter_by: str, 
+    sort_by: str, 
+    limit: str, 
+    export: str, 
+    owned: str, 
+    followed: str, 
+    user: User=Depends(get_current_user)
+):
 
-        if export == EXPORT_CSV:
-            exported_data = df.to_csv(index=False)
-            mimetype = "text/csv"
+    username = user.username
 
-        elif export == EXPORT_JSON:
-            exported_data = df.to_json(orient='split', index=False)
-            mimetype = "application/json"
+    input_filter = filter
+    input_filter_by = filter_by
+    limit_str = limit
 
-        else:
-            raise HTTPException(status_code=400, detail="invalid export field")
+    owned_filter = owned
+    followed_filter = followed
 
-        return Response(exported_data, headers={
-            "Content-Type": mimetype
-        })
-    
+    if not limit_str.isdigit():
+        raise HTTPException(status_code=400, detail='invalid limit')
+
+    limit_int = int(limit_str)
+
+
+    try:
+        dn_list = DomainName.list(
+            username, input_filter, input_filter_by,
+            owned_filter, followed_filter,
+            sort_by, limit_int
+        )
+    except DomainNameFilterNotFound:
+        raise HTTPException(status_code=400, detail="invalid filter field")
+
+    except DomainNameSortNotFound:
+        raise HTTPException(status_code=400, detail="invalid sort field")
+
+    # export file data
+    data = []
+    for dn in dn_list:
+        data.append([
+            dn['domain_name'],
+            dn['ip_address'],
+            dn['last_ip_change'],
+        ])
+
+    columns = ['Domain name', 'IP address', 'Last IP change']
+    df = pandas.DataFrame(data=data, columns=columns)
+
+    if export == EXPORT_CSV:
+        exported_data = df.to_csv(index=False)
+        mimetype = "text/csv"
+
+    elif export == EXPORT_JSON:
+        exported_data = df.to_json(orient='split', index=False)
+        mimetype = "application/json"
+
     else:
-        # export json data
-        return {
-            "msg": "domain name list retrieved",
-            "stats": {
-                "transaction_time": transaction_time,
-                "count": len(dn_list),
-            },
-            "dn_list": dn_list
-        }
+        raise HTTPException(status_code=400, detail="invalid export field")
+
+    return Response(exported_data, headers={
+        "Content-Type": mimetype
+    })
+
 
 @domain_name_router.post("/dn/{domain_name}")
 def create_domain_name(domain_name, user: User=Depends(get_current_user)):
