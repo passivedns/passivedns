@@ -137,7 +137,7 @@ def login(response: Response, form_data:LoginCred):
 
     # creating JWT
     access_token = create_access_token(
-        data={"sub": user.username},
+        data={"sub": user.username, "role": user.role},
         expires_delta=ACCESS_TOKEN_EXPIRE_MINUTES,
     )
     response.set_cookie(key="passiveDNS_session", value=access_token, httponly=True)
