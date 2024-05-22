@@ -21,7 +21,7 @@ services:
       - ARANGO_PASSWORD=user
       - JWT_SECRET_KEY=key
       - DB_HOST=http://db:8529
-      - IMEZONE=Europe/Paris
+      - TIMEZONE=Europe/Paris
       - DEBUG=0
       - ALGORITHM=HS256
     ports:

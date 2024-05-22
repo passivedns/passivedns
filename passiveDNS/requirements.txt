@@ -10,5 +10,6 @@ discord.py
 tabulate
 itsdangerous
 python-jose
+httpx
 
 python-dateutil~=2.8.2

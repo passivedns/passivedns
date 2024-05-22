@@ -133,7 +133,7 @@ def login(response: Response, form_data:LoginCred):
         raise HTTPException(status_code=404, detail=f"error logging in : {str(o)}")
 
     if not user.verify_password(password):
-        raise HTTPException(status_code=401, detail="error logging in")
+        raise HTTPException(status_code=401, detail="error logging in : incorrect password")
 
     # creating JWT
     access_token = create_access_token(
