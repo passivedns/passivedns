@@ -101,10 +101,6 @@ def change_password(password_data: ChangePassword, current_user: User= Depends(g
 
     current_password = password_data.current_password
     new_password = password_data.new_password
-    params = [current_password, new_password]
-    for p in params:
-        if p is None or p == '':
-            raise HTTPException(status_code=400, detail="invalid parameter")
 
     username = current_user.username
     user = User.get(username)
