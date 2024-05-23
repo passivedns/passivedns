@@ -279,13 +279,7 @@ export default class PfaApi {
     }
 
     deleteLinkedTag(object, type, tag) {
-        return this.service.delete(this.routes.tagLinked, {
-            params: {
-                object: object,
-                type: type,
-                tag: tag
-            }
-        })
+        return this.service.delete(`${this.routes.tagLinked}/${tag}/${object}/${type}`)
             .then(function(d) {
                 console.log(d.data.msg);
                 return true;

@@ -56,11 +56,7 @@ export default class PfaApiAdmin {
     }
 
     requestDelete(email) {
-        return this.service.delete(this.routes.request, {
-            data: {
-                email: email
-            }
-        })
+        return this.service.delete(`${this.routes.request}/${email}`)
             .then(function(d) {
                 console.log(d.data.msg)
             })
@@ -90,11 +86,7 @@ export default class PfaApiAdmin {
     }
 
     userDelete(username) {
-        return this.service.delete(this.routes.users, {
-            params: {
-                username: username
-            }
-        })
+        return this.service.delete(`${this.routes.users}/${username}`)
             .then(function(d) {
                 console.log(d.data.msg);
                 return d.data.user

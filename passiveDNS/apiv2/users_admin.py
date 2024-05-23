@@ -14,12 +14,6 @@ from models.user_channel import UserChannel
 
 users_admin_router = APIRouter()
 
-class DeleteRequest(BaseModel):
-    email: str
-
-class DeleteUser(BaseModel):
-    username: str
-
 class Invite(BaseModel):
     email: str
 
@@ -41,10 +35,9 @@ def request_list():
 
 # remove a user access
 # require admin JWT
-@users_admin_router.delete("/admin/request")
-def request_remove(user_data: DeleteRequest):
+@users_admin_router.delete("/admin/request/{email}")
+def request_remove(email: str):
 
-    email = user_data.email
     try:
         user_request = UserRequest.get(email)
     except ObjectNotFound:
@@ -54,7 +47,7 @@ def request_remove(user_data: DeleteRequest):
 
     return {
         "msg": "user request removed",
-        "user_request_list": [
+        "user_request": [
             user_request.json()
         ]
     }
@@ -88,9 +81,8 @@ def get_user_list():
 
 # remove a user
 # require admin JWT
-@users_admin_router.delete("/admin/users")
-def remove_user(user_data: DeleteUser):
-    username = user_data.username
+@users_admin_router.delete("/admin/users/{username}")
+def remove_user(username):
 
     user = User.get(username)
     if user.role != UserRole.ADMIN.value:

@@ -38,7 +38,7 @@ def create_tag_dn_ip(tag: str, object: str, type: str):
         "tag_link": new_tag_link.json()
     }
 
-@tag_dn_ip_router.delete("/tag_dn_ip")
+@tag_dn_ip_router.delete("/tag_dn_ip/{tag}/{object}/{type}")
 def delete_tag_dn_ip(tag: str, object: str, type: str):
     object_key = object
     object_type = type
