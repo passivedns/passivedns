@@ -84,7 +84,11 @@ def get_user_list():
 @users_admin_router.delete("/admin/users/{username}")
 def remove_user(username):
 
-    user = User.get(username)
+    try :
+        user = User.get(username)
+    except ObjectNotFound:
+        raise HTTPException(status_code=404, detail="user not found")
+    
     if user.role != UserRole.ADMIN.value:
         user.delete()
 
