@@ -9,7 +9,7 @@ python-whois
 discord.py
 tabulate
 itsdangerous
-python-jose
+python-jose~=3.3.0
 httpx
 
 python-dateutil~=2.8.2

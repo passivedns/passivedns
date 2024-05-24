@@ -4,7 +4,6 @@ from fastapi.testclient import TestClient
 from db.database import get_db
 from models.user import User
 from models.user_request import UserRequest
-from models.user_pending import UserPending
 from main import app
 
 client = TestClient(app)

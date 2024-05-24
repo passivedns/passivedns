@@ -156,6 +156,7 @@ def create_domain_name(domain_name, user: User=Depends(get_current_user)):
         resolution = Resolution.new(domain_name, ip_address)
         resolution.insert()
     else:
+        dn.delete()
         raise HTTPException(status_code=500, detail="could not resolve domain name")
     
     # create user link
