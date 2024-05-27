@@ -11,7 +11,7 @@ from main import app
 
 client = TestClient(app)
 
-class AuthTest(unittest.TestCase):
+class DomainNameTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()

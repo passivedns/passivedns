@@ -8,7 +8,7 @@ from main import app
 
 client = TestClient(app)
 
-class AuthTest(unittest.TestCase):
+class SchedulerTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
@@ -59,28 +59,28 @@ class AuthTest(unittest.TestCase):
         client.get("/logout")
 
 #/admin/scheduler/{name} post
-    def test_create_scheduler(self) -> None:
+    def test_admin_create_scheduler(self) -> None:
         client.post("/token", json={"identity":"TestAdmin1", "password":"admin1"})
         response = client.post("/admin/scheduler/TestSched2", json={"password":"sched2"})
         self.assertEqual(response.status_code, 200)
         self.assertIn("scheduler", response.json())
         client.get("/logout")
 
-    def test_create_scheduler_name_taken(self) -> None:
+    def test_admin_create_scheduler_name_taken(self) -> None:
         client.post("/token", json={"identity":"TestAdmin1", "password":"admin1"})
         response = client.post("/admin/scheduler/TestSched1", json={"password":"sched3"})
         self.assertEqual(response.status_code, 500)
         client.get("/logout")
 
 #/admin/scheduler/{name} put
-    def test_update_scheduler_password(self) -> None:
+    def test_admin_update_scheduler_password(self) -> None:
         client.post("/token", json={"identity":"TestAdmin1", "password":"admin1"})
         response = client.put("/admin/scheduler/TestSched2", json={"password":"test"})
         self.assertEqual(response.status_code, 200)
         self.assertIn("scheduler", response.json())
         client.get("/logout")
     
-    def test_update_scheduler_not_found(self) -> None:
+    def test_admin_update_scheduler_not_found(self) -> None:
         client.post("/token", json={"identity":"TestAdmin1", "password":"admin1"})
         response = client.put("/admin/scheduler/Test", json={"password":"sched2"})
         self.assertEqual(response.status_code, 404)
