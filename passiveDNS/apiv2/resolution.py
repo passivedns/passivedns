@@ -28,6 +28,8 @@ def get_resolution_history(domain_name):
     out = []
 
     resolution_list = Resolution.list_from_domain(domain_name)
+    if len(resolution_list) == 0:       
+        raise HTTPException(status_code=404, detail="no resolution found for this domain")
         
     for resolution in resolution_list:
         ip = IPAddress.get(resolution.ip_address)
