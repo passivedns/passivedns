@@ -21,7 +21,7 @@ class ApiClient(object):
         self.headers = {}
 
     def login(self):
-        r = self.session.post(f"{self.host}/login", json={
+        r = self.session.post(f"{self.host}/token", json={
             'identity': self.username,
             'password': self.password
         })
