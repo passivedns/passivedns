@@ -21,5 +21,7 @@ jobs:
               run: |
                 docker compose -f docker-compose-dev.yml build api
                 docker compose -f docker-compose-dev.yml up -d db api
-            - name: Test
+            - name: Test models
               run: docker compose -f docker-compose-dev.yml exec api sh -c "python -m unittest discover -s tests/models -p '*.py'"
+            - name: Test controllers
+              run: docker compose -f docker-compose-dev.yml exec api sh -c "python -m unittest discover -s tests/apiv2 -p '*.py'"
