@@ -19,8 +19,8 @@ class TestDomainName(TestCase):
         d = DomainName.new(domain_name)
         ip = d.resolve()
 
-        expected_ip_address = "8.8.4.4"
-        self.assertEqual(ip, expected_ip_address)
+        expected_ip_address = ["8.8.4.4", "8.8.8.8"]
+        self.assertIn(ip, expected_ip_address)
 
     def test_resolve_exception(self):
         d = DomainName.new("stuff")
