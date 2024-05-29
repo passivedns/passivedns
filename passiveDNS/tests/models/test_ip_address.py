@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
 
-from models.ip_address import IPAddress, IPAddressLocationError
+from models.ip_address import IPAddress
 from db.database import ObjectNotFound
 
 from utils import config

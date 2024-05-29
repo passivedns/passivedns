@@ -2,7 +2,6 @@ import math
 from time import time
 from multiprocessing import Process
 
-import requests
 
 from client import ApiClient
 

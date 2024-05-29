@@ -1,4 +1,3 @@
-import os
 from dateutil import tz
 from datetime import datetime
 import logging

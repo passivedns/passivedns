@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
-from datetime import datetime
 
 from channels.email import MailSendingError
 from channels.send import send
@@ -59,7 +58,7 @@ def user_channel_get(channel_name, user: User = Depends(get_current_user)):
         raise HTTPException(status_code=404, detail="user channel not found")
 
     return {
-        "msg": f"user channel retrieved",
+        "msg": "user channel retrieved",
         "user_channel": user_channel.safe_json(),
     }
 
@@ -124,7 +123,7 @@ def user_channel_verify(
 
     user_channel.update(verified=True)
     return {
-        "msg": f"channel contact verified",
+        "msg": "channel contact verified",
         "user_channel": user_channel.safe_json(),
     }
 
@@ -142,7 +141,7 @@ def user_channel_delete(channel_name, user: User = Depends(get_current_user)):
         raise HTTPException(status_code=404, detail="user channel not found")
 
     user_channel.delete()
-    return {"msg": f"user channel deleted", "user_channel": user_channel.safe_json()}
+    return {"msg": "user channel deleted", "user_channel": user_channel.safe_json()}
 
 
 @users_channel_router.get("/user/channels/{channel_name}/test")
@@ -165,4 +164,4 @@ def channel_test(channel_name, user: User = Depends(get_current_user)):
     except (MailSendingError, TelegramSendingError):
         raise HTTPException(status_code=500, detail="failed to send test")
 
-    return {"msg": f"user channel tested", "user_channel": user_channel.safe_json()}
+    return {"msg": "user channel tested", "user_channel": user_channel.safe_json()}

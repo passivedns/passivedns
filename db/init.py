@@ -1,7 +1,5 @@
 # pip install pycryptodome
 from Crypto.Protocol.KDF import bcrypt
-import subprocess
-import os
 from getpass import getpass
 
 with open("db/_init_db.js", "r") as f:

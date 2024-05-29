@@ -39,6 +39,6 @@ def delete_tag(tag_name):
 @tag_router.get("/tag")
 def get_tag_list():
     return {
-        "msg": f"tag list retrieved",
+        "msg": "tag list retrieved",
         "tag_list": [t.json()["_key"] for t in Tag.list()],
     }

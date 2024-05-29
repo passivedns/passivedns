@@ -17,7 +17,7 @@ def get_resolutions(domain_name):
     except DomainNameResolutionError as de:
         raise HTTPException(status_code=404, detail=str(de))
 
-    return {"msg": f"domain name resolutions retrieved", "resolution": r.json()}
+    return {"msg": "domain name resolutions retrieved", "resolution": r.json()}
 
 
 @resolution_router.get("/resolution/{domain_name}/history")
@@ -40,7 +40,7 @@ def get_resolution_history(domain_name):
             }
         )
     out_sorted = sorted(out, key=itemgetter("last_updated_at"), reverse=True)
-    return {"msg": f"domain name resolution history retrieved", "history": out_sorted}
+    return {"msg": "domain name resolution history retrieved", "history": out_sorted}
 
 
 @resolution_router.get("/reverse/{ip_address}")
@@ -50,7 +50,7 @@ def get_reverse(ip_address):
         raise HTTPException(status_code=404, detail="no resolution found for this IP")
 
     return {
-        "msg": f"domain name resolutions retrieved",
+        "msg": "domain name resolutions retrieved",
         "resolution_list": [r.json() for r in resolution_list],
     }
 
@@ -78,4 +78,4 @@ def get_reverse_history(ip_address):
 
     # Sorting for nice output
     out_sorted = sorted(out, key=itemgetter("last_updated_at"), reverse=True)
-    return {"msg": f"domain name resolution history retrieved", "history": out_sorted}
+    return {"msg": "domain name resolution history retrieved", "history": out_sorted}

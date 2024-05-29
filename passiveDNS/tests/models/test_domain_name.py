@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
 
-from models.domain_name import DomainName, DomainNameResolutionError
+from models.domain_name import DomainName
 from db.database import ObjectNotFound
 
 from utils import config

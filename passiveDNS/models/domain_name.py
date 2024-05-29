@@ -1,6 +1,5 @@
 import dns.rdatatype
 import dns.resolver
-from whois import whois
 from datetime import datetime
 
 from models.dns_records import *

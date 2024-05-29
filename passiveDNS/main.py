@@ -1,4 +1,3 @@
-import os
 from datetime import timedelta
 
 from fastapi import APIRouter, FastAPI, Depends

@@ -1,7 +1,5 @@
 from models.meta_edge import Edge
 from models.tag import TAG_COLLECTION
-from models.domain_name import DOMAIN_NAME_COLLECTION
-from models.ip_address import IP_ADDRESS_COLLECTION
 
 TAG_DN_IP_COLLECTION = "TagDnIp"
 

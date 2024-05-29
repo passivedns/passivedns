@@ -70,7 +70,7 @@ def channel_update(name, data: ChannelData):
 @channels_admin_router.delete("/admin/channels/{name}")
 def channel_delete(name):
     if name == Channel.DEFAULT:
-        raise HTTPException(status_code=403, detail=f"cannot modify default channel")
+        raise HTTPException(status_code=403, detail="cannot modify default channel")
 
     if not Channel.exists(name):
         raise HTTPException(status_code=404, detail=f"channel {name} not found")

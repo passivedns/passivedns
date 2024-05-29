@@ -102,17 +102,17 @@ def invite(user_data: Invite):
     # check if mail is already used
     if User.exists_from_email(email):
         raise HTTPException(
-            status_code=500, detail=f"email already used by an existing user"
+            status_code=500, detail="email already used by an existing user"
         )
 
     if UserRequest.exists(email):
         raise HTTPException(
-            status_code=500, detail=f"a request for this email already exists"
+            status_code=500, detail="a request for this email already exists"
         )
 
     if UserPending.exists_from_email(email):
         raise HTTPException(
-            status_code=500, detail=f"a user with this email has already been invited"
+            status_code=500, detail="a user with this email has already been invited"
         )
 
     # create a new pending user in database
@@ -134,7 +134,7 @@ def invite(user_data: Invite):
         if user_pending is not None:
             user_pending.delete()
 
-        raise HTTPException(status_code=500, detail=f"error sending the invitation")
+        raise HTTPException(status_code=500, detail="error sending the invitation")
 
     return {
         "msg": f"user with mail {user_pending.email} invited",
@@ -183,7 +183,7 @@ def verify_requested_user(user_data: VerifyUser):
         if user_pending is not None:
             user_pending.delete()
 
-        raise HTTPException(status_code=500, detail=f"error sending the invitation")
+        raise HTTPException(status_code=500, detail="error sending the invitation")
 
     return {
         "msg": f"user with mail {user_pending.email} invited",
