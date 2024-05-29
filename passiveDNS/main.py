@@ -4,8 +4,7 @@ from fastapi import APIRouter, FastAPI, Depends
 from starlette.middleware.sessions import SessionMiddleware
 
 from utils import config
-
-config.init_config()
+import uvicorn
 
 from apiv2.alert import alert_router
 from apiv2.auth import (
@@ -31,6 +30,7 @@ from apiv2.users_admin import users_admin_router
 # global setup
 from utils.timezone import check_timezone
 
+config.init_config()
 
 check_timezone(config.g.TIMEZONE)
 
@@ -97,6 +97,5 @@ debug = config.g.DEBUG == "1"
 
 # à la main avec poetry après
 if __name__ == "__main__":
-    import uvicorn
 
     uvicorn.run(app, host="0.0.0.0", port=8080)
