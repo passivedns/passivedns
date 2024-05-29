@@ -2,12 +2,42 @@ import dns.rdatatype
 import dns.resolver
 from datetime import datetime
 
-from models.dns_records import *
+from models.dns_records import (
+    DnsRecordA,
+    DnsRecordAAAA,
+    DnsRecordMX,
+    DnsRecordNS,
+    DnsRecordSOA,
+    DnsRecordOther,
+    DnsRecordTXT,
+)
 from models.ip_address import IPAddress
 from models.meta_node import Node
 from db.database import get_db
-from db.queries.dn_list import *
-from db.queries.alert_list import *
+from db.queries.dn_list import (
+    DOMAIN_NAME_LIST_FILTER_DN,
+    DOMAIN_NAME_LIST_FILTER_IP,
+    DOMAIN_NAME_LIST_FILTER_FOLLOWED_OWNED,
+    DOMAIN_NAME_LIST_FILTER_DN_TAG,
+    DOMAIN_NAME_LIST_SORT_IP,
+    DOMAIN_NAME_LIST_FILTER_FOLLOWED,
+    DOMAIN_NAME_LIST_FILTER_IP_TAG,
+    DOMAIN_NAME_LIST_FILTER_OWNED,
+    DOMAIN_NAME_LIST_QUERY,
+    DOMAIN_NAME_LIST_RETURN,
+    DOMAIN_NAME_LIST_SORT_CHANGE,
+    DOMAIN_NAME_LIST_SORT_DN,
+)
+from db.queries.alert_list import (
+    ALERT_LIST_FILTER_DN,
+    ALERT_LIST_FILTER_DN_TAGS,
+    ALERT_LIST_FILTER_IP_TAG,
+    ALERT_LIST_QUERY,
+    ALERT_LIST_RETURN,
+    ALERT_LIST_SORT_CURRENT_IP,
+    ALERT_LIST_SORT_DN,
+    ALERT_LIST_SORT_LAST_IP,
+)
 from utils import timezone, config
 
 DOMAIN_NAME_COLLECTION = "DomainName"

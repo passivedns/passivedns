@@ -64,6 +64,6 @@ class ResolutionTest(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("history", response.json())
 
-    def test_get_resolution_history_not_found(self) -> None:
-        response = client.get("/resolution/1.2.3.4/history")
+    def test_get_reverse_history_not_found(self) -> None:
+        response = client.get("/reverse/1.2.3.4/history")
         self.assertEqual(response.status_code, 404)
