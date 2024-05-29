@@ -6,6 +6,8 @@ from starlette.middleware.sessions import SessionMiddleware
 from utils import config
 import uvicorn
 
+config.init_config()
+
 from apiv2.alert import alert_router
 from apiv2.auth import (
     auth_router,
@@ -30,7 +32,6 @@ from apiv2.users_admin import users_admin_router
 # global setup
 from utils.timezone import check_timezone
 
-config.init_config()
 
 check_timezone(config.g.TIMEZONE)
 
