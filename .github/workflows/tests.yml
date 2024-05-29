@@ -15,11 +15,13 @@ jobs:
             DEBUG: 0
 
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - run: sudo apt-get install -y python3-pip
             - name: Run db and api
               run: |
                 docker compose -f docker-compose-dev.yml build api
                 docker compose -f docker-compose-dev.yml up -d db api
+            - name: Test models
+              run: docker compose -f docker-compose-dev.yml exec api sh -c "python -m unittest discover -s tests/models -p '*.py'"
             - name: Test controllers
               run: docker compose -f docker-compose-dev.yml exec api sh -c "python -m unittest discover -s tests/apiv2 -p '*.py'"
