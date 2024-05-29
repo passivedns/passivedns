@@ -98,6 +98,7 @@ import Services from "../../services/services.js";
         methods: {
             logout() {
                 localStorage.removeItem('jwt');
+                this.service.logout()
                 window.location.replace('/');
             },
 

@@ -2,13 +2,11 @@ import math
 from time import time
 from multiprocessing import Process
 
-import requests
 
 from client import ApiClient
 
 
 def split_load(dn_list, thread_count):
-
     buckets = []
     current = []
 
@@ -34,10 +32,10 @@ def resolve_all(client: ApiClient, thread_count):
     t1 = time()
 
     client.login()
-    print('logged in')
+    print("logged in")
 
     dn_list = client.dn_list()
-    print(f'retrieved {len(dn_list)} domain to resolve')
+    print(f"retrieved {len(dn_list)} domain to resolve")
 
     repartition_buckets = split_load(dn_list, thread_count)
     response_list = []
@@ -47,19 +45,16 @@ def resolve_all(client: ApiClient, thread_count):
             print(f"{name} - resolving {domain_name}")
 
             status_code = client.dn_update(domain_name)
-            response_list.append({
-                "domain_name": domain_name,
-                "response": status_code == 200
-            })
+            response_list.append(
+                {"domain_name": domain_name, "response": status_code == 200}
+            )
 
     thread_list = []
     for i in range(len(repartition_buckets)):
         thread_bucket = repartition_buckets[i]
         thread_name = f"thread_{i}"
         thread_list.append(
-            Process(
-                target=resolve_domain_name,
-                args=(thread_name, thread_bucket))
+            Process(target=resolve_domain_name, args=(thread_name, thread_bucket))
         )
 
     for thread in thread_list:
@@ -68,7 +63,7 @@ def resolve_all(client: ApiClient, thread_count):
     for thread in thread_list:
         thread.join()
 
-    success_list = [x['response'] for x in response_list]
+    success_list = [x["response"] for x in response_list]
     print(f"success: {success_list.count(True)} / {len(success_list)}")
 
     t2 = time()

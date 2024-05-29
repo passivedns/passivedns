@@ -9,17 +9,28 @@ export default class PfaApi {
         });
 
         this.routes = {
-            "dnList": "/api/dn",
-            "dn": "/api/dn",
-            "alert": "/api/alert",
-            "resolution": "/api/resolution",
-            "channels": "/api/channels",
-            "userChannels": "/api/user/channels",
-            "tag": "/api/tag",
-            "tagLinked": "/api/tag_dn_ip",
-            "tagLinkedList": "/api/tag_dn_ip/list/from",
-            "password": "/api/password"
+            "dnList": "/apiv2/dn",
+            "dnListExport": "/apiv2/dn/export",
+            "dn": "/apiv2/dn",
+            "alert": "/apiv2/alert",
+            "alertExport": "apiv2/alert/export",
+            "resolution": "/apiv2/resolution",
+            "channels": "/apiv2/channels",
+            "userChannels": "/apiv2/user/channels",
+            "tag": "/apiv2/tag",
+            "tagLinked": "/apiv2/tag_dn_ip",
+            "tagLinkedList": "/apiv2/tag_dn_ip/list/from",
+            "password": "/apiv2/password",
+            "logout": "/apiv2/logout"
         };
+    }
+
+    logout() {
+        return this.service.get(this.routes.logout, {})
+        .then(function(d) {
+            console.log(d.data.msg);
+            return d.data
+        })
     }
 
     getAlertList(filter, filterBy, sortBy, limit) {
@@ -42,7 +53,7 @@ export default class PfaApi {
     }
 
     exportAlertList(filter, filterBy, sortBy, limit, exportType) {
-        return this.service.get(this.routes.alert, {
+        return this.service.get(this.routes.alertExport, {
             params: {
                 days: "1",
                 filter: filter,
@@ -59,19 +70,13 @@ export default class PfaApi {
 
     getDnList(owned, followed, filter, filterBy, sortBy, limit) {
         let params = {
+            owned: owned,
+            followed: followed,
             filter: filter,
             filter_by: filterBy,
             sort_by: sortBy,
             limit: limit
         };
-
-        if (owned) {
-            params.owned = true
-        }
-
-        if (followed) {
-            params.followed = true;
-        }
 
         return this.service.get(this.routes.dnList, {
             params: params
@@ -85,9 +90,11 @@ export default class PfaApi {
             })
     }
 
-    exportDnList(filter, filterBy, sortBy, limit, exportType) {
-        return this.service.get(this.routes.dnList, {
+    exportDnList(owned, followed, filter, filterBy, sortBy, limit, exportType) {
+        return this.service.get(this.routes.dnListExport, {
             params: {
+                owned: owned,
+                followed: followed,
                 filter: filter,
                 filter_by: filterBy,
                 sort_by: sortBy,
@@ -272,13 +279,7 @@ export default class PfaApi {
     }
 
     deleteLinkedTag(object, type, tag) {
-        return this.service.delete(this.routes.tagLinked, {
-            params: {
-                object: object,
-                type: type,
-                tag: tag
-            }
-        })
+        return this.service.delete(`${this.routes.tagLinked}/${tag}/${object}/${type}`)
             .then(function(d) {
                 console.log(d.data.msg);
                 return true;

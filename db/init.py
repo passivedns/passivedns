@@ -1,7 +1,5 @@
 # pip install pycryptodome
 from Crypto.Protocol.KDF import bcrypt
-import subprocess
-import os
 from getpass import getpass
 
 with open("db/_init_db.js", "r") as f:
@@ -30,8 +28,10 @@ print("\n[APPLICATION SECURITY]")
 jwt_key = getpass("Enter the key to use for creating JWT: ")
 
 print("\n[APPLICATION MISC]")
-timezone = input("Enter your timezone (i.e: 'Europe/Paris') (if not provided, UTC is used): ")
-if timezone == '':
+timezone = input(
+    "Enter your timezone (i.e: 'Europe/Paris') (if not provided, UTC is used): "
+)
+if timezone == "":
     timezone = "UTC"
 
 with open("env/default/default.api.env", "r") as f:
@@ -74,5 +74,7 @@ with open(tmp_file, "w") as f:
     script_js = script_js.replace("{sender_email}", sender_email)
     script_js = script_js.replace("{sender_password}", sender_password)
     script_js = script_js.replace("{scheduler_name}", scheduler_name)
-    script_js = script_js.replace("{scheduler_hashed_password}", scheduler_hashed_password)
+    script_js = script_js.replace(
+        "{scheduler_hashed_password}", scheduler_hashed_password
+    )
     f.write(script_js)

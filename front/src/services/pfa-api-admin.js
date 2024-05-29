@@ -9,15 +9,15 @@ export default class PfaApiAdmin {
         });
 
         this.routes = {
-            "invite": "/api/admin/invite",
-            "verify": "/api/admin/verify",
-            "request": "/api/admin/request",
-            "requestList": "/api/admin/request/list",
-            "inviteList": "/api/admin/invite/list",
-            "userList": "/api/admin/users/list",
-            "users": "/api/admin/users",
-            "channels": "/api/admin/channels",
-            "scheduler": "/api/admin/scheduler"
+            "invite": "/apiv2/admin/invite",
+            "verify": "/apiv2/admin/verify",
+            "request": "/apiv2/admin/request",
+            "requestList": "/apiv2/admin/request/list",
+            "inviteList": "/apiv2/admin/invite/list",
+            "userList": "/apiv2/admin/users/list",
+            "users": "/apiv2/admin/users",
+            "channels": "/apiv2/admin/channels",
+            "scheduler": "/apiv2/admin/scheduler"
         };
     }
 
@@ -56,11 +56,7 @@ export default class PfaApiAdmin {
     }
 
     requestDelete(email) {
-        return this.service.delete(this.routes.request, {
-            data: {
-                email: email
-            }
-        })
+        return this.service.delete(`${this.routes.request}/${email}`)
             .then(function(d) {
                 console.log(d.data.msg)
             })
@@ -90,11 +86,7 @@ export default class PfaApiAdmin {
     }
 
     userDelete(username) {
-        return this.service.delete(this.routes.users, {
-            params: {
-                username: username
-            }
-        })
+        return this.service.delete(`${this.routes.users}/${username}`)
             .then(function(d) {
                 console.log(d.data.msg);
                 return d.data.user
