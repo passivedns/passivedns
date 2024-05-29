@@ -9,7 +9,9 @@ class DiscordSendingError(Exception):
     pass
 
 
-def send_discord_process(user_id_str: str, channel_discord: ChannelDiscord, template: ChannelTemplate):
+def send_discord_process(
+    user_id_str: str, channel_discord: ChannelDiscord, template: ChannelTemplate
+):
     """
     Send a message to a user through Discord API
     :param user_id_str: the User to contact
@@ -39,7 +41,9 @@ def send_discord_process(user_id_str: str, channel_discord: ChannelDiscord, temp
         raise DiscordSendingError(e)
 
 
-def send_discord(user_id_str: str, channel_discord: ChannelDiscord, template: ChannelTemplate):
+def send_discord(
+    user_id_str: str, channel_discord: ChannelDiscord, template: ChannelTemplate
+):
     """
     Discord client only work in a main thread because of the usage of asyncio
     That's why we create a new Process in order to create the client, so it can
@@ -50,6 +54,8 @@ def send_discord(user_id_str: str, channel_discord: ChannelDiscord, template: Ch
     :param template: template to send
     :return: None
     """
-    p = Process(target=send_discord_process, args=(user_id_str, channel_discord, template))
+    p = Process(
+        target=send_discord_process, args=(user_id_str, channel_discord, template)
+    )
     p.start()
     p.join()

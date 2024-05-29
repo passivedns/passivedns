@@ -7,11 +7,11 @@ from models.channel import Channel
 from models.channel_meta import ChannelDiscord
 from channels.templates_list import TEST_TEMPLATE
 
-channel_discord = Channel.new("discord", ChannelDiscord.TYPE, {
-    "bot_token": os.environ['DISCORD_BOT_TOKEN']
-})
+channel_discord = Channel.new(
+    "discord", ChannelDiscord.TYPE, {"bot_token": os.environ["DISCORD_BOT_TOKEN"]}
+)
 
-user_id = os.environ['DISCORD_USER_ID']
+user_id = os.environ["DISCORD_USER_ID"]
 
 
 class TestDiscord(TestCase):

@@ -3,6 +3,7 @@ class ChannelMeta(object):
     The base class for Channel settings
     Parse the settings according to the Channel type
     """
+
     def __init__(self, infos_json, attributes):
         self._attributes = attributes
 
@@ -21,22 +22,20 @@ class ChannelTelegram(ChannelMeta):
     TYPE = "telegram"
 
     def __init__(self, **infos_json):
-        super().__init__(infos_json, ['bot_token'])
+        super().__init__(infos_json, ["bot_token"])
 
 
 class ChannelEmail(ChannelMeta):
     TYPE = "email"
 
     def __init__(self, **infos_json):
-        super().__init__(infos_json, [
-            'smtp_host', 'smtp_port', 'sender_email', 'sender_password'
-        ])
+        super().__init__(
+            infos_json, ["smtp_host", "smtp_port", "sender_email", "sender_password"]
+        )
 
 
 class ChannelDiscord(ChannelMeta):
     TYPE = "discord"
 
     def __init__(self, **infos_json):
-        super().__init__(infos_json, [
-            'bot_token'
-        ])
+        super().__init__(infos_json, ["bot_token"])

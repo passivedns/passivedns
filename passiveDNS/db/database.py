@@ -15,6 +15,7 @@ class DatabaseSession(object):
     Needs the host of the DB and the database name to interact with
     The environment MUST store the credentials
     """
+
     def __init__(self, host, database_name):
         self._client = ArangoClient(host)
 

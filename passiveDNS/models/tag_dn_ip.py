@@ -14,12 +14,12 @@ class TagDnIP(Edge):
         :param e_json: the JSON parsed object as returned by `self.json()`
         """
         super(TagDnIP, self).__init__(
-            TAG_DN_IP_COLLECTION, e_json['_from'], e_json['_to']
+            TAG_DN_IP_COLLECTION, e_json["_from"], e_json["_to"]
         )
 
-        self.tag = e_json['tag']
-        self.object = e_json['object']
-        self.type = e_json['type']
+        self.tag = e_json["tag"]
+        self.object = e_json["object"]
+        self.type = e_json["type"]
 
     def json(self):
         """
@@ -31,7 +31,7 @@ class TagDnIP(Edge):
             "_to": self._to,
             "tag": self.tag,
             "object": self.object,
-            "type": self.type
+            "type": self.type,
         }
 
     @staticmethod
@@ -46,8 +46,7 @@ class TagDnIP(Edge):
         from_id = TagDnIP._get_id(TAG_COLLECTION, tag)
         to_id = TagDnIP._get_id(object_type, object_key)
         return TagDnIP(
-            _from=from_id, _to=to_id,
-            tag=tag, object=object_key, type=object_type
+            _from=from_id, _to=to_id, tag=tag, object=object_key, type=object_type
         )
 
     @staticmethod
@@ -60,9 +59,7 @@ class TagDnIP(Edge):
         :return: the existing link
         """
         tag_edge = TagDnIP._get(
-            TAG_DN_IP_COLLECTION,
-            TAG_COLLECTION, tag,
-            object_type, object_key
+            TAG_DN_IP_COLLECTION, TAG_COLLECTION, tag, object_type, object_key
         )
         return TagDnIP(**tag_edge)
 
@@ -76,9 +73,7 @@ class TagDnIP(Edge):
         :return: True if exists, False else
         """
         return TagDnIP._exists(
-            TAG_DN_IP_COLLECTION,
-            TAG_COLLECTION, tag,
-            object_type, object_key
+            TAG_DN_IP_COLLECTION, TAG_COLLECTION, tag, object_type, object_key
         )
 
     @staticmethod
@@ -90,13 +85,10 @@ class TagDnIP(Edge):
         :return: a list of connected TagDnIp object
         """
         tags_list_json = TagDnIP._list_from(
-            TAG_DN_IP_COLLECTION,
-            object_type, object_key
+            TAG_DN_IP_COLLECTION, object_type, object_key
         )
 
-        return [
-            TagDnIP(**t) for t in tags_list_json
-        ]
+        return [TagDnIP(**t) for t in tags_list_json]
 
     @staticmethod
     def list_from_tag(tag_name):
@@ -106,10 +98,7 @@ class TagDnIP(Edge):
         :return: a list of connected TagDnIp object
         """
         tags_list_json = TagDnIP._list_to(
-            TAG_DN_IP_COLLECTION,
-            TAG_COLLECTION, tag_name
+            TAG_DN_IP_COLLECTION, TAG_COLLECTION, tag_name
         )
 
-        return [
-            TagDnIP(**t) for t in tags_list_json
-        ]
+        return [TagDnIP(**t) for t in tags_list_json]

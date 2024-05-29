@@ -12,22 +12,17 @@ class UserRequest(Node):
         The User request constructor
         :param user_request_json: the JSON parsed object as returned by `self.json()`
         """
-        self.email = user_request_json['_key']
+        self.email = user_request_json["_key"]
         super().__init__(USER_REQUEST_COLLECTION, self.email)
 
-        self.requested_at = datetime.fromisoformat(
-            user_request_json['requested_at']
-        )
+        self.requested_at = datetime.fromisoformat(user_request_json["requested_at"])
 
     def json(self) -> dict:
         """
         Serialize the User request
         :return: JSON
         """
-        return {
-            '_key': self.email,
-            'requested_at': self.requested_at.isoformat()
-        }
+        return {"_key": self.email, "requested_at": self.requested_at.isoformat()}
 
     @staticmethod
     def new(email: str):
@@ -65,6 +60,4 @@ class UserRequest(Node):
         :return: a list of User request
         """
         ur_list = UserRequest._list(USER_REQUEST_COLLECTION)
-        return [
-            UserRequest(**u) for u in ur_list
-        ]
+        return [UserRequest(**u) for u in ur_list]

@@ -2,7 +2,6 @@ from db.database import get_db, ObjectNotFound
 
 
 class Edge(object):
-
     """
     The base class for Edge collections
     """
@@ -42,11 +41,14 @@ class Edge(object):
         :return:
         """
         session = get_db()
-        session.exec_aql(f"""
+        session.exec_aql(
+            f"""
         FOR o IN {self._collection}
             FILTER o._from == @from AND o._to == @to
             REMOVE o IN {self._collection}
-        """, bind_vars={"from": self._from, "to": self._to})
+        """,
+            bind_vars={"from": self._from, "to": self._to},
+        )
 
     def _update(self, values: dict):
         """
@@ -55,11 +57,14 @@ class Edge(object):
         :return:
         """
         session = get_db()
-        session.exec_aql(f"""
+        session.exec_aql(
+            f"""
         FOR o IN {self._collection}
             FILTER o._from == @from AND o._to == @to
             UPDATE o WITH {values} IN {self._collection} 
-        """, bind_vars={"from": self._from, "to": self._to})
+        """,
+            bind_vars={"from": self._from, "to": self._to},
+        )
 
     @staticmethod
     def _get_id(col: str, key: str):
@@ -86,16 +91,18 @@ class Edge(object):
         _to_id = Edge._get_id(col_to, _to)
 
         session = get_db()
-        o = session.exec_aql(f"""
+        o = session.exec_aql(
+            f"""
         FOR o IN {col}
             FILTER o._from == @from AND o._to == @to
             RETURN o
-        """, bind_vars={"from": _from_id, "to": _to_id})
+        """,
+            bind_vars={"from": _from_id, "to": _to_id},
+        )
 
         if len(o) == 0:
             raise ObjectNotFound(
-                f"object in {col} with _from {_from_id}"
-                f" and _to {_to_id} not found"
+                f"object in {col} with _from {_from_id}" f" and _to {_to_id} not found"
             )
 
         return o[0]
@@ -115,11 +122,14 @@ class Edge(object):
         _to_id = Edge._get_id(col_to, _to)
 
         session = get_db()
-        o = session.exec_aql(f"""
+        o = session.exec_aql(
+            f"""
         FOR o IN {col}
             FILTER o._from == @from AND o._to == @to
             RETURN o
-        """, bind_vars={"from": _from_id, "to": _to_id})
+        """,
+            bind_vars={"from": _from_id, "to": _to_id},
+        )
 
         return len(o) != 0
 
@@ -150,11 +160,14 @@ class Edge(object):
         _to_id = Edge._get_id(col_to, _to)
 
         session = get_db()
-        o = session.exec_aql(f"""
+        o = session.exec_aql(
+            f"""
         FOR o IN {col}
             FILTER o._to == @to
             RETURN o
-        """, bind_vars={"to": _to_id})
+        """,
+            bind_vars={"to": _to_id},
+        )
 
         return o
 
@@ -170,10 +183,13 @@ class Edge(object):
         _from_id = Edge._get_id(col_from, _from)
 
         session = get_db()
-        o = session.exec_aql(f"""
+        o = session.exec_aql(
+            f"""
         FOR o IN {col}
             FILTER o._from == @from
             RETURN o
-        """, bind_vars={"from": _from_id})
+        """,
+            bind_vars={"from": _from_id},
+        )
 
         return o

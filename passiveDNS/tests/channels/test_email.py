@@ -7,12 +7,16 @@ from channels.templates_list import TEST_TEMPLATE
 from models.channel import Channel
 from models.channel_meta import ChannelEmail
 
-channel_email = Channel.new("test", ChannelEmail.TYPE, {
-    "smtp_host": "mail.gmx.com",
-    "smtp_port": "587",
-    "sender_email": "dadard.website@gmx.com",
-    "sender_password": os.environ['SMTP_PASSWORD']
-})
+channel_email = Channel.new(
+    "test",
+    ChannelEmail.TYPE,
+    {
+        "smtp_host": "mail.gmx.com",
+        "smtp_port": "587",
+        "sender_email": "dadard.website@gmx.com",
+        "sender_password": os.environ["SMTP_PASSWORD"],
+    },
+)
 
 user_mail = "oquidam@et.esiea.fr"
 

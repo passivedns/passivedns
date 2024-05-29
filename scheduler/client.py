@@ -21,17 +21,15 @@ class ApiClient(object):
         self.headers = {}
 
     def login(self):
-        r = self.session.post(f"{self.host}/token", json={
-            'identity': self.username,
-            'password': self.password
-        })
+        r = self.session.post(
+            f"{self.host}/token",
+            json={"identity": self.username, "password": self.password},
+        )
         if r.status_code != 200:
             raise LoginError(r.status_code)
 
-        jwt = r.json()['access_token']
-        self.headers = {
-            "Authorization": f"Bearer {jwt}"
-        }
+        jwt = r.json()["access_token"]
+        self.headers = {"Authorization": f"Bearer {jwt}"}
         self.session.headers = self.headers
 
     def dn_update(self, domain_name) -> int:
@@ -43,4 +41,4 @@ class ApiClient(object):
         if r.status_code != 200:
             raise RequestError(r.status_code)
 
-        return r.json()['dn_list']
+        return r.json()["dn_list"]

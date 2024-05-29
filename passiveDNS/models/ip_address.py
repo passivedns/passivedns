@@ -16,12 +16,32 @@ class IPAddressLocation(object):
     # https://ip-api.status.io/ https://ip-api.com/
     _base_url = "http://ip-api.com/json/"
     _json_fields = [
-        "country", "countryCode", "region", "regionName", "city", "zip", "lat", "lon", "timezone", "isp", "org",
-        "as"
+        "country",
+        "countryCode",
+        "region",
+        "regionName",
+        "city",
+        "zip",
+        "lat",
+        "lon",
+        "timezone",
+        "isp",
+        "org",
+        "as",
     ]
     _attributes = [
-        "country", "country_code", "region", "region_name", "city", "zip_code", "latitude", "longitude", "timezone",
-        "ISP", "organization", "AS"
+        "country",
+        "country_code",
+        "region",
+        "region_name",
+        "city",
+        "zip_code",
+        "latitude",
+        "longitude",
+        "timezone",
+        "ISP",
+        "organization",
+        "AS",
     ]
 
     def __init__(self, **ip_location_json):
@@ -30,9 +50,7 @@ class IPAddressLocation(object):
         :param ip_location_json: the JSON parsed, object as returned by `self.json()`
         """
         for f in self._attributes:
-            self.__setattr__(
-                f, ip_location_json[f]
-            )
+            self.__setattr__(f, ip_location_json[f])
         return
 
     @staticmethod
@@ -44,20 +62,24 @@ class IPAddressLocation(object):
         """
 
         resp = requests.get(IPAddressLocation._base_url + address)
-        if resp.headers['X-Rl'] == "0":
-            timeout = float(resp.headers['X-Ttl'])
+        if resp.headers["X-Rl"] == "0":
+            timeout = float(resp.headers["X-Ttl"])
             print(f"IP API rate limit reached - waiting for {timeout}")
             time.sleep(timeout)
             resp = requests.get(IPAddressLocation._base_url + address)
 
-        if resp.status_code != 200 or resp.json()['status'] != 'success':
+        if resp.status_code != 200 or resp.json()["status"] != "success":
             # couldn't retrieve the location from an IP address
             default = ""
             return IPAddressLocation(
-                country=default, country_code=default,
-                region=default, region_name=default,
-                city=default, zip_code=default,
-                latitude=default, longitude=default,
+                country=default,
+                country_code=default,
+                region=default,
+                region_name=default,
+                city=default,
+                zip_code=default,
+                latitude=default,
+                longitude=default,
                 timezone=default,
                 ISP=default,
                 organization=default,
@@ -67,9 +89,7 @@ class IPAddressLocation(object):
         j = {}
         location_json = resp.json()
         for i in range(len(IPAddressLocation._attributes)):
-            j[
-                IPAddressLocation._attributes[i]
-            ] = location_json[
+            j[IPAddressLocation._attributes[i]] = location_json[
                 IPAddressLocation._json_fields[i]
             ]
 
@@ -96,7 +116,7 @@ class IPAddress(Node):
         self.address = ip_json["key"]
         super().__init__(IP_ADDRESS_COLLECTION, self.address)
 
-        if 'location' in ip_json:
+        if "location" in ip_json:
             self.location = IPAddressLocation(**ip_json["location"])
 
     def json(self):
@@ -104,10 +124,7 @@ class IPAddress(Node):
         Serialize the IPAddress
         :return: JSON
         """
-        js_dict = {
-            "_key": self.address,
-            "location": self.location.json()
-        }
+        js_dict = {"_key": self.address, "location": self.location.json()}
         return js_dict
 
     @staticmethod
@@ -127,9 +144,7 @@ class IPAddress(Node):
         :param address: the IP address
         :return: True if exists, False else
         """
-        return IPAddress._exists(
-            IP_ADDRESS_COLLECTION, address
-        )
+        return IPAddress._exists(IP_ADDRESS_COLLECTION, address)
 
     @staticmethod
     def list():
@@ -138,10 +153,7 @@ class IPAddress(Node):
         :return: the IPAddress object list
         """
         ip_list = IPAddress._list(IP_ADDRESS_COLLECTION)
-        return [
-            IPAddress(key=ip['_key'], location=ip['location'])
-            for ip in ip_list
-        ]
+        return [IPAddress(key=ip["_key"], location=ip["location"]) for ip in ip_list]
 
     @staticmethod
     def get(address: str):
@@ -152,4 +164,4 @@ class IPAddress(Node):
         """
         ip = IPAddress._get(IP_ADDRESS_COLLECTION, address)
 
-        return IPAddress(key=ip['_key'], location=ip['location'])
+        return IPAddress(key=ip["_key"], location=ip["location"])

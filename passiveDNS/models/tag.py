@@ -9,7 +9,7 @@ class Tag(Node):
         the Tag constructor
         :param tag_json: the JSON parsed object as returned by `self.json()`
         """
-        self.name = tag_json['_key']
+        self.name = tag_json["_key"]
         super(Tag, self).__init__(TAG_COLLECTION, self.name)
 
     def json(self):
@@ -17,9 +17,7 @@ class Tag(Node):
         Serialize the Tag
         :return: JSON
         """
-        return {
-            "_key": self.name
-        }
+        return {"_key": self.name}
 
     @staticmethod
     def new(name):
@@ -56,6 +54,4 @@ class Tag(Node):
         :return: the list of Tag object
         """
         tag_json_list = Tag._list(TAG_COLLECTION)
-        return [
-            Tag(**j) for j in tag_json_list
-        ]
+        return [Tag(**j) for j in tag_json_list]

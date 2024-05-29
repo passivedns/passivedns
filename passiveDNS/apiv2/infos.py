@@ -12,5 +12,5 @@ def get_infos():
     return {
         "version": config.g.VERSION,
         "job_url": config.g.JOB_URL,
-        "commit_sha": config.g.COMMIT_SHA
+        "commit_sha": config.g.COMMIT_SHA,
     }

@@ -11,13 +11,11 @@ class UserDn(Edge):
         The User DN constructor
         :param e_json: the JSON parsed object as returned by `self.json()`
         """
-        super().__init__(
-            USER_DN_COLLECTION, e_json['_from'], e_json['_to']
-        )
+        super().__init__(USER_DN_COLLECTION, e_json["_from"], e_json["_to"])
 
-        self.username = e_json['username']
-        self.domain_name = e_json['domain_name']
-        self.owned = e_json['owned']
+        self.username = e_json["username"]
+        self.domain_name = e_json["domain_name"]
+        self.owned = e_json["owned"]
 
     def json(self):
         """
@@ -61,8 +59,10 @@ class UserDn(Edge):
         """
         user_dn = UserDn._get(
             USER_DN_COLLECTION,
-            USER_COLLECTION, username,
-            DOMAIN_NAME_COLLECTION, domain_name
+            USER_COLLECTION,
+            username,
+            DOMAIN_NAME_COLLECTION,
+            domain_name,
         )
         return UserDn(**user_dn)
 
@@ -76,8 +76,10 @@ class UserDn(Edge):
         """
         return UserDn._exists(
             USER_DN_COLLECTION,
-            USER_COLLECTION, username,
-            DOMAIN_NAME_COLLECTION, domain_name
+            USER_COLLECTION,
+            username,
+            DOMAIN_NAME_COLLECTION,
+            domain_name,
         )
 
     @staticmethod
@@ -87,10 +89,5 @@ class UserDn(Edge):
         :param username: the User name
         :return: all User DN connected
         """
-        user_dn_list = UserDn._list_to(
-            USER_DN_COLLECTION,
-            USER_COLLECTION, username
-        )
-        return [
-            UserDn(**user_dn) for user_dn in user_dn_list
-        ]
+        user_dn_list = UserDn._list_to(USER_DN_COLLECTION, USER_COLLECTION, username)
+        return [UserDn(**user_dn) for user_dn in user_dn_list]

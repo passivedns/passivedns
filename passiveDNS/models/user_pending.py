@@ -13,13 +13,11 @@ class UserPending(Node):
         The User pending constructor
         :param user_pending_json: the JSON parsed object as returned by `self.json()`
         """
-        self.token = user_pending_json['_key']
+        self.token = user_pending_json["_key"]
         super().__init__(USER_PENDING_COLLECTION, self.token)
 
-        self.email = user_pending_json['email']
-        self.invited_at = datetime.fromisoformat(
-            user_pending_json['invited_at']
-        )
+        self.email = user_pending_json["email"]
+        self.invited_at = datetime.fromisoformat(user_pending_json["invited_at"])
 
     def json(self) -> dict:
         """
@@ -29,7 +27,7 @@ class UserPending(Node):
         return {
             "_key": self.token,
             "email": self.email,
-            "invited_at": self.invited_at.isoformat()
+            "invited_at": self.invited_at.isoformat(),
         }
 
     def safe_json(self) -> dict:
@@ -37,10 +35,7 @@ class UserPending(Node):
         Serialize the User pending without the verification token
         :return: JSON
         """
-        return {
-            "email": self.email,
-            "invited_at": self.invited_at.isoformat()
-        }
+        return {"email": self.email, "invited_at": self.invited_at.isoformat()}
 
     @staticmethod
     def new(email: str):
@@ -89,6 +84,4 @@ class UserPending(Node):
         :return: a list of User pending
         """
         up_list = UserPending._list(USER_PENDING_COLLECTION)
-        return [
-            UserPending(**u) for u in up_list
-        ]
+        return [UserPending(**u) for u in up_list]

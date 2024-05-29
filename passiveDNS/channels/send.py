@@ -39,15 +39,15 @@ def alert_all_process(dn_list):
 
     data = []
     for dn in dn_list:
-        data.append([
-            dn['domain_name'],
-            dn['last_ip_address'],
-            dn['current_ip_address'],
-        ])
+        data.append(
+            [
+                dn["domain_name"],
+                dn["last_ip_address"],
+                dn["current_ip_address"],
+            ]
+        )
 
-    columns = [
-        'Domain name', 'Last IP address', 'Current IP address'
-    ]
+    columns = ["Domain name", "Last IP address", "Current IP address"]
     df = pandas.DataFrame(data=data, columns=columns)
 
     # fixme
@@ -55,7 +55,7 @@ def alert_all_process(dn_list):
     template.set_format(
         url_alerts="/alerts",
         url_channels="/channels",
-        table=df.to_markdown(index=False)
+        table=df.to_markdown(index=False),
     )
 
     # fixme

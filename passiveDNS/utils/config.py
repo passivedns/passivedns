@@ -37,13 +37,13 @@ class Config(object):
         return env_value
 
     def __init__(self):
-        self.ARANGO_USERNAME = self.get_env_value('ARANGO_USERNAME')
-        self.ARANGO_PASSWORD = self.get_env_value('ARANGO_PASSWORD')
-        self.DB_HOST = self.get_env_value('DB_HOST')
-        self.VERSION = self.get_env_value('VERSION')
-        self.COMMIT_SHA = self.get_env_value('COMMIT_SHA')
-        self.JOB_URL = self.get_env_value('JOB_URL')
-        self.JWT_SECRET_KEY = self.get_env_value('JWT_SECRET_KEY')
-        self.TIMEZONE = self.get_env_value('TIMEZONE')
-        self.DEBUG = self.get_env_value('DEBUG')
-        self.ALGORITHM = self.get_env_value('ALGORITHM')
+        self.ARANGO_USERNAME = self.get_env_value("ARANGO_USERNAME")
+        self.ARANGO_PASSWORD = self.get_env_value("ARANGO_PASSWORD")
+        self.DB_HOST = self.get_env_value("DB_HOST")
+        self.VERSION = self.get_env_value("VERSION")
+        self.COMMIT_SHA = self.get_env_value("COMMIT_SHA")
+        self.JOB_URL = self.get_env_value("JOB_URL")
+        self.JWT_SECRET_KEY = self.get_env_value("JWT_SECRET_KEY")
+        self.TIMEZONE = self.get_env_value("TIMEZONE")
+        self.DEBUG = self.get_env_value("DEBUG")
+        self.ALGORITHM = self.get_env_value("ALGORITHM")

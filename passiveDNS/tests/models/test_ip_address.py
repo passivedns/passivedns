@@ -5,6 +5,7 @@ from models.ip_address import IPAddress, IPAddressLocationError
 from db.database import ObjectNotFound
 
 from utils import config
+
 config.init_config()
 
 address = "51.83.46.84"
@@ -14,7 +15,7 @@ class TestIpAddress(TestCase):
     def test_init(self):
         i = IPAddress.new(address)
         self.assertEqual(i.address, address)
-        self.assertEqual(i.location.organization, 'OVH')
+        self.assertEqual(i.location.organization, "OVH")
 
     ##def test_init_location_error(self):
     ##    with self.assertRaises(IPAddressLocationError):
@@ -77,10 +78,6 @@ class TestIpAddress(TestCase):
         self.assertEqual(i.location.zip_code, j['location']['zip_code']) """
 
     def test_get_error(self):
-        IPAddress._get = MagicMock(side_effect=ObjectNotFound('not found'))
+        IPAddress._get = MagicMock(side_effect=ObjectNotFound("not found"))
         with self.assertRaises(ObjectNotFound):
             IPAddress.get("stuff")
-
-
-
-

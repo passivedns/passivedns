@@ -7,6 +7,7 @@ from models.ip_address import IP_ADDRESS_COLLECTION
 from db.database import ObjectNotFound
 
 from utils import config
+
 config.init_config()
 
 domain_name = "dadard.fr"
@@ -21,12 +22,10 @@ example_res = {
     "domain_name": domain_name,
     "ip_address": ip_address,
     "last_updated_at": "2021-03-06T13:14:38.301500",
-    "first_updated_at": "2021-03-06T13:14:38.301500"
+    "first_updated_at": "2021-03-06T13:14:38.301500",
 }
 
-example_res_list = [
-    example_res
-]
+example_res_list = [example_res]
 
 
 class TestResolution(TestCase):
@@ -48,10 +47,10 @@ class TestResolution(TestCase):
         r = Resolution.get(domain_name, ip_address)
         self.assertEqual(r._from, from_id)
         self.assertEqual(r._to, to_id)
-        self.assertEqual(r.last_updated_at.isoformat(), example_res['last_updated_at'])
+        self.assertEqual(r.last_updated_at.isoformat(), example_res["last_updated_at"])
 
     def test_get_error(self):
-        Resolution._get = MagicMock(side_effect=ObjectNotFound('not found'))
+        Resolution._get = MagicMock(side_effect=ObjectNotFound("not found"))
         with self.assertRaises(ObjectNotFound):
             Resolution.get("stuff", "stuff")
 
@@ -60,7 +59,8 @@ class TestResolution(TestCase):
         r_list = Resolution.list_from_ip(ip_address)
         self.assertEqual(len(r_list), len(example_res_list))
         self.assertEqual(
-            r_list[0].last_updated_at.isoformat(), example_res_list[0]['last_updated_at']
+            r_list[0].last_updated_at.isoformat(),
+            example_res_list[0]["last_updated_at"],
         )
 
     def test_list_from_domain(self):
@@ -68,5 +68,6 @@ class TestResolution(TestCase):
         r_list = Resolution.list_from_domain(domain_name)
         self.assertEqual(len(r_list), len(example_res_list))
         self.assertEqual(
-            r_list[0].last_updated_at.isoformat(), example_res_list[0]['last_updated_at']
+            r_list[0].last_updated_at.isoformat(),
+            example_res_list[0]["last_updated_at"],
         )

@@ -5,6 +5,7 @@ from models.domain_name import DomainName, DomainNameResolutionError
 from db.database import ObjectNotFound
 
 from utils import config
+
 config.init_config()
 
 domain_name = "dns.google.com"
@@ -38,18 +39,16 @@ class TestDomainName(TestCase):
     def test_get(self):
         j = {
             "_key": domain_name,
-            "records": [
-                {"type": "A", "address": "address"}
-            ],
+            "records": [{"type": "A", "address": "address"}],
             "registrar": "registrar",
-            "created_at":"2024-04-23T16:42:11.583591+02:00"
+            "created_at": "2024-04-23T16:42:11.583591+02:00",
         }
         DomainName._get = MagicMock(return_value=j)
         d = DomainName.get(domain_name)
         self.assertEqual(d.domain_name, domain_name)
-        self.assertEqual(d.records[0]['address'], "address")
+        self.assertEqual(d.records[0]["address"], "address")
 
     def test_get_error(self):
-        DomainName._get = MagicMock(side_effect=ObjectNotFound('not found'))
+        DomainName._get = MagicMock(side_effect=ObjectNotFound("not found"))
         with self.assertRaises(ObjectNotFound):
             DomainName.get("stuff")

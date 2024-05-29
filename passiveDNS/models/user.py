@@ -20,12 +20,12 @@ class User(Node):
         The User constructor
         :param user_json: the JSON parsed object as returned by `self.json()`
         """
-        self.username = user_json['_key']
+        self.username = user_json["_key"]
         super().__init__(USER_COLLECTION, self.username)
 
-        self.email = user_json['email']
-        self.hashed_password = user_json['hashed_password']
-        self.role = user_json['role']
+        self.email = user_json["email"]
+        self.hashed_password = user_json["hashed_password"]
+        self.role = user_json["role"]
 
     def json(self) -> dict:
         """
@@ -88,8 +88,7 @@ class User(Node):
             role = UserRole.USER.value
 
         return User(
-            _key=username, email=email,
-            hashed_password=hashed_password, role=role
+            _key=username, email=email, hashed_password=hashed_password, role=role
         )
 
     @staticmethod
@@ -146,6 +145,4 @@ class User(Node):
         :return: a list of User
         """
         user_list = User._list(USER_COLLECTION)
-        return [
-            User(**u) for u in user_list
-        ]
+        return [User(**u) for u in user_list]

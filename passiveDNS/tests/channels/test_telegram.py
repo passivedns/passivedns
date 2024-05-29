@@ -7,11 +7,11 @@ from channels.templates_list import TEST_TEMPLATE
 from models.channel import Channel
 from models.channel_meta import ChannelTelegram
 
-channel_telegram = Channel.new("test", ChannelTelegram.TYPE, {
-    "bot_token": os.environ['TELEGRAM_BOT_TOKEN']
-})
+channel_telegram = Channel.new(
+    "test", ChannelTelegram.TYPE, {"bot_token": os.environ["TELEGRAM_BOT_TOKEN"]}
+)
 
-chat_id = os.environ['CHAT_ID']
+chat_id = os.environ["CHAT_ID"]
 
 
 class TestTelegram(TestCase):

@@ -2,7 +2,6 @@ from db.database import get_db, ObjectNotFound
 
 
 class Node(object):
-
     """
     The base class for Node collection
     """
@@ -40,9 +39,12 @@ class Node(object):
         :return:
         """
         session = get_db()
-        session.exec_aql(f"""
+        session.exec_aql(
+            f"""
             REMOVE @key IN {self._collection}
-        """, bind_vars={"key": self._key})
+        """,
+            bind_vars={"key": self._key},
+        )
 
     def _update(self):
         """
@@ -50,11 +52,14 @@ class Node(object):
         :return:
         """
         session = get_db()
-        session.exec_aql(f"""
+        session.exec_aql(
+            f"""
         FOR c IN {self._collection}
             FILTER c._key == @key
             UPDATE c WITH {self.json()} IN {self._collection}
-        """, bind_vars={"key": self._key})
+        """,
+            bind_vars={"key": self._key},
+        )
 
     @staticmethod
     def _get(col: str, key) -> dict:
@@ -65,9 +70,12 @@ class Node(object):
         :return: the existing Node
         """
         session = get_db()
-        o = session.exec_aql(f"""
+        o = session.exec_aql(
+            f"""
             RETURN DOCUMENT("{col}", @key)
-        """, bind_vars=({"key": key}))
+        """,
+            bind_vars=({"key": key}),
+        )
 
         if o[0] is None:
             raise ObjectNotFound(f"object in {col} with key {key} not found")
@@ -84,11 +92,14 @@ class Node(object):
         :return: the existing Node
         """
         session = get_db()
-        o = session.exec_aql(f"""
+        o = session.exec_aql(
+            f"""
             FOR u IN {col}
                 FILTER u.{key_name} == @key_value
                 RETURN u
-        """, bind_vars=({"key_value": key_value}))
+        """,
+            bind_vars=({"key_value": key_value}),
+        )
 
         if len(o) == 0:
             raise ObjectNotFound(
@@ -106,9 +117,12 @@ class Node(object):
         :return: True if the Node exists, False else
         """
         session = get_db()
-        o = session.exec_aql(f"""
+        o = session.exec_aql(
+            f"""
             RETURN DOCUMENT("{col}", @key)
-        """, bind_vars={"key": value})
+        """,
+            bind_vars={"key": value},
+        )
 
         return o[0] is not None
 
@@ -122,11 +136,14 @@ class Node(object):
         :return: True if the Node exists, False else
         """
         session = get_db()
-        o = session.exec_aql(f"""
+        o = session.exec_aql(
+            f"""
                     FOR u IN {col}
                         FILTER u.{key_name} == @key_value
                         RETURN u
-                """, bind_vars=({"key_value": key_value}))
+                """,
+            bind_vars=({"key_value": key_value}),
+        )
 
         return len(o) != 0
 

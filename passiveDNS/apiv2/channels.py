@@ -11,7 +11,7 @@ channels_router = APIRouter()
 
 # get the list of all available channels
 @channels_router.get("/channels")
-def channels_list(user: User=Depends(get_current_user)):
+def channels_list(user: User = Depends(get_current_user)):
     ch_list = Channel.list()
 
     username = user.username
@@ -29,9 +29,7 @@ def channels_list(user: User=Depends(get_current_user)):
 
     return {
         "msg": "available channel list retrieved",
-        "channel_list": [
-            ch.safe_json() for ch in ch_list
-        ]
+        "channel_list": [ch.safe_json() for ch in ch_list],
     }
 
 
@@ -41,8 +39,5 @@ def channel_get(channel_name):
         ch = Channel.get(channel_name)
     except ObjectNotFound:
         raise HTTPException(status_code=404, detail="channel not found")
-    
-    return {
-        "msg": f"channel {ch.name} retrieved",
-        "channel": ch.safe_json()
-    }
+
+    return {"msg": f"channel {ch.name} retrieved", "channel": ch.safe_json()}

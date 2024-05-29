@@ -7,12 +7,12 @@ from models.ip_address import IP_ADDRESS_COLLECTION, IPAddress
 
 tag_dn_ip_router = APIRouter()
 
+
 @tag_dn_ip_router.post("/tag_dn_ip")
 def create_tag_dn_ip(tag: str, object: str, type: str):
     object_key = object
     object_type = type
 
-        
     if TagDnIP.exists(tag, object_key, object_type):
         raise HTTPException(status_code=500, detail="tag link already exists")
 
@@ -32,10 +32,8 @@ def create_tag_dn_ip(tag: str, object: str, type: str):
     new_tag_link = TagDnIP.new(tag, object_key, object_type)
     new_tag_link.insert()
 
-    return {
-        "msg": "tag link created",
-        "tag_link": new_tag_link.json()
-    }
+    return {"msg": "tag link created", "tag_link": new_tag_link.json()}
+
 
 @tag_dn_ip_router.delete("/tag_dn_ip/{tag}/{object}/{type}")
 def delete_tag_dn_ip(tag: str, object: str, type: str):
@@ -48,10 +46,8 @@ def delete_tag_dn_ip(tag: str, object: str, type: str):
     tag_link = TagDnIP.get(tag, object_key, object_type)
     tag_link.delete()
 
-    return {
-        "msg": "tag link deleted",
-        "tag_link": tag_link.json()
-    }
+    return {"msg": "tag link deleted", "tag_link": tag_link.json()}
+
 
 @tag_dn_ip_router.get("/tag_dn_ip/list/from")
 def get_tag_dn_ip_list(object: str, type: str):
@@ -61,7 +57,5 @@ def get_tag_dn_ip_list(object: str, type: str):
     tag_linked_list = TagDnIP.list_tags_from_object(object_key, object_type)
     return {
         "msg": "tag link list retrieved",
-        "tag_link_list": [
-            t.json()['tag'] for t in tag_linked_list
-        ]
+        "tag_link_list": [t.json()["tag"] for t in tag_linked_list],
     }

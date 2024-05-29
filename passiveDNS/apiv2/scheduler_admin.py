@@ -6,21 +6,25 @@ from models.user import User
 
 scheduler_admin_router = APIRouter()
 
+
 class PasswordJson(BaseModel):
     password: str
 
+
 @scheduler_admin_router.post("/admin/scheduler/{scheduler_name}")
-def create_scheduler(scheduler_name, data: PasswordJson, admin_user: User=Depends(get_current_user)):
+def create_scheduler(
+    scheduler_name, data: PasswordJson, admin_user: User = Depends(get_current_user)
+):
     if User.exists(scheduler_name):
         raise HTTPException(status_code=500, detail="name unavailable")
 
-    new_scheduler = User.new(scheduler_name, data.password, admin_user.email, is_scheduler=True)
+    new_scheduler = User.new(
+        scheduler_name, data.password, admin_user.email, is_scheduler=True
+    )
     new_scheduler.insert()
 
-    return {
-        "msg": "scheduler user created",
-        "scheduler": new_scheduler.safe_json()
-    }
+    return {"msg": "scheduler user created", "scheduler": new_scheduler.safe_json()}
+
 
 @scheduler_admin_router.put("/admin/scheduler/{scheduler_name}")
 def update_scheduler(scheduler_name, data: PasswordJson):
@@ -30,7 +34,4 @@ def update_scheduler(scheduler_name, data: PasswordJson):
     scheduler = User.get(scheduler_name)
     scheduler.update_password(data.password)
 
-    return {
-        "msg": "scheduler user updated",
-        "scheduler": scheduler.safe_json()
-    }
+    return {"msg": "scheduler user updated", "scheduler": scheduler.safe_json()}

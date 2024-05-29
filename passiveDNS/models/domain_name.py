@@ -14,8 +14,9 @@ from utils import timezone, config
 DOMAIN_NAME_COLLECTION = "DomainName"
 
 # export variables
-EXPORT_CSV = 'csv'
-EXPORT_JSON = 'json'
+EXPORT_CSV = "csv"
+EXPORT_JSON = "json"
+
 
 class DomainNameResolutionError(Exception):
     pass

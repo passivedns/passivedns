@@ -16,11 +16,8 @@ def get_resolutions(domain_name):
         r = Resolution.get_current_from_domain(domain_name)
     except DomainNameResolutionError as de:
         raise HTTPException(status_code=404, detail=str(de))
-    
-    return {
-        "msg": f"domain name resolutions retrieved",
-        "resolution": r.json()
-    }
+
+    return {"msg": f"domain name resolutions retrieved", "resolution": r.json()}
 
 
 @resolution_router.get("/resolution/{domain_name}/history")
@@ -28,21 +25,22 @@ def get_resolution_history(domain_name):
     out = []
 
     resolution_list = Resolution.list_from_domain(domain_name)
-    if len(resolution_list) == 0:       
-        raise HTTPException(status_code=404, detail="no resolution found for this domain")
-        
+    if len(resolution_list) == 0:
+        raise HTTPException(
+            status_code=404, detail="no resolution found for this domain"
+        )
+
     for resolution in resolution_list:
         ip = IPAddress.get(resolution.ip_address)
-        out.append({
-            "first_updated_at": resolution.first_updated_at.isoformat(),
-            "last_updated_at": resolution.last_updated_at.isoformat(),
-            "ip": ip.json()
-        })
-    out_sorted = sorted(out, key=itemgetter('last_updated_at'), reverse=True)
-    return {
-        "msg": f"domain name resolution history retrieved",
-        "history": out_sorted
-    }
+        out.append(
+            {
+                "first_updated_at": resolution.first_updated_at.isoformat(),
+                "last_updated_at": resolution.last_updated_at.isoformat(),
+                "ip": ip.json(),
+            }
+        )
+    out_sorted = sorted(out, key=itemgetter("last_updated_at"), reverse=True)
+    return {"msg": f"domain name resolution history retrieved", "history": out_sorted}
 
 
 @resolution_router.get("/reverse/{ip_address}")
@@ -53,9 +51,7 @@ def get_reverse(ip_address):
 
     return {
         "msg": f"domain name resolutions retrieved",
-        "resolution_list": [
-            r.json() for r in resolution_list
-        ]
+        "resolution_list": [r.json() for r in resolution_list],
     }
 
 
@@ -63,22 +59,23 @@ def get_reverse(ip_address):
 def get_reverse_history(ip_address):
     out = []
 
-    resolution_list = Resolution.list_from_ip(ip_address)       
-    if len(resolution_list) == 0:       
-        raise HTTPException(status_code=404, detail="no resolution reverse found for this IP")
-    
-    #Adding the result in a list
+    resolution_list = Resolution.list_from_ip(ip_address)
+    if len(resolution_list) == 0:
+        raise HTTPException(
+            status_code=404, detail="no resolution reverse found for this IP"
+        )
+
+    # Adding the result in a list
     for resolution in resolution_list:
         ip = IPAddress.get(resolution.ip_address)
-        out.append({
-            "first_updated_at": resolution.first_updated_at.isoformat(),
-            "last_updated_at": resolution.last_updated_at.isoformat(),
-            "ip": ip.json()
-        })
+        out.append(
+            {
+                "first_updated_at": resolution.first_updated_at.isoformat(),
+                "last_updated_at": resolution.last_updated_at.isoformat(),
+                "ip": ip.json(),
+            }
+        )
 
-    #Sorting for nice output
-    out_sorted = sorted(out, key=itemgetter('last_updated_at'), reverse=True)
-    return {
-        "msg": f"domain name resolution history retrieved",
-        "history": out_sorted
-    }
+    # Sorting for nice output
+    out_sorted = sorted(out, key=itemgetter("last_updated_at"), reverse=True)
+    return {"msg": f"domain name resolution history retrieved", "history": out_sorted}

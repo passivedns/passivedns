@@ -12,16 +12,12 @@ class UserChannel(Edge):
         The User channel constructor
         :param e_json: the JSON parsed object as returned by `self.json()`
         """
-        super().__init__(
-            USER_CHANNEL_COLLECTION,
-            e_json['_from'],
-            e_json['_to']
-        )
-        self.username = e_json['username']
-        self.channel_name = e_json['channel_name']
-        self.contact = e_json['contact']
-        self.verified = e_json['verified']
-        self.token = e_json['token']
+        super().__init__(USER_CHANNEL_COLLECTION, e_json["_from"], e_json["_to"])
+        self.username = e_json["username"]
+        self.channel_name = e_json["channel_name"]
+        self.contact = e_json["contact"]
+        self.verified = e_json["verified"]
+        self.token = e_json["token"]
 
     def json(self):
         """
@@ -35,7 +31,7 @@ class UserChannel(Edge):
             "channel_name": self.channel_name,
             "contact": self.contact,
             "verified": self.verified,
-            "token": self.token
+            "token": self.token,
         }
 
     def safe_json(self):
@@ -46,7 +42,7 @@ class UserChannel(Edge):
         return {
             "channel_name": self.channel_name,
             "contact": self.contact,
-            "verified": self.verified
+            "verified": self.verified,
         }
 
     def update(self, verified):
@@ -56,9 +52,7 @@ class UserChannel(Edge):
         :return:
         """
         self.verified = verified
-        self._update(dict(
-            verified=verified
-        ))
+        self._update(dict(verified=verified))
 
     @staticmethod
     def new(username, channel_name, contact):
@@ -79,7 +73,7 @@ class UserChannel(Edge):
             channel_name=channel_name,
             contact=contact,
             verified=False,
-            token=token
+            token=token,
         )
 
     @staticmethod
@@ -92,8 +86,10 @@ class UserChannel(Edge):
         """
         return UserChannel._exists(
             USER_CHANNEL_COLLECTION,
-            USER_COLLECTION, username,
-            CHANNEL_COLLECTION, channel_name
+            USER_COLLECTION,
+            username,
+            CHANNEL_COLLECTION,
+            channel_name,
         )
 
     @staticmethod
@@ -106,8 +102,10 @@ class UserChannel(Edge):
         """
         u_ch = UserChannel._get(
             USER_CHANNEL_COLLECTION,
-            USER_COLLECTION, username,
-            CHANNEL_COLLECTION, channel_name
+            USER_COLLECTION,
+            username,
+            CHANNEL_COLLECTION,
+            channel_name,
         )
         return UserChannel(**u_ch)
 
@@ -118,13 +116,8 @@ class UserChannel(Edge):
         :param username: the User name
         :return: a list of User channel
         """
-        edges = UserChannel._list_to(
-            USER_CHANNEL_COLLECTION,
-            USER_COLLECTION, username
-        )
-        return [
-            UserChannel(**e) for e in edges
-        ]
+        edges = UserChannel._list_to(USER_CHANNEL_COLLECTION, USER_COLLECTION, username)
+        return [UserChannel(**e) for e in edges]
 
     @staticmethod
     def list_from_channel(channel: str):
@@ -134,10 +127,7 @@ class UserChannel(Edge):
         :return: a list of User channel
         """
         edges = UserChannel._list_from(
-            USER_CHANNEL_COLLECTION,
-            CHANNEL_COLLECTION, channel
+            USER_CHANNEL_COLLECTION, CHANNEL_COLLECTION, channel
         )
 
-        return [
-            UserChannel(**e) for e in edges
-        ]
+        return [UserChannel(**e) for e in edges]

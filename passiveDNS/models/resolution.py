@@ -15,17 +15,15 @@ class Resolution(Edge):
         :param resolution_json: the JSON parsed object as returned by `self.json()`
         """
         super().__init__(
-            RESOLUTION_COLLECTION,
-            resolution_json['_from'],
-            resolution_json['_to']
+            RESOLUTION_COLLECTION, resolution_json["_from"], resolution_json["_to"]
         )
-        self.domain_name = resolution_json['domain_name']
-        self.ip_address = resolution_json['ip_address']
+        self.domain_name = resolution_json["domain_name"]
+        self.ip_address = resolution_json["ip_address"]
         self.last_updated_at = datetime.fromisoformat(
-            resolution_json['last_updated_at']
+            resolution_json["last_updated_at"]
         )
         self.first_updated_at = datetime.fromisoformat(
-            resolution_json['first_updated_at']
+            resolution_json["first_updated_at"]
         )
 
     def json(self):
@@ -39,7 +37,7 @@ class Resolution(Edge):
             "domain_name": self.domain_name,
             "ip_address": self.ip_address,
             "last_updated_at": self.last_updated_at.isoformat(),
-            "first_updated_at": self.first_updated_at.isoformat()
+            "first_updated_at": self.first_updated_at.isoformat(),
         }
 
     def update(self):
@@ -48,9 +46,7 @@ class Resolution(Edge):
         :return:
         """
         self.last_updated_at = timezone.get_current_datetime(config.g.TIMEZONE)
-        self._update(dict(
-            last_updated_at=self.last_updated_at
-        ))
+        self._update(dict(last_updated_at=self.last_updated_at))
 
     @staticmethod
     def new(domain_name, ip_address):
@@ -82,8 +78,10 @@ class Resolution(Edge):
         """
         return Resolution._exists(
             RESOLUTION_COLLECTION,
-            DOMAIN_NAME_COLLECTION, domain_name,
-            IP_ADDRESS_COLLECTION, ip_address
+            DOMAIN_NAME_COLLECTION,
+            domain_name,
+            IP_ADDRESS_COLLECTION,
+            ip_address,
         )
 
     @staticmethod
@@ -96,8 +94,10 @@ class Resolution(Edge):
         """
         resolution_json = Resolution._get(
             RESOLUTION_COLLECTION,
-            DOMAIN_NAME_COLLECTION, domain_name,
-            IP_ADDRESS_COLLECTION, ip_address
+            DOMAIN_NAME_COLLECTION,
+            domain_name,
+            IP_ADDRESS_COLLECTION,
+            ip_address,
         )
 
         return Resolution(**resolution_json)
@@ -110,12 +110,9 @@ class Resolution(Edge):
         :return: the list of Resolution connected
         """
         edges = Resolution._list_from(
-            RESOLUTION_COLLECTION,
-            IP_ADDRESS_COLLECTION, ip_address
+            RESOLUTION_COLLECTION, IP_ADDRESS_COLLECTION, ip_address
         )
-        return [
-            Resolution(**e) for e in edges
-        ]
+        return [Resolution(**e) for e in edges]
 
     @staticmethod
     def list_from_domain(domain_name: str):
@@ -125,12 +122,9 @@ class Resolution(Edge):
         :return: the list of Resolution connected
         """
         edges = Resolution._list_to(
-            RESOLUTION_COLLECTION,
-            DOMAIN_NAME_COLLECTION, domain_name
+            RESOLUTION_COLLECTION, DOMAIN_NAME_COLLECTION, domain_name
         )
-        return [
-            Resolution(**e) for e in edges
-        ]
+        return [Resolution(**e) for e in edges]
 
     @staticmethod
     def get_current_from_domain(domain_name: str):
@@ -150,4 +144,3 @@ class Resolution(Edge):
                 current = r
 
         return current
-

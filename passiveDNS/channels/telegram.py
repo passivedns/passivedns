@@ -21,7 +21,7 @@ def send_telegram(chat_id: str, channel: ChannelTelegram, template: ChannelTempl
         bot_id=channel.bot_token,
         chat_id=chat_id,
         msg=template.get_telegram_msg(),
-        parse_mode=template.telegram.parse_mode
+        parse_mode=template.telegram.parse_mode,
     )
 
     r = requests.get(url)

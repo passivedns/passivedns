@@ -17,11 +17,11 @@ class Channel(Node):
         :param ch_json: the JSON parsed object as returned by `self.json()`
         """
 
-        self.name = ch_json['_key']
-        self.type = ch_json['type']
+        self.name = ch_json["_key"]
+        self.type = ch_json["type"]
         super().__init__(CHANNEL_COLLECTION, self.name)
 
-        infos = ch_json['infos']
+        infos = ch_json["infos"]
         self._parse_infos(infos)
 
     # ===== DB stuff =====
@@ -50,21 +50,14 @@ class Channel(Node):
         Serialize the Channel
         :return: JSON
         """
-        return {
-            "_key": self.name,
-            "type": self.type,
-            "infos": self.infos.json()
-        }
+        return {"_key": self.name, "type": self.type, "infos": self.infos.json()}
 
     def safe_json(self):
         """
         Serialize the Channel without sensitive settings
         :return: JSON
         """
-        return {
-            "_key": self.name,
-            "type": self.type
-        }
+        return {"_key": self.name, "type": self.type}
 
     def update(self, infos):
         """
@@ -85,11 +78,7 @@ class Channel(Node):
         :param infos: the Channel settings
         :return: a new Channel object
         """
-        return Channel(
-            _key=name,
-            type=ch_type,
-            infos=infos
-        )
+        return Channel(_key=name, type=ch_type, infos=infos)
 
     @staticmethod
     def get(name):
@@ -118,6 +107,4 @@ class Channel(Node):
         :return: a list of Channel objects
         """
         ch_list = Channel._list(CHANNEL_COLLECTION)
-        return [
-            Channel(**ch) for ch in ch_list
-        ]
+        return [Channel(**ch) for ch in ch_list]

@@ -26,9 +26,11 @@ cookie_scheme = APIKeyCookie(name="passiveDNS_session", auto_error=False)
 
 auth_router = APIRouter()
 
+
 class LoginCred(BaseModel):
     identity: str
     password: str
+
 
 def create_access_token(data: dict, expires_delta: datetime.timedelta | None = None):
     to_encode = data.copy()
@@ -39,6 +41,7 @@ def create_access_token(data: dict, expires_delta: datetime.timedelta | None = N
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
+
 
 def get_current_user(
     request: Request,
@@ -74,8 +77,9 @@ def get_current_user(
     request.state.username = user.username
     return user
 
+
 # Check roles
-def check_admin_user_role(current_user: User=Depends(get_current_user)):
+def check_admin_user_role(current_user: User = Depends(get_current_user)):
     """
     Check if the JWT belongs to a User or an Admin
     :return: error view if condition not reached
@@ -84,12 +88,11 @@ def check_admin_user_role(current_user: User=Depends(get_current_user)):
     user = User.get(current_username)
     if user.role != UserRole.USER.value and user.role != UserRole.ADMIN.value:
         raise HTTPException(status_code=403, detail="not enough permission")
-    
-    return {"msg":"permission granted"}
+
+    return {"msg": "permission granted"}
 
 
-
-def check_scheduler_role(current_user: User=Depends(get_current_user)):
+def check_scheduler_role(current_user: User = Depends(get_current_user)):
     """
     Check if the JWT belongs to a Scheduler
     :return: error view if condition not reached
@@ -98,12 +101,11 @@ def check_scheduler_role(current_user: User=Depends(get_current_user)):
     user = User.get(current_username)
     if user.role != UserRole.SCHEDULER.value:
         raise HTTPException(status_code=403, detail="not enough permission")
-    
-    return {"msg":"permission granted"}
+
+    return {"msg": "permission granted"}
 
 
-
-def check_admin_role(current_user: User=Depends(get_current_user)):
+def check_admin_role(current_user: User = Depends(get_current_user)):
     """
     Check if the JWT belongs to an Admin
     :return: error view if condition not reached
@@ -113,15 +115,15 @@ def check_admin_role(current_user: User=Depends(get_current_user)):
     if user.role != UserRole.ADMIN.value:
         raise HTTPException(status_code=403, detail="not enough permission")
 
-    return {"msg":"permission granted"}
+    return {"msg": "permission granted"}
 
 
-#Routes
+# Routes
 @auth_router.post("/token")
-def login(response: Response, form_data:LoginCred):
+def login(response: Response, form_data: LoginCred):
     identity = form_data.identity
     password = form_data.password
-    
+
     try:
         if User.exists_from_email(identity):
             # assume identity is email
@@ -133,7 +135,9 @@ def login(response: Response, form_data:LoginCred):
         raise HTTPException(status_code=404, detail=f"error logging in : {str(o)}")
 
     if not user.verify_password(password):
-        raise HTTPException(status_code=401, detail="error logging in : incorrect password")
+        raise HTTPException(
+            status_code=401, detail="error logging in : incorrect password"
+        )
 
     # creating JWT
     access_token = create_access_token(
@@ -143,17 +147,16 @@ def login(response: Response, form_data:LoginCred):
     response.set_cookie(key="passiveDNS_session", value=access_token, httponly=True)
     SESSION_STORE.add(access_token)
 
-    return {
-        "access_token": access_token,
-        "token_type": "bearer"
-    }
+    return {"access_token": access_token, "token_type": "bearer"}
+
 
 @auth_router.get("/token")
 def check_jwt(token: str = Depends(cookie_scheme)):
     if not token or token not in SESSION_STORE:
         raise HTTPException(status_code=400, detail="invalid token")
-    
-    return {"msg":"token is valid"}
+
+    return {"msg": "token is valid"}
+
 
 @auth_router.get("/logout")
 def logout(response: Response, cookie: str = Depends(cookie_scheme)):
