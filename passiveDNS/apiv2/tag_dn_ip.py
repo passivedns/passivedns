@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
 
 from models.tag_dn_ip import TagDnIP
 from models.tag import Tag
