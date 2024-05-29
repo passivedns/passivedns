@@ -1,4 +1,3 @@
-
 from arango import ArangoClient
 
 from utils import config

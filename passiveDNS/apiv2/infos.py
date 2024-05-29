@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter
 
 from utils import config
