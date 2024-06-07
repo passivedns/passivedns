@@ -1,58 +1,46 @@
+from models.meta_node import Node
 
-import requests
+APIINTEGRATION_COLLECTION = "APIIntegration"
 
-class APIIntegration(object):
-    """
-    The base class for a API integration
-    """
+class APIIntegration(Node):
+    def __init__(self, **api_json):
+        """
+        The User constructor
+        :param api_json: the JSON parsed object as returned by `self.json()`
+        """
+        self.name = api_json["_key"]
+        super().__init__(APIINTEGRATION_COLLECTION, self.name)
 
-    def __init__(self, api_name, api_url, api_key, username):
-        self.api_name = api_name
-        self.api_url = api_url
-        self.api_key = api_key
-        self.username = username
-        
+        self.url = api_json["url"]
+        self.ip_method = api_json["ip"]["method"]
+        self.ip_uri = api_json["ip"]["uri"]
+        self.domain_method = api_json["domain"]["method"]
+        self.domain_uri = api_json["domain"]["uri"]
 
-    #def json(self): #todo
-
-    #    return self
-    
-    def get(self, uri, params={}):
-        url =  self.api_url + uri
-        headers = {
-            "accept": "application/json", 
-            "X-Apikey": self.api_key
+    def json(self) -> dict:
+        """
+        Serialize the APIIntegration
+        :return: JSON
+        """
+        return {
+            "_key": self.name,
+            "base_url": self.url,
+            "ip": {
+                "method":self.ip_method,
+                "uri": self.ip_uri,
+            },
+            "domain": {
+                "method":self.domain_method,
+                "uri": self.domain_uri,
+            },
         }
 
-        response = requests.get(
-            url, headers=headers, params=params
-        )
-        response.raise_for_status()
-
-        return response.json()
-
-class VirusTotalAPI(APIIntegration):
-    def __init__(self, user_key, username):
-        super().__init__("VirusTotal", "https://www.virustotal.com/api/v3/", user_key, username)
-    
-
-    def getDomain(domain):
-        uri = "domains/"+domain+"/resolutions"
-        return super().get(uri)
-    
-    def getIP(ip):
-        uri = "ip_addresses/"+ip+"/resolutions"
-        return super().get(uri)
-
-class AlienVaultAPI(APIIntegration):
-    def __init__(self, user_key, username):
-        super().__init__("OTX AlienVault", "https://otx.alienvault.com/api/v1/", user_key, username)
-    
-    
-    def getDomain(domain):
-        uri = "/indicators/domain/"+domain+"/passive_dns"
-        return super().get(uri)
-
-    def getIP(ip):
-        uri = "/indicators/IPv4/"+ip+"/passive_dns"
-        return super().get(uri)
+    @staticmethod
+    def get(name: str):
+        """
+        Get an existing APIIntegration from its name
+        :param name: the API name
+        :return: an existing APIIntegration
+        """
+        a = APIIntegration._get(APIINTEGRATION_COLLECTION, name)
+        return APIIntegration(**a)
