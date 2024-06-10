@@ -7,6 +7,7 @@ from models.user_pending import UserPending
 from models.user_request import UserRequest
 from models.channel import Channel
 from models.user_channel import UserChannel
+from models.api_integration import APIIntegration
 
 from apiv2.auth import get_current_user
 
@@ -124,3 +125,19 @@ def change_password(
     user.update_password(new_password)
 
     return {"msg": "password changed"}
+
+@users_router.post("/apikey/{api_name}", dependencies=[Depends(get_current_user)])
+def add_api_key(api_name, api_key: str, user: User = Depends(get_current_user)):
+
+    #check api exists
+    try:
+        APIIntegration.get(api_name)
+    except ObjectNotFound:
+        raise HTTPException(status_code=404, detail="Extern API not found")
+
+    #check key is valid ?
+
+    #hash key ?
+    user.api_keys[api_name] = api_key
+
+    return {"msg": f"Key for api {api_name} added to user {user.username}"}

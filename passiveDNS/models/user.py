@@ -26,6 +26,7 @@ class User(Node):
         self.email = user_json["email"]
         self.hashed_password = user_json["hashed_password"]
         self.role = user_json["role"]
+        self.api_keys = user_json["api_keys"]
 
     def json(self) -> dict:
         """
@@ -37,6 +38,7 @@ class User(Node):
             "hashed_password": self.hashed_password,
             "email": self.email,
             "role": self.role,
+            "api_keys": self.api_keys
         }
 
     def safe_json(self) -> dict:
@@ -88,7 +90,7 @@ class User(Node):
             role = UserRole.USER.value
 
         return User(
-            _key=username, email=email, hashed_password=hashed_password, role=role
+            _key=username, email=email, hashed_password=hashed_password, role=role, api_keys={}
         )
 
     @staticmethod
