@@ -5,6 +5,9 @@ from models.api_integration import APIIntegration
 from models.domain_name import DomainName
 from models.ip_address import IPAddress
 
+VIRUSTOTAL_API = "VirusTotal"
+ALIENVAULT_API = "AlienVault"
+
 class MethodException(Exception):
     pass
 
@@ -41,35 +44,6 @@ class ExternAPI:
         response.raise_for_status()
 
         return response.json()
-
-
-class VirusTotalAPI(ExternAPI):
-    def __init__(self, user_key:str):
-        api = APIIntegration.get("VirusTotal")
-        super().__init__(api, user_key)
-
-    def requestDomain(self, domain:DomainName):
-        #check if domain is valid
-        if not validators.domain(domain.domain_name):
-            raise FormatException
-        
-        uri = self.api.domain_uri % domain.domain_name
-        return super().__get(uri)
-        # ip_address - Attention aux ipv6
-    
-    def requestIP(self, ip:IPAddress):
-        #check if ip is valid
-        if not validators.ipv4(ip.address):
-            raise FormatException
-        
-        uri = self.api.ip_uri % ip.address
-        return super().__get(uri)
-        # host_name
-
-class AlienVaultAPI(ExternAPI):
-    def __init__(self, user_key:str):
-        api = APIIntegration.get("OTX AlienVault")
-        super().__init__(api, user_key)
     
     
     def requestDomain(self, domain:DomainName):
@@ -78,8 +52,7 @@ class AlienVaultAPI(ExternAPI):
             raise FormatException
         
         uri = self.api.domain_uri % domain.domain_name
-        return super().__get(uri)
-        # address
+        return self.__get(uri)
 
     def requestIP(self, ip:IPAddress):
         #check if ip is valid
@@ -87,5 +60,4 @@ class AlienVaultAPI(ExternAPI):
             raise FormatException
         
         uri = self.api.ip_uri % ip.address
-        return super().__get(uri)
-        # address
+        return self.__get(uri)
