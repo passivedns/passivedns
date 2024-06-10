@@ -11,5 +11,6 @@ tabulate
 itsdangerous
 python-jose~=3.3.0
 httpx
+validators
 
 python-dateutil~=2.8.2
