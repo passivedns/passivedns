@@ -38,7 +38,7 @@ class User(Node):
             "hashed_password": self.hashed_password,
             "email": self.email,
             "role": self.role,
-            "api_keys": self.api_keys
+            "api_keys": self.api_keys,
         }
 
     def safe_json(self) -> dict:
@@ -72,7 +72,7 @@ class User(Node):
         """
         self.hashed_password = self._hash_password(password)
         self._update()
-    
+
     def update_api_keys(self, api_name, api_key):
         """
         Add or replace an API key
@@ -100,7 +100,11 @@ class User(Node):
             role = UserRole.USER.value
 
         return User(
-            _key=username, email=email, hashed_password=hashed_password, role=role, api_keys={}
+            _key=username,
+            email=email,
+            hashed_password=hashed_password,
+            role=role,
+            api_keys={},
         )
 
     @staticmethod

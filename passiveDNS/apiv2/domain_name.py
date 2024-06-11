@@ -153,9 +153,7 @@ def export_domain_name_list(
 def create_domain_name(domain_name, user: User = Depends(get_current_user)):
     domain_name = refang(domain_name)
     if not validators.domain(domain_name):
-        raise HTTPException(
-            status_code=500, detail="domain name not valid"
-        )
+        raise HTTPException(status_code=500, detail="domain name not valid")
     if DomainName.exists(domain_name):
         raise HTTPException(
             status_code=500, detail=f"domain name {domain_name} already exists"
@@ -243,9 +241,7 @@ def get(domain_name, user: User = Depends(get_current_user)):
 def put(domain_name):
     domain_name = refang(domain_name)
     if not validators.domain(domain_name):
-        raise HTTPException(
-            status_code=500, detail="domain name not valid"
-        )
+        raise HTTPException(status_code=500, detail="domain name not valid")
 
     try:
         dn = DomainName.get(domain_name)

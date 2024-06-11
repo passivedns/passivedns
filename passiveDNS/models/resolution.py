@@ -42,7 +42,7 @@ class Resolution(Edge):
             "first_updated_at": self.first_updated_at.isoformat(),
         }
 
-    def update(self, resolver:str):
+    def update(self, resolver: str):
         """
         Set the last updated date to now and last resolver, and save in DB
         :return:
@@ -51,7 +51,7 @@ class Resolution(Edge):
         self._update(dict(last_updated_at=self.last_updated_at, resolver=resolver))
 
     @staticmethod
-    def new(domain_name: str, ip_address: str, resolver:str):
+    def new(domain_name: str, ip_address: str, resolver: str):
         """
         Build a new Resolution object
         :param domain_name: the domain name to link

@@ -2,6 +2,7 @@ from models.meta_node import Node
 
 APIINTEGRATION_COLLECTION = "APIIntegration"
 
+
 class APIIntegration(Node):
     def __init__(self, **api_json):
         """
@@ -28,11 +29,11 @@ class APIIntegration(Node):
             "base_url": self.base_url,
             "header": self.header,
             "ip": {
-                "method":self.ip_method,
+                "method": self.ip_method,
                 "uri": self.ip_uri,
             },
             "domain": {
-                "method":self.domain_method,
+                "method": self.domain_method,
                 "uri": self.domain_uri,
             },
         }
