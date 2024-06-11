@@ -72,6 +72,16 @@ class User(Node):
         """
         self.hashed_password = self._hash_password(password)
         self._update()
+    
+    def update_api_keys(self, api_name, api_key):
+        """
+        Add or replace an API key
+        :param api_name: the name of the api
+        :param api_key: the key associated to the api
+        :return:
+        """
+        self.api_keys[api_name] = api_key
+        self._update()
 
     @staticmethod
     def new(username: str, password: str, email: str, is_scheduler=False):

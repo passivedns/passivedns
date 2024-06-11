@@ -11,7 +11,8 @@ class APIIntegration(Node):
         self.name = api_json["_key"]
         super().__init__(APIINTEGRATION_COLLECTION, self.name)
 
-        self.url = api_json["url"]
+        self.base_url = api_json["base_url"]
+        self.header = api_json["header"]
         self.ip_method = api_json["ip"]["method"]
         self.ip_uri = api_json["ip"]["uri"]
         self.domain_method = api_json["domain"]["method"]
@@ -24,7 +25,8 @@ class APIIntegration(Node):
         """
         return {
             "_key": self.name,
-            "base_url": self.url,
+            "base_url": self.base_url,
+            "header": self.header,
             "ip": {
                 "method":self.ip_method,
                 "uri": self.ip_uri,

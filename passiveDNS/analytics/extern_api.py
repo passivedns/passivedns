@@ -14,6 +14,12 @@ class MethodException(Exception):
 class FormatException(Exception):
     pass
 
+class RequestException(Exception):
+    def __init__(self, status_code:int, message:str) -> None:
+        self.status_code = status_code
+        self.message = message
+        super().__init__(self.message)
+
 class ExternAPI:
     """
     The base class for external apis
@@ -25,10 +31,10 @@ class ExternAPI:
         
     
     def __get(self, uri, method, params={}, data={}, json={}):
-        url =  self.api.url + uri
+        url =  self.api.base_url + uri
         headers = {
             "accept": "application/json", 
-            "X-Apikey": self.api_key
+            self.api.header: self.api_key
         }
         if method == 'GET':
             response = requests.get(
@@ -41,9 +47,9 @@ class ExternAPI:
         else :
             raise MethodException(method)
         
-        response.raise_for_status()
-
-        return response.json()
+        if response.status_code == 200:
+            return response.json()
+        raise RequestException(response.status_code, response.json()["error"]["message"])
     
     
     def requestDomain(self, domain:DomainName):
@@ -52,7 +58,7 @@ class ExternAPI:
             raise FormatException
         
         uri = self.api.domain_uri % domain.domain_name
-        return self.__get(uri)
+        return self.__get(uri, self.api.domain_method)
 
     def requestIP(self, ip:IPAddress):
         #check if ip is valid
@@ -60,4 +66,8 @@ class ExternAPI:
             raise FormatException
         
         uri = self.api.ip_uri % ip.address
-        return self.__get(uri)
+        return self.__get(uri, self.api.ip_method)
+    
+    def testRequest(self):
+        uri = self.api.domain_uri % "dns.google.com"
+        return self.__get(uri, self.api.domain_method)

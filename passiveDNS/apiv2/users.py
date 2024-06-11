@@ -8,6 +8,7 @@ from models.user_request import UserRequest
 from models.channel import Channel
 from models.user_channel import UserChannel
 from models.api_integration import APIIntegration
+from analytics.extern_api import ExternAPI, RequestException
 
 from apiv2.auth import get_current_user
 
@@ -131,13 +132,16 @@ def add_api_key(api_name, api_key: str, user: User = Depends(get_current_user)):
 
     #check api exists
     try:
-        APIIntegration.get(api_name)
+        api = APIIntegration.get(api_name)
     except ObjectNotFound:
         raise HTTPException(status_code=404, detail="Extern API not found")
 
-    #check key is valid ?
+    #check key is valid
+    try :
+        ExternAPI(api, api_key).testRequest()
+    except RequestException as r:
+        raise HTTPException(status_code=r.status_code, detail=f"Error : {r.message}")
 
-    #hash key ?
-    user.api_keys[api_name] = api_key
+    user.update_api_keys(api_name, api_key)
 
     return {"msg": f"Key for api {api_name} added to user {user.username}"}

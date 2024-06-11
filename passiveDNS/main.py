@@ -28,6 +28,7 @@ from apiv2.tag_dn_ip import tag_dn_ip_router
 from apiv2.user_channel import users_channel_router
 from apiv2.users import users_router
 from apiv2.users_admin import users_admin_router
+from apiv2.api_integration import api_integration_router
 
 # global setup
 from utils.timezone import check_timezone
@@ -87,6 +88,10 @@ api_router.include_router(
 )
 api_router.include_router(
     alert_router,
+    dependencies=[Depends(get_current_user), Depends(check_admin_user_role)],
+)
+api_router.include_router(
+    api_integration_router,
     dependencies=[Depends(get_current_user), Depends(check_admin_user_role)],
 )
 
