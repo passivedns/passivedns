@@ -19,6 +19,7 @@ class Resolution(Edge):
         )
         self.domain_name = resolution_json["domain_name"]
         self.ip_address = resolution_json["ip_address"]
+        self.resolver = resolution_json["resolver"]
         self.last_updated_at = datetime.fromisoformat(
             resolution_json["last_updated_at"]
         )
@@ -36,20 +37,21 @@ class Resolution(Edge):
             "_to": self._to,
             "domain_name": self.domain_name,
             "ip_address": self.ip_address,
+            "resolver": self.resolver,
             "last_updated_at": self.last_updated_at.isoformat(),
             "first_updated_at": self.first_updated_at.isoformat(),
         }
 
-    def update(self):
+    def update(self, resolver:str):
         """
-        Set the last updated date to now, and save in DB
+        Set the last updated date to now and last resolver, and save in DB
         :return:
         """
         self.last_updated_at = timezone.get_current_datetime(config.g.TIMEZONE)
-        self._update(dict(last_updated_at=self.last_updated_at))
+        self._update(dict(last_updated_at=self.last_updated_at, resolver=resolver))
 
     @staticmethod
-    def new(domain_name, ip_address):
+    def new(domain_name: str, ip_address: str, resolver:str):
         """
         Build a new Resolution object
         :param domain_name: the domain name to link
@@ -64,6 +66,7 @@ class Resolution(Edge):
             _to=to_id,
             domain_name=domain_name,
             ip_address=ip_address,
+            resolver=resolver,
             last_updated_at=now,
             first_updated_at=now,
         )

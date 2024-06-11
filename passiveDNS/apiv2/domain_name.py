@@ -172,7 +172,7 @@ def create_domain_name(domain_name, user: User = Depends(get_current_user)):
             ip = IPAddress.new(ip_address)
             ip.insert()
 
-        resolution = Resolution.new(domain_name, ip_address)
+        resolution = Resolution.new(domain_name, ip_address, "dnspython")
         resolution.insert()
     else:
         dn.delete()
@@ -263,7 +263,7 @@ def put(domain_name):
 
     if not Resolution.exists(domain_name, ip_address):
         # ip change detected
-        resolution = Resolution.new(domain_name, ip_address)
+        resolution = Resolution.new(domain_name, ip_address, "dnspython")
         resolution.insert()
 
     else:
