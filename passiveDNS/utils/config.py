@@ -17,6 +17,7 @@ class Config(object):
     ARANGO_USERNAME = ""
     ARANGO_PASSWORD = ""
     DB_HOST = ""
+    DB_NAME = ""
 
     # the versioning infos
     VERSION = ""
@@ -40,6 +41,7 @@ class Config(object):
         self.ARANGO_USERNAME = self.get_env_value("ARANGO_USERNAME")
         self.ARANGO_PASSWORD = self.get_env_value("ARANGO_PASSWORD")
         self.DB_HOST = self.get_env_value("DB_HOST")
+        self.DB_NAME = self.get_env_value("DB_NAME")
         self.VERSION = self.get_env_value("VERSION")
         self.COMMIT_SHA = self.get_env_value("COMMIT_SHA")
         self.JOB_URL = self.get_env_value("JOB_URL")

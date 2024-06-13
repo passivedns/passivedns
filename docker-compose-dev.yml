@@ -17,10 +17,11 @@ services:
       dockerfile: docker/Dockerfile
 
     environment :
-      - ARANGO_USERNAME=passive_dns_user
-      - ARANGO_PASSWORD=user
+      - ARANGO_USERNAME=root
+      - ARANGO_PASSWORD=root
       - JWT_SECRET_KEY=key
       - DB_HOST=http://db:8529
+      - DB_NAME=passive_dns
       - TIMEZONE=Europe/Paris
       - DEBUG=0
       - ALGORITHM=HS256
