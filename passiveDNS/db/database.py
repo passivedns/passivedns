@@ -67,6 +67,7 @@ class DatabaseSession(object):
         self._db = self._client.db(database, username=username, password=password)
         #add graph database
 
+        #create edges and nodes associated
         self.create_edge_definition(
             self.graph("passive_dns"),
             {
@@ -103,11 +104,52 @@ class DatabaseSession(object):
             }
         )
 
+        #create alone nodes
         self.collection("UsersRequest")
         self.collection("UsersPending")
-        self.collection("APIIntegration")
+        extern_api_collection = self.collection("APIIntegration")
 
-        return self
+        #add static content
+        extern_api_collection.insert({
+            "_key": "AlienVault",
+            "base_url": "https://otx.alienvault.com/api/v1",
+            "header": "X-OTX-API-KEY",
+            "ip": {
+                "method": "GET",
+                "uri": "/indicators/IPv4/%s/passive_dns"
+            },
+            "domain": {
+                "method": "GET",
+                "uri": "/indicators/domain/%s/passive_dns"
+            }
+        })
+        extern_api_collection.insert({
+            "_key": "VirusTotal",
+            "base_url": "https://www.virustotal.com/api/v3",
+            "header": "X-Apikey",
+            "ip": {
+                "method": "GET",
+                "uri": "/ip_addresses/%s/resolutions?limit=40"
+            },
+            "domain": {
+                "method": "GET",
+                "uri": "/domains/%s/resolutions?limit=40"
+            }
+        })
+
+        #empty default channel
+        self.collections["Channel"].insert({
+            "_key": "_default",
+            "type": "email",
+            "infos": {
+                "smtp_host": "", 
+                "smtp_port": "",
+                "sender_email": "",
+                "sender_password": ""
+            }
+        })
+
+        return
 
     
     def clear(self, truncate=True):
@@ -117,10 +159,10 @@ class DatabaseSession(object):
             if collection_data["system"]:
                 continue
             if truncate:
-                collection = self.db.collection(collection_data["name"])
+                collection = self._db.collection(collection_data["name"])
                 collection.truncate()
             else:
-                self.db.delete_collection(collection_data["name"])
+                self._db.delete_collection(collection_data["name"])
         self.collections = {}
 
     
@@ -170,6 +212,10 @@ class DatabaseSession(object):
         :param bind_vars: the variables to bind with the query (with the words starting with `@`)
         :return: the parsed JSON results
         """
+
+        if self._db is None:
+            self.connect()
+
         if bind_vars is None:
             bind_vars = {}
 
@@ -182,4 +228,4 @@ def get_db():
     Manage the session into the FastAPI application context
     :return: the DatabaseSession object
     """
-    return DatabaseSession().connect()
+    return DatabaseSession()

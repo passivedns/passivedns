@@ -29,6 +29,8 @@ services:
       - "8080:8080"
     volumes:
       - ./passiveDNS:/app
+    entrypoint:
+      - /docker-entrypoint.sh
       
   front:
     build: 

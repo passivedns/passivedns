@@ -84,7 +84,7 @@ class User(Node):
         self._update()
 
     @staticmethod
-    def new(username: str, password: str, email: str, is_scheduler=False):
+    def new(username: str, password: str, email: str, is_scheduler=False, is_admin=False):
         """
         Build a new User object
         :param username: the User name
@@ -94,7 +94,9 @@ class User(Node):
         :return: a new User object
         """
         hashed_password = User._hash_password(password)
-        if is_scheduler:
+        if is_admin:
+            role = UserRole.ADMIN.value
+        elif is_scheduler:
             role = UserRole.SCHEDULER.value
         else:
             role = UserRole.USER.value

@@ -34,5 +34,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD [ "python", "./main.py" ]
+COPY --chmod=744 ./docker/docker-entrypoint.sh /docker-entrypoint.sh
+
+ENTRYPOINT [ "/docker-entrpoint.sh" ]
+
+CMD ["webserver"]
 
