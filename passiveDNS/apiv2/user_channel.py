@@ -65,12 +65,11 @@ def user_channel_get(channel_name, user: User = Depends(get_current_user)):
 
 @users_channel_router.post("/user/channels/{channel_name}")
 def user_channel_create(
-    channel_name, data: UserChannelCreate, user: User = Depends(get_current_user)
+    channel_name, contact: str, user: User = Depends(get_current_user)
 ):
     new_user_channel = None
     username = user.username
 
-    contact = data.contact
     try:
         channel = Channel.get(channel_name)
         user = User.get(username)
