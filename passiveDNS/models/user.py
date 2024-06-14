@@ -84,7 +84,9 @@ class User(Node):
         self._update()
 
     @staticmethod
-    def new(username: str, password: str, email: str, is_scheduler=False, is_admin=False):
+    def new(
+        username: str, password: str, email: str, is_scheduler=False, is_admin=False
+    ):
         """
         Build a new User object
         :param username: the User name

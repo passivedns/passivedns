@@ -27,28 +27,27 @@ class DatabaseSession(object):
         self.graphs = dict()
 
     def connect(
-            self,
-            host: str = None,
-            #port: str = None,
-            username: str = None,
-            password: str = None,
-            database_name: str = None
-            ):
-        
+        self,
+        host: str = None,
+        # port: str = None,
+        username: str = None,
+        password: str = None,
+        database_name: str = None,
+    ):
         if config.g is None:
             config.init_config()
 
         host = host or config.g.DB_HOST
-        #port = port or config.g.DB_PORT
+        # port = port or config.g.DB_PORT
         username = username or config.g.ARANGO_USERNAME
         password = password or config.g.ARANGO_PASSWORD
         database = database_name or config.g.DB_NAME
 
-        #host_string = f"http://{host}:{port}"
+        # host_string = f"http://{host}:{port}"
 
         self._client = ArangoClient(host)
 
-        #connect to system
+        # connect to system
         self._sys_db = self._client.db("_system", username=username, password=password)
 
         for _ in range(0, 4):
@@ -63,101 +62,103 @@ class DatabaseSession(object):
             logging.error("Could not connect, bailing.")
             sys.exit(1)
 
-        #check
+        # check
         if not self._db:
             self._sys_db.create_database(database)
-        
+
         self._db = self._client.db(database, username=username, password=password)
-        #add graph database
+        # add graph database
 
-        #create edges and nodes associated
+        # create edges and nodes associated
         self.create_edge_definition(
             self.graph("passive_dns"),
             {
-                "edge_collection":"UsersDn",
-                "from_vertex_collections":["Users"],
-                "to_vertex_collections":["DomainName"]
-            }
+                "edge_collection": "UsersDn",
+                "from_vertex_collections": ["Users"],
+                "to_vertex_collections": ["DomainName"],
+            },
         )
 
         self.create_edge_definition(
             self.graph("passive_dns"),
             {
-                "edge_collection":"UsersChannel",
-                "from_vertex_collections":["Users"],
-                "to_vertex_collections":["Channel"]
-            }
+                "edge_collection": "UsersChannel",
+                "from_vertex_collections": ["Users"],
+                "to_vertex_collections": ["Channel"],
+            },
         )
 
         self.create_edge_definition(
             self.graph("passive_dns"),
             {
-                "edge_collection":"DomainNameResolution",
-                "from_vertex_collections":["DomainName"],
-                "to_vertex_collections":["IPAddress"]
-            }
+                "edge_collection": "DomainNameResolution",
+                "from_vertex_collections": ["DomainName"],
+                "to_vertex_collections": ["IPAddress"],
+            },
         )
 
         self.create_edge_definition(
             self.graph("passive_dns"),
             {
-                "edge_collection":"TagDnIp",
-                "from_vertex_collections":["Tag"],
-                "to_vertex_collections":["DomainName", "IPAddress"]
-            }
+                "edge_collection": "TagDnIp",
+                "from_vertex_collections": ["Tag"],
+                "to_vertex_collections": ["DomainName", "IPAddress"],
+            },
         )
 
-        #create alone nodes
+        # create alone nodes
         self.collection("UsersRequest")
         self.collection("UsersPending")
         extern_api_collection = self.collection("APIIntegration")
 
-        #add static content
+        # add static content
         if not extern_api_collection.has("AlienVault"):
-            extern_api_collection.insert({
-                "_key": "AlienVault",
-                "base_url": "https://otx.alienvault.com/api/v1",
-                "header": "X-OTX-API-KEY",
-                "ip": {
-                    "method": "GET",
-                    "uri": "/indicators/IPv4/%s/passive_dns"
-                },
-                "domain": {
-                    "method": "GET",
-                    "uri": "/indicators/domain/%s/passive_dns"
+            extern_api_collection.insert(
+                {
+                    "_key": "AlienVault",
+                    "base_url": "https://otx.alienvault.com/api/v1",
+                    "header": "X-OTX-API-KEY",
+                    "ip": {"method": "GET", "uri": "/indicators/IPv4/%s/passive_dns"},
+                    "domain": {
+                        "method": "GET",
+                        "uri": "/indicators/domain/%s/passive_dns",
+                    },
                 }
-            })
+            )
         if not extern_api_collection.has("VirusTotal"):
-            extern_api_collection.insert({
-                "_key": "VirusTotal",
-                "base_url": "https://www.virustotal.com/api/v3",
-                "header": "X-Apikey",
-                "ip": {
-                    "method": "GET",
-                    "uri": "/ip_addresses/%s/resolutions?limit=40"
-                },
-                "domain": {
-                    "method": "GET",
-                    "uri": "/domains/%s/resolutions?limit=40"
+            extern_api_collection.insert(
+                {
+                    "_key": "VirusTotal",
+                    "base_url": "https://www.virustotal.com/api/v3",
+                    "header": "X-Apikey",
+                    "ip": {
+                        "method": "GET",
+                        "uri": "/ip_addresses/%s/resolutions?limit=40",
+                    },
+                    "domain": {
+                        "method": "GET",
+                        "uri": "/domains/%s/resolutions?limit=40",
+                    },
                 }
-            })
+            )
 
-        #empty default channel
+        # empty default channel
         if not self._db.collection("Channel").has("_default"):
-            self._db.collection("Channel").insert({
-                "_key": "_default",
-                "type": "email",
-                "infos": {
-                    "smtp_host": "", 
-                    "smtp_port": "",
-                    "sender_email": "",
-                    "sender_password": ""
+            self._db.collection("Channel").insert(
+                {
+                    "_key": "_default",
+                    "type": "email",
+                    "infos": {
+                        "smtp_host": "",
+                        "smtp_port": "",
+                        "sender_email": "",
+                        "sender_password": "",
+                    },
                 }
-            })
+            )
 
         return
 
-    
     def clear(self, truncate=True):
         if not self._db:
             self.connect()
@@ -171,8 +172,7 @@ class DatabaseSession(object):
                 self._db.delete_collection(collection_data["name"])
         self.collections = {}
 
-    
-    #create or get collection
+    # create or get collection
     def collection(self, name):
         if self._db is None:
             self.connect()
@@ -185,7 +185,7 @@ class DatabaseSession(object):
 
         return self.collections[name]
 
-    #create graph
+    # create graph
     def graph(self, name):
         if self._db is None:
             self.connect()
@@ -196,8 +196,8 @@ class DatabaseSession(object):
             if err.error_code in [1207, 1925]:
                 return self._db.graph(name)
             raise
-    
-    #create or get edge
+
+    # create or get edge
     def create_edge_definition(self, graph, definition):
         if self._db is None:
             self.connect()
@@ -209,7 +209,6 @@ class DatabaseSession(object):
 
         self.collections[definition["edge_collection"]] = collection
         return collection
-
 
     def exec_aql(self, aql, bind_vars=None) -> list:
         """
