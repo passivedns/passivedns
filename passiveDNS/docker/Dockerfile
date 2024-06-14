@@ -36,7 +36,9 @@ COPY . .
 
 COPY --chmod=744 ./docker/docker-entrypoint.sh /docker-entrypoint.sh
 
-ENTRYPOINT [ "/docker-entrpoint.sh" ]
+ENV PYTHONPATH /app
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["webserver"]
 

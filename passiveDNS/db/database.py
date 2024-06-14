@@ -35,6 +35,9 @@ class DatabaseSession(object):
             database_name: str = None
             ):
         
+        if config.g is None:
+            config.init_config()
+
         host = host or config.g.DB_HOST
         #port = port or config.g.DB_PORT
         username = username or config.g.ARANGO_USERNAME
@@ -110,44 +113,47 @@ class DatabaseSession(object):
         extern_api_collection = self.collection("APIIntegration")
 
         #add static content
-        extern_api_collection.insert({
-            "_key": "AlienVault",
-            "base_url": "https://otx.alienvault.com/api/v1",
-            "header": "X-OTX-API-KEY",
-            "ip": {
-                "method": "GET",
-                "uri": "/indicators/IPv4/%s/passive_dns"
-            },
-            "domain": {
-                "method": "GET",
-                "uri": "/indicators/domain/%s/passive_dns"
-            }
-        })
-        extern_api_collection.insert({
-            "_key": "VirusTotal",
-            "base_url": "https://www.virustotal.com/api/v3",
-            "header": "X-Apikey",
-            "ip": {
-                "method": "GET",
-                "uri": "/ip_addresses/%s/resolutions?limit=40"
-            },
-            "domain": {
-                "method": "GET",
-                "uri": "/domains/%s/resolutions?limit=40"
-            }
-        })
+        if not extern_api_collection.has("AlienVault"):
+            extern_api_collection.insert({
+                "_key": "AlienVault",
+                "base_url": "https://otx.alienvault.com/api/v1",
+                "header": "X-OTX-API-KEY",
+                "ip": {
+                    "method": "GET",
+                    "uri": "/indicators/IPv4/%s/passive_dns"
+                },
+                "domain": {
+                    "method": "GET",
+                    "uri": "/indicators/domain/%s/passive_dns"
+                }
+            })
+        if not extern_api_collection.has("VirusTotal"):
+            extern_api_collection.insert({
+                "_key": "VirusTotal",
+                "base_url": "https://www.virustotal.com/api/v3",
+                "header": "X-Apikey",
+                "ip": {
+                    "method": "GET",
+                    "uri": "/ip_addresses/%s/resolutions?limit=40"
+                },
+                "domain": {
+                    "method": "GET",
+                    "uri": "/domains/%s/resolutions?limit=40"
+                }
+            })
 
         #empty default channel
-        self.collections["Channel"].insert({
-            "_key": "_default",
-            "type": "email",
-            "infos": {
-                "smtp_host": "", 
-                "smtp_port": "",
-                "sender_email": "",
-                "sender_password": ""
-            }
-        })
+        if not self._db.collection("Channel").has("_default"):
+            self._db.collection("Channel").insert({
+                "_key": "_default",
+                "type": "email",
+                "infos": {
+                    "smtp_host": "", 
+                    "smtp_port": "",
+                    "sender_email": "",
+                    "sender_password": ""
+                }
+            })
 
         return
 

@@ -31,6 +31,7 @@ services:
       - ./passiveDNS:/app
     entrypoint:
       - /docker-entrypoint.sh
+    command: ['webserver']
       
   front:
     build: 
