@@ -21,7 +21,10 @@ export default class PfaApi {
             "tagLinked": "/apiv2/tag_dn_ip",
             "tagLinkedList": "/apiv2/tag_dn_ip/list/from",
             "password": "/apiv2/password",
-            "logout": "/apiv2/logout"
+            "logout": "/apiv2/logout",
+            "apikey": "/apiv2/apikey",
+            "apiIntegrations": "/apiv2/apiintegration",
+            "userApis": "/apiv2/user/apiintegration"
         };
     }
 
@@ -331,6 +334,56 @@ export default class PfaApi {
 
     deleteDn(dn) {
         return this.service.delete(`${this.routes.dn}/${dn}`)
+            .then(function(d) {
+                console.log(d.data.msg);
+                return true;
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
+                return false;
+            })
+    }
+
+    getExternApisAvailableList() {
+        return this.service.get(this.routes.apiIntegrations)
+            .then(function(d) {
+                console.log(d.data.msg);
+                return d.data.api_list
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
+            })
+    }
+
+    getExternApiLinkedList() {
+        return this.service.get(this.routes.userApis)
+            .then(function(d) {
+                console.log(d.data.msg);
+                return d.data.api_list;
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
+            })
+    }
+
+    setupExternApi(externApi, user_key) {
+        return this.service.post(`${this.routes.apikey}/${externApi}`, {}, {
+            params: {
+                api_key: user_key
+            }
+        })
+            .then(function(d) {
+                console.log(d.data.msg);
+                return true;
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
+                return false;
+            })
+    }
+
+    removeExternApi(externApi) {
+        return this.service.delete(`${this.routes.apikey}/${externApi}`)
             .then(function(d) {
                 console.log(d.data.msg);
                 return true;

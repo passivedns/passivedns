@@ -200,7 +200,10 @@ def api_integration_list(user: User = Depends(get_current_user)):
         if api.name not in user.api_keys:
             available_apis.append(api)
     
-    return available_apis
+    return {
+        "msg": "Available apis retrived",
+        "api_list": available_apis
+    }
 
 @api_integration_router.get("/user/apiintegration")
 def api_integration_user_list(user: User = Depends(get_current_user)):
@@ -214,4 +217,7 @@ def api_integration_user_list(user: User = Depends(get_current_user)):
         if api.name in user.api_keys:
             available_apis.append(api)
     
-    return available_apis
+    return {
+        "msg": "Linked apis retrived",
+        "api_list": available_apis
+    }

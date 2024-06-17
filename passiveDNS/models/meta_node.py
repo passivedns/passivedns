@@ -60,6 +60,18 @@ class Node(object):
         """,
             bind_vars={"key": self._key},
         )
+    
+    def _replace(self):
+        """
+        Update a node in the collection
+        :return:
+        """
+        session = get_db()
+        session.exec_aql(
+            f"""
+        REPLACE "{self._key}" WITH {self.json()} IN {self._collection}
+        """
+        )
 
     @staticmethod
     def _get(col: str, key) -> dict:

@@ -27,6 +27,12 @@
                         Channels
                     </router-link>
                 </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/externApis" exact-active-class="active">
+                        <img class="light mr-1" src="../../assets/icons/icons8-cloud-50.png" alt="apis">
+                        Extern Apis
+                    </router-link>
+                </li>
                 <li class="nav-item" v-if="role === 'admin'">
                     <router-link class="nav-link" to="/admin" exact-active-class="active">
                         <img class="light" src="../../assets/icons/icons8-microsoft-admin-32.png" alt="admin">

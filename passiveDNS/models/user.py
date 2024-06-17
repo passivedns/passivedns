@@ -90,7 +90,7 @@ class User(Node):
         :return:
         """
         del self.api_keys[api_name]
-        self._update()
+        self._replace()
 
     @staticmethod
     def new(

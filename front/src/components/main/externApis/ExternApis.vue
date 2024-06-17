@@ -11,7 +11,6 @@
         />
 
         <ExternApisLinkedList
-                @verify="verify"
                 @remove="remove"
                 :extern-apis-list="externApisLinkedList"
         />
@@ -47,11 +46,11 @@ import ExternApisLinkedList from "@/components/main/externApis/ExternApisLinkedL
         },
         methods: {
             refreshLists() {
-                this.getExternApiLinkedList();
+                this.getExternApisLinkedList();
                 this.getExternApisAvailableList();
             },
 
-            getExternApiLinkedList() {
+            getExternApisLinkedList() {
                 let self = this;
                 this.service.getExternApiLinkedList()
                     .then(function(d) {
