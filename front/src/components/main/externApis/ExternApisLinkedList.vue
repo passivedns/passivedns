@@ -10,21 +10,8 @@
                         <span style="font-size: 24px" class="card-title">{{a._key}}</span>
                     </div>
                     <div class="card-body">
-                        <p class="card-text">
-                            {{c.user_channel.contact}}
-                        </p>
-                        <span v-if="c.user_channel.verified === true" class="card-link">
-                            <button @click="test(c)" class="btn btn-primary">
-                                Test
-                            </button>
-                        </span>
-                        <span v-else class="card-link">
-                            <button @click="verify(c)" class="btn btn-primary">
-                                Verify
-                            </button>
-                        </span>
                         <span class="card-link">
-                            <button v-if="c.channel._key !== channelDefault" @click="remove(c)" class="btn btn-danger">
+                            <button @click="remove(a)" class="btn btn-danger">
                                 <img src="../../../assets/icons/icons8-remove-24.png" alt="remove">
                                 Remove
                             </button>
@@ -46,8 +33,8 @@
             externApisList: Array,
         },
         methods: {
-            remove(user_channel) {
-                this.$emit('remove', user_channel)
+            remove(externApi) {
+                this.$emit('remove', externApi)
             },
         }
     }

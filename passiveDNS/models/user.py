@@ -82,6 +82,15 @@ class User(Node):
         """
         self.api_keys[api_name] = api_key
         self._update()
+    
+    def remove_api_key(self, api_name):
+        """
+        Remove an API key
+        :param api_name: the name of the api
+        :return:
+        """
+        del self.api_keys[api_name]
+        self._update()
 
     @staticmethod
     def new(

@@ -47,3 +47,12 @@ class APIIntegration(Node):
         """
         a = APIIntegration._get(APIINTEGRATION_COLLECTION, name)
         return APIIntegration(**a)
+    
+    @staticmethod
+    def list():
+        """
+        Get the list of APIIntegration
+        :return: the list
+        """
+        api_list = APIIntegration._list(APIINTEGRATION_COLLECTION)
+        return [APIIntegration(**api) for api in api_list]

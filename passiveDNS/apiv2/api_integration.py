@@ -187,3 +187,31 @@ def getIP(api_name, ip_address: str, user: User = Depends(get_current_user)):
         "Resolution added": count_new,
         "Resolution updated": count_update,
     }
+
+@api_integration_router.get("/apiintegration")
+def api_integration_list(user: User = Depends(get_current_user)):
+    """
+    The list of available apis for a user 
+    """
+    api_list = APIIntegration.list()
+
+    available_apis = []
+    for api in api_list:
+        if api.name not in user.api_keys:
+            available_apis.append(api)
+    
+    return available_apis
+
+@api_integration_router.get("/user/apiintegration")
+def api_integration_user_list(user: User = Depends(get_current_user)):
+    """
+    The list of linked apis for a user 
+    """
+    api_list = APIIntegration.list()
+
+    available_apis = []
+    for api in api_list:
+        if api.name in user.api_keys:
+            available_apis.append(api)
+    
+    return available_apis
