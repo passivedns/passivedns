@@ -6,8 +6,10 @@
                 <div class="col-"><img class="light" src="../../../assets/icons/icons8-expand-arrow-26-muted.png" alt="expand"></div>
                 <div class="col font-weight-bold">Domain name</div>
                 <div class="col font-weight-bold">DN tags</div>
+                <div class="col font-weight-bold">DN Resolver</div>
                 <div class="col font-weight-bold">IP address</div>
                 <div class="col font-weight-bold">IP tags</div>
+                <div class="col font-weight-bold">IP Resolver</div>
                 <div class="col font-weight-bold">Last ip change</div>
                 <div class="col font-weight-bold">Status</div>
                 <div class="col font-weight-bold">Edit</div>
@@ -34,11 +36,21 @@
                         <span class="badge badge-primary mr-1" v-for="t in dn.domain_name_tags" :key="t">{{t}}</span>
                     </div>
 
+                    <div class="col">
+                        {{ dn.resolver }}
+                        <span @click="resolveDn(dn.domain_name, r._key)" class="badge badge-primary m-1 badge-button" v-for="r in resolverList">{{ r._key }}</span>
+                    </div>
+
                     <div class="col text-muted" v-if="dn.ip_address === null">No resolution</div>
                     <div class="col" v-else>{{dn.ip_address}}</div>
 
                     <div class="col">
                         <span class="badge badge-primary mr-1" v-for="t in dn.ip_address_tags" :key="t">{{t}}</span>
+                    </div>
+
+                    <div class="col">
+                        {{ dn.resolver }}
+                        <span @click="resolveIp(dn.ip_address, r._key)" class="badge badge-primary m-1 badge-button" v-for="r in resolverList">{{ r._key }}</span>
                     </div>
 
                     <div class="col text-muted" v-if="dn.last_ip_change === null">No resolution</div>
@@ -97,6 +109,7 @@
         components: {DomainNameDetail},
         props: {
             dnList: Array,
+            resolverList: Array,
         },
         computed: {
             displayedDnList() {
@@ -200,6 +213,26 @@
             },
             formatDn(dn) {
                 return StringUtil.formatDn(dn)
+            },
+
+            resolveDn(dn, resolver) {
+                let self = this;
+                this.service.requestExternApiDn(resolver, dn)
+                    .then(function(b) {
+                        if (b) {
+                            self.$emit('refresh')
+                        }
+                    })
+            },
+
+            resolveIp(ip, resolver) {
+                let self = this;
+                this.service.requestExternApiIp(resolver, ip)
+                    .then(function(b) {
+                        if (b) {
+                            self.$emit('refresh')
+                        }
+                    })
             }
         }
     }
@@ -212,5 +245,9 @@
 
     .btn-index {
         padding: 2px 10px;
+    }
+
+    .badge-button {
+        cursor: pointer;
     }
 </style>

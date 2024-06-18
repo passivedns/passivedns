@@ -393,4 +393,36 @@ export default class PfaApi {
                 return false;
             })
     }
+
+    requestExternApiDn(externApi, dn) {
+        return this.service.post(`${this.routes.apiIntegrations}/dn/${externApi}`, {}, {
+            params: {
+                domain_name: dn
+            }
+        })
+            .then(function(d) {
+                console.log(d.data.msg)
+                return true;
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
+                return false;
+            })
+    }
+
+    requestExternApiIp(externApi, ip) {
+        return this.service.post(`${this.routes.apiIntegrations}/ip/${externApi}`, {}, {
+            params: {
+                ip_address: ip
+            }
+        })
+            .then(function(d) {
+                console.log(d.data.msg)
+                return true;
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
+                return false;
+            })
+    }
 }

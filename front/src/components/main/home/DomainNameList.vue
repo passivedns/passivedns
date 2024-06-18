@@ -69,7 +69,7 @@
         :json-blob-url="jsonBlobUrl"
         :stats="stats"
       />
-      <DomainNameListView @refresh="refreshDnList" :dn-list="dnList" />
+      <DomainNameListView @refresh="refreshDnList" :dn-list="dnList" :resolver-list="resolverList"/>
     </div>
     <span
       v-else
@@ -117,6 +117,8 @@ export default {
       ownedOnly: "ownedOnly",
       ownedFollowedOnly: "ownedFollowedOnly",
       ownershipFilter: "ownedFollowedOnly",
+
+      resolverList: null,
     };
   },
   mounted() {
@@ -144,6 +146,8 @@ export default {
     if (this.ownershipFilter == null) {
       this.ownershipFilter = this.ownedFollowedOnly;
     }
+
+    this.getExternApisLinkedList()
 
     this.refreshDnList();
   },
@@ -234,6 +238,14 @@ export default {
           },
         });
       }
+    },
+
+    getExternApisLinkedList() {
+      let self = this;
+      this.service.getExternApiLinkedList()
+        .then(function(d) {
+          self.resolverList = d;
+      })
     },
   },
 };
