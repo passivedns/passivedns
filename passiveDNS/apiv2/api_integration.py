@@ -20,6 +20,7 @@ from db.database import ObjectNotFound
 
 api_integration_router = APIRouter()
 
+# Tests for this controller have to be done manually since it needs a personal apikey
 
 def getIPFromResponse(data: str, api: str):
     if api == VIRUSTOTAL_API:
