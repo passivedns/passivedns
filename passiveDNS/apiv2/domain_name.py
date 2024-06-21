@@ -170,7 +170,7 @@ def create_domain_name(domain_name, user: User = Depends(get_current_user)):
             ip = IPAddress.new(ip_address)
             ip.insert()
 
-        resolution = Resolution.new(domain_name, ip_address, "dnspython")
+        resolution = Resolution.new(domain_name, ip_address, "PassiveDNS")
         resolution.insert()
     else:
         dn.delete()

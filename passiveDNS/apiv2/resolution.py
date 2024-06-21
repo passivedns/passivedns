@@ -37,6 +37,7 @@ def get_resolution_history(domain_name):
                 "first_updated_at": resolution.first_updated_at.isoformat(),
                 "last_updated_at": resolution.last_updated_at.isoformat(),
                 "ip": ip.json(),
+                "resolver":resolution.resolver,
             }
         )
     out_sorted = sorted(out, key=itemgetter("last_updated_at"), reverse=True)
