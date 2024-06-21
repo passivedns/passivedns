@@ -12,6 +12,7 @@ redis = "^5.0.6"
 celery = "^5.4.0"
 requests = "^2.32.3"
 pydantic = "^2.7.4"
+ruff = "^0.4.10"
 
 
 [build-system]
