@@ -16,7 +16,7 @@ role_user = UserRole.USER.value
 
 
 class TestUser(TestCase):
-    def test_init(self):
+    def test_init_user(self):
         u = User.new(username, password, email)
         self.assertEqual(u.username, username)
         self.assertEqual(u.email, email)
@@ -29,6 +29,7 @@ class TestUser(TestCase):
             "hashed_password": hashed_password,
             "email": email,
             "role": role_user,
+            "api_keys": {},
         }
         actual_json = u.json()
         self.assertEqual(actual_json["_key"], expected_json["_key"])
@@ -42,12 +43,13 @@ class TestUser(TestCase):
         User._exists = MagicMock(return_value=False)
         self.assertFalse(User.exists(username))
 
-    def test_get(self):
+    def test_get_user(self):
         example_json = {
             "_key": username,
             "hashed_password": hashed_password,
             "email": email,
             "role": role_user,
+            "api_keys": {},
         }
         User._get = MagicMock(return_value=example_json)
         u = User.get(username)

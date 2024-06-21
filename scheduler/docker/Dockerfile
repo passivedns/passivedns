@@ -1,14 +1,25 @@
-FROM python:3
+FROM python:3.12
 
 ARG VERSION
 ENV VERSION=$VERSION
 
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    libmagic-dev \
+    git \
+    && apt-get clean && rm -rf /var/cache/apt/* /var/lib/apt/lists/*
+
 ADD . /app
 WORKDIR /app
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY --chmod=744 ./docker/docker-entrypoint.sh /docker-entrypoint.sh
 
-COPY . .
+RUN pip3 install --upgrade pip && pip3 install poetry
 
-CMD [ "python", "-u", "./main.py" ]
+RUN poetry install --no-dev
+
+ENV PYTHONPATH /app
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["scheduler"]

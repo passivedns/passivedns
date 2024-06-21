@@ -22,6 +22,7 @@ class SchedulerTest(unittest.TestCase):
             email="admin1@test.com",
             hashed_password=User._hash_password("admin1"),
             role="admin",
+            api_keys={},
         )
         cls.admin1.insert()
 
@@ -56,7 +57,7 @@ class SchedulerTest(unittest.TestCase):
 
     def test_dn_update_not_found(self) -> None:
         client.post("/token", json={"identity": "TestSched1", "password": "sched1"})
-        response = client.put("/scheduler/dn/test")
+        response = client.put("/scheduler/dn/test.com")
         self.assertEqual(response.status_code, 404)
         client.get("/logout")
 

@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "scheduler"
+version = "0.1.0"
+description = ""
+authors = ["Sebastien Larinier <sebdraven@protonmail.com>"]
+license = "AGPL-3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+redis = "^5.0.6"
+celery = "^5.4.0"
+requests = "^2.32.3"
+pydantic = "^2.7.4"
+ruff = "^0.4.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

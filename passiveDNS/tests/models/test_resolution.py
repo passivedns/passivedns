@@ -23,6 +23,7 @@ example_res = {
     "ip_address": ip_address,
     "last_updated_at": "2021-03-06T13:14:38.301500",
     "first_updated_at": "2021-03-06T13:14:38.301500",
+    "resolver": "PassiveDNS",
 }
 
 example_res_list = [example_res]
@@ -30,7 +31,7 @@ example_res_list = [example_res]
 
 class TestResolution(TestCase):
     def test_init(self):
-        d = Resolution.new(domain_name, ip_address)
+        d = Resolution.new(domain_name, ip_address, "PassiveDNS")
         self.assertEqual(d._from, from_id)
         self.assertEqual(d._to, to_id)
 

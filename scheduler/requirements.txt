@@ -1,1 +1,4 @@
 requests
+celery
+redis
+pydantic

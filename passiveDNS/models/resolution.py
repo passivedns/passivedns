@@ -51,7 +51,13 @@ class Resolution(Edge):
         self._update(dict(last_updated_at=self.last_updated_at, resolver=self.resolver))
 
     @staticmethod
-    def new(domain_name: str, ip_address: str, resolver: str, last_updated: date = None, first_updated: date = None):
+    def new(
+        domain_name: str,
+        ip_address: str,
+        resolver: str,
+        last_updated: date = None,
+        first_updated: date = None,
+    ):
         """
         Build a new Resolution object
         :param domain_name: the domain name to link
@@ -63,12 +69,12 @@ class Resolution(Edge):
 
         if last_updated is None:
             last = timezone.get_current_datetime(config.g.TIMEZONE)
-        else :
+        else:
             last = last_updated
 
         if first_updated is None:
             first = timezone.get_current_datetime(config.g.TIMEZONE)
-        else :
+        else:
             first = first_updated
 
         return Resolution(

@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "passivedns"
+version = "0.1.0"
+description = ""
+authors = ["Sebastien Larinier <sebdraven@protonmail.com>"]
+license = "AGPL-3.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.111.0"
+python-arango = "^8.0.0"
+validators = "^0.28.3"
+dnspython = "^2.6.1"
+python-whois = "^0.9.4"
+python-jose = "^3.3.0"
+python-dateutil = "^2.9.0.post0"
+discord.py = "^2.3.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -146,6 +146,7 @@ def add_api_key(api_name, api_key: str, user: User = Depends(get_current_user)):
 
     return {"msg": f"Key for api {api_name} added to user {user.username}"}
 
+
 @users_router.delete("/apikey/{api_name}", dependencies=[Depends(get_current_user)])
 def remove_api_key(api_name, user: User = Depends(get_current_user)):
     # check api exists
@@ -157,7 +158,10 @@ def remove_api_key(api_name, user: User = Depends(get_current_user)):
     # check key is valid
     api = user.api_keys[api_name]
     if api is None:
-        raise HTTPException(status_code=404, detail=f"Error : This user does not have an api key linked to {api_name}")
+        raise HTTPException(
+            status_code=404,
+            detail=f"Error : This user does not have an api key linked to {api_name}",
+        )
 
     user.remove_api_key(api_name)
 
