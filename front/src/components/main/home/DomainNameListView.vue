@@ -209,7 +209,7 @@
             },
 
             formatDate(d) {
-                return DateUtil.formatDiffNow(d)
+                return DateUtil.format(d)
             },
             formatDn(dn) {
                 return StringUtil.formatDn(dn)

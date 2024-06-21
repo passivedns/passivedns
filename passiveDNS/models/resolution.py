@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from models.meta_edge import Edge
 from models.domain_name import DOMAIN_NAME_COLLECTION, DomainNameResolutionError
@@ -51,7 +51,7 @@ class Resolution(Edge):
         self._update(dict(last_updated_at=self.last_updated_at, resolver=self.resolver))
 
     @staticmethod
-    def new(domain_name: str, ip_address: str, resolver: str):
+    def new(domain_name: str, ip_address: str, resolver: str, last_updated: date = None, first_updated: date = None):
         """
         Build a new Resolution object
         :param domain_name: the domain name to link
@@ -60,15 +60,25 @@ class Resolution(Edge):
         """
         from_id = Resolution._get_id(DOMAIN_NAME_COLLECTION, domain_name)
         to_id = Resolution._get_id(IP_ADDRESS_COLLECTION, ip_address)
-        now = timezone.get_current_datetime(config.g.TIMEZONE)
+
+        if last_updated is None:
+            last = timezone.get_current_datetime(config.g.TIMEZONE)
+        else :
+            last = last_updated
+
+        if first_updated is None:
+            first = timezone.get_current_datetime(config.g.TIMEZONE)
+        else :
+            first = first_updated
+
         return Resolution(
             _from=from_id,
             _to=to_id,
             domain_name=domain_name,
             ip_address=ip_address,
             resolver=resolver,
-            last_updated_at=now,
-            first_updated_at=now,
+            last_updated_at=last,
+            first_updated_at=first,
         )
 
     @staticmethod
