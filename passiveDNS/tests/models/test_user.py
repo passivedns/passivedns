@@ -29,7 +29,7 @@ class TestUser(TestCase):
             "hashed_password": hashed_password,
             "email": email,
             "role": role_user,
-            "api_keys": {}
+            "api_keys": {},
         }
         actual_json = u.json()
         self.assertEqual(actual_json["_key"], expected_json["_key"])
@@ -49,7 +49,7 @@ class TestUser(TestCase):
             "hashed_password": hashed_password,
             "email": email,
             "role": role_user,
-            "api_keys": {}
+            "api_keys": {},
         }
         User._get = MagicMock(return_value=example_json)
         u = User.get(username)
