@@ -135,6 +135,6 @@ class UsersTest(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
 
     # /apikey/{name} post
-    #manual testing with api key
+    # manual testing with api key
 
     # /apikey/{name} delete

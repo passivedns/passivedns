@@ -22,6 +22,7 @@ api_integration_router = APIRouter()
 
 # Tests for this controller have to be done manually since it needs a personal apikey
 
+
 def getIPFromResponse(data: str, api: str):
     if api == VIRUSTOTAL_API:
         # virustotal data : {"attributes"{...,"ip_address":..., ...}}
@@ -189,10 +190,11 @@ def getIP(api_name, ip_address: str, user: User = Depends(get_current_user)):
         "Resolution updated": count_update,
     }
 
+
 @api_integration_router.get("/apiintegration")
 def api_integration_list(user: User = Depends(get_current_user)):
     """
-    The list of available apis for a user 
+    The list of available apis for a user
     """
     api_list = APIIntegration.list()
 
@@ -200,16 +202,14 @@ def api_integration_list(user: User = Depends(get_current_user)):
     for api in api_list:
         if api.name not in user.api_keys:
             available_apis.append(api)
-    
-    return {
-        "msg": "Available apis retrived",
-        "api_list": available_apis
-    }
+
+    return {"msg": "Available apis retrived", "api_list": available_apis}
+
 
 @api_integration_router.get("/user/apiintegration")
 def api_integration_user_list(user: User = Depends(get_current_user)):
     """
-    The list of linked apis for a user 
+    The list of linked apis for a user
     """
     api_list = APIIntegration.list()
 
@@ -217,8 +217,5 @@ def api_integration_user_list(user: User = Depends(get_current_user)):
     for api in api_list:
         if api.name in user.api_keys:
             available_apis.append(api)
-    
-    return {
-        "msg": "Linked apis retrived",
-        "api_list": available_apis
-    }
+
+    return {"msg": "Linked apis retrived", "api_list": available_apis}

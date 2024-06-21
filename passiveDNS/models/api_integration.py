@@ -47,7 +47,7 @@ class APIIntegration(Node):
         """
         a = APIIntegration._get(APIINTEGRATION_COLLECTION, name)
         return APIIntegration(**a)
-    
+
     @staticmethod
     def list():
         """

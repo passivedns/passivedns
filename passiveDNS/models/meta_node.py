@@ -60,7 +60,7 @@ class Node(object):
         """,
             bind_vars={"key": self._key},
         )
-    
+
     def _replace(self):
         """
         Update a node in the collection
