@@ -174,7 +174,7 @@ class DomainNameTest(unittest.TestCase):
         self.assertIn("followed", response.json())
 
     def test_dn_get_not_found(self) -> None:
-        response = client.get("/dn/test")
+        response = client.get("/dn/test.com")
         self.assertEqual(response.status_code, 404)
 
     # /dn/{domain_name} put
@@ -184,7 +184,7 @@ class DomainNameTest(unittest.TestCase):
         self.assertIn("dn", response.json())
 
     def test_dn_update_not_found(self) -> None:
-        response = client.put("/dn/test")
+        response = client.put("/dn/test.com")
         self.assertEqual(response.status_code, 404)
 
     # /dn/{domain_name} delete

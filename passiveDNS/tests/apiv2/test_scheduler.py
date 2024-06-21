@@ -57,7 +57,7 @@ class SchedulerTest(unittest.TestCase):
 
     def test_dn_update_not_found(self) -> None:
         client.post("/token", json={"identity": "TestSched1", "password": "sched1"})
-        response = client.put("/scheduler/dn/test")
+        response = client.put("/scheduler/dn/test.com")
         self.assertEqual(response.status_code, 404)
         client.get("/logout")
 
