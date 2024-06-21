@@ -18,7 +18,7 @@ class AdminUsersTest(unittest.TestCase):
             email="admin1@test.com",
             hashed_password=User._hash_password("admin1"),
             role="admin",
-            apikeys={}
+            apikeys={},
         )
         cls.admin1.insert()
 
@@ -27,7 +27,7 @@ class AdminUsersTest(unittest.TestCase):
             email="admin2@test.com",
             hashed_password=User._hash_password("admin2"),
             role="admin",
-            apikeys={}
+            apikeys={},
         )
         cls.admin2.insert()
 
