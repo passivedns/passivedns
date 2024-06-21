@@ -22,6 +22,7 @@ class SchedulerTest(unittest.TestCase):
             email="admin1@test.com",
             hashed_password=User._hash_password("admin1"),
             role="admin",
+            api_keys={},
         )
         cls.admin1.insert()
 
