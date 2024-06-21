@@ -57,9 +57,18 @@ services:
       - LAUNCH_MINUTE=0
       - DAYS_FREQUENCY=1
       - API_HOST=http://api:8080
-      - API_USERNAME=sched1
-      - API_PASSWORD=scheduler
+      - API_USERNAME=sched_1
+      - API_PASSWORD=sched_1
       - THREAD_COUNT=5
-
+    entrypoint:
+      - /docker-entrypoint.sh
+    command:
+      - /bin/bash
+    stdin_open: true # docker run -
+    tty: true        # docker run -t
     volumes:
       - ./scheduler:/app
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
