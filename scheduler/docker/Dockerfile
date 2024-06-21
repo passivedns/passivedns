@@ -9,6 +9,8 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY --chmod=744 ./docker/docker-entrypoint.sh /docker-entrypoint.sh
+
 COPY . .
 
-CMD [ "python", "-u", "./main.py" ]
+CMD ["python", "-u", "./main.py" ]
