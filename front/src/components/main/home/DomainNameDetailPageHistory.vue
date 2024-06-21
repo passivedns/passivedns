@@ -41,7 +41,7 @@
         },
         methods: {
             formatDate(d) {
-                return DateUtil.formatDiffNow(d)
+                return DateUtil.format(d)
             }
         }
     }

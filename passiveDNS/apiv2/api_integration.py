@@ -10,8 +10,6 @@ from models.resolution import Resolution
 from models.api_integration import APIIntegration
 from analytics.extern_api import (
     ExternAPI,
-    VIRUSTOTAL_API,
-    ALIENVAULT_API,
     MethodException,
     FormatException,
     RequestException,
@@ -21,26 +19,6 @@ from db.database import ObjectNotFound
 api_integration_router = APIRouter()
 
 # Tests for this controller have to be done manually since it needs a personal apikey
-
-def getIPFromResponse(data: str, api: str):
-    if api == VIRUSTOTAL_API:
-        # virustotal data : {"attributes"{...,"ip_address":..., ...}}
-        return data["attributes"]["ip_address"]
-
-    elif api == ALIENVAULT_API:
-        # alienvault data : {"address":..., ...}
-        return data["address"]
-
-
-def getDomainFromResponse(data: str, api: str):
-    if api == VIRUSTOTAL_API:
-        # virustotal data : {"attributes"{...,"host_name":..., ...}}
-        return data["attributes"]["host_name"]
-
-    elif api == ALIENVAULT_API:
-        # alienvault data : {"hostname":..., ...}
-        return data["hostname"]
-
 
 # get domain resolution from external api
 @api_integration_router.post("/apiintegration/dn/{api_name}")
@@ -74,19 +52,12 @@ def getDomain(api_name, domain_name: str, user: User = Depends(get_current_user)
     except RequestException as r:
         raise HTTPException(status_code=r.status_code, detail=f"Error : {r.message}")
 
-    if api_name == VIRUSTOTAL_API:
-        # virustotal response : "data":[...]
-        datas = response["data"]
-
-    elif api_name == ALIENVAULT_API:
-        # alienvault response : "passive_dns" : [...]
-        datas = response["passive_dns"]
 
     # create new ip and resolution
     count_new = 0
     count_update = 0
-    for data in datas:
-        ip = getIPFromResponse(data, api_name)
+    for data in response:
+        ip = data["ip_address"]
         # check ip is IPv4 format
         if validators.ipv4(ip):
             # check if ip exists in DB
@@ -94,10 +65,11 @@ def getDomain(api_name, domain_name: str, user: User = Depends(get_current_user)
                 # check if resolution exists in DB
                 if Resolution.exists(domain_name, ip):
                     res_tmp = Resolution.get(domain_name, ip)
-                    res_tmp.update(api_name)
+                    res_tmp.resolver = api_name
+                    res_tmp.update()
                     count_update += 1
                 else:
-                    res_tmp = Resolution.new(domain_name, ip, api_name)
+                    res_tmp = Resolution.new(domain_name, ip, api_name, first_updated=data["first_updated_at"], last_updated=data["last_updated_at"])
                     res_tmp.insert()
                     count_new += 1
             else:
@@ -105,7 +77,7 @@ def getDomain(api_name, domain_name: str, user: User = Depends(get_current_user)
                 ip_tmp = IPAddress.new(ip)
                 ip_tmp.insert()
 
-                res_tmp = Resolution.new(domain_name, ip, api_name)
+                res_tmp = Resolution.new(domain_name, ip, api_name, first_updated=data["first_updated_at"], last_updated=data["last_updated_at"])
                 res_tmp.insert()
                 count_new += 1
 
@@ -147,19 +119,11 @@ def getIP(api_name, ip_address: str, user: User = Depends(get_current_user)):
     except RequestException as r:
         raise HTTPException(status_code=r.status_code, detail=f"Error : {r.message}")
 
-    if api_name == VIRUSTOTAL_API:
-        # virustotal response : "data":[...]
-        datas = response["data"]
-
-    elif api_name == ALIENVAULT_API:
-        # alienvault response : "passive_dns" : [...]
-        datas = response["passive_dns"]
-
     # create new domain and resolution
     count_new = 0
     count_update = 0
-    for data in datas:
-        domain = getDomainFromResponse(data, api_name)
+    for data in response:
+        domain = data["domain_name"]
         # check ip is domain format
         if validators.domain(domain):
             # check if domain exists in DB
@@ -167,10 +131,11 @@ def getIP(api_name, ip_address: str, user: User = Depends(get_current_user)):
                 # check if resolution exists in DB
                 if Resolution.exists(domain, ip_address):
                     res_tmp = Resolution.get(domain, ip_address)
-                    res_tmp.update(api_name)
+                    res_tmp.resolver = api_name
+                    res_tmp.update()
                     count_update += 1
                 else:
-                    res_tmp = Resolution.new(domain, ip_address, api_name)
+                    res_tmp = Resolution.new(domain, ip_address, api_name, first_updated=data["first_updated_at"], last_updated=data["last_updated_at"])
                     res_tmp.insert()
                     count_new += 1
 
@@ -179,7 +144,7 @@ def getIP(api_name, ip_address: str, user: User = Depends(get_current_user)):
                 domain_tmp = DomainName.new(domain)
                 domain_tmp.insert()
 
-                res_tmp = Resolution.new(domain, ip_address, api_name)
+                res_tmp = Resolution.new(domain, ip_address, api_name, first_updated=data.first_updated_at, last_updated=data.last_updated_at)
                 res_tmp.insert()
                 count_new += 1
 
