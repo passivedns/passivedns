@@ -20,6 +20,7 @@ api_integration_router = APIRouter()
 
 # Tests for this controller have to be done manually since it needs a personal apikey
 
+
 # get domain resolution from external api
 @api_integration_router.post("/apiintegration/dn/{api_name}")
 def getDomain(api_name, domain_name: str, user: User = Depends(get_current_user)):
@@ -52,7 +53,6 @@ def getDomain(api_name, domain_name: str, user: User = Depends(get_current_user)
     except RequestException as r:
         raise HTTPException(status_code=r.status_code, detail=f"Error : {r.message}")
 
-
     # create new ip and resolution
     count_new = 0
     count_update = 0
@@ -69,7 +69,13 @@ def getDomain(api_name, domain_name: str, user: User = Depends(get_current_user)
                     res_tmp.update()
                     count_update += 1
                 else:
-                    res_tmp = Resolution.new(domain_name, ip, api_name, first_updated=data["first_updated_at"], last_updated=data["last_updated_at"])
+                    res_tmp = Resolution.new(
+                        domain_name,
+                        ip,
+                        api_name,
+                        first_updated=data["first_updated_at"],
+                        last_updated=data["last_updated_at"],
+                    )
                     res_tmp.insert()
                     count_new += 1
             else:
@@ -77,7 +83,13 @@ def getDomain(api_name, domain_name: str, user: User = Depends(get_current_user)
                 ip_tmp = IPAddress.new(ip)
                 ip_tmp.insert()
 
-                res_tmp = Resolution.new(domain_name, ip, api_name, first_updated=data["first_updated_at"], last_updated=data["last_updated_at"])
+                res_tmp = Resolution.new(
+                    domain_name,
+                    ip,
+                    api_name,
+                    first_updated=data["first_updated_at"],
+                    last_updated=data["last_updated_at"],
+                )
                 res_tmp.insert()
                 count_new += 1
 
@@ -135,7 +147,13 @@ def getIP(api_name, ip_address: str, user: User = Depends(get_current_user)):
                     res_tmp.update()
                     count_update += 1
                 else:
-                    res_tmp = Resolution.new(domain, ip_address, api_name, first_updated=data["first_updated_at"], last_updated=data["last_updated_at"])
+                    res_tmp = Resolution.new(
+                        domain,
+                        ip_address,
+                        api_name,
+                        first_updated=data["first_updated_at"],
+                        last_updated=data["last_updated_at"],
+                    )
                     res_tmp.insert()
                     count_new += 1
 
@@ -144,7 +162,13 @@ def getIP(api_name, ip_address: str, user: User = Depends(get_current_user)):
                 domain_tmp = DomainName.new(domain)
                 domain_tmp.insert()
 
-                res_tmp = Resolution.new(domain, ip_address, api_name, first_updated=data.first_updated_at, last_updated=data.last_updated_at)
+                res_tmp = Resolution.new(
+                    domain,
+                    ip_address,
+                    api_name,
+                    first_updated=data.first_updated_at,
+                    last_updated=data.last_updated_at,
+                )
                 res_tmp.insert()
                 count_new += 1
 

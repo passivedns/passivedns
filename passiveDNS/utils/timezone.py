@@ -12,11 +12,13 @@ def get_current_datetime(timezone):
     d = datetime.now(tz=tzinfo)
     return d.isoformat()
 
+
 def to_current_timezone(timez: str, date: date):
     out = date.replace(tzinfo=timezone.utc)
     tzinfo = tz.gettz(timez)
     out = out.astimezone(tzinfo)
     return out.isoformat()
+
 
 def check_timezone(timezone):
     tzinfo = tz.gettz(timezone)

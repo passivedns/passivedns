@@ -30,11 +30,11 @@ class ExternAPI:
     """
     The base class for external apis
     """
-    
+
     def __init__(self, api: APIIntegration, api_key: str):
         self.api = api
         self.api_key = api_key
-        
+
     def __get(self, uri, method, params={}, data={}, json={}):
         url = self.api.base_url + uri
         headers = {"accept": "application/json", self.api.header: self.api_key}
@@ -71,18 +71,15 @@ class ExternAPI:
     def testRequest(self):
         uri = self.api.domain_uri % "dns.google.com"
         return self.__get(uri, self.api.domain_method)
-    
-    def get_api(self,api_name:str):
-        __MAPPING ={
-            VIRUSTOTAL_API:self.__formatVT,
-            ALIENVAULT_API: self.__formatAV
-        }
+
+    def get_api(self, api_name: str):
+        __MAPPING = {VIRUSTOTAL_API: self.__formatVT, ALIENVAULT_API: self.__formatAV}
 
         assert api_name in __MAPPING
-        
+
         return __MAPPING[api_name]
-    
-    #VirusTotal formatting
+
+    # VirusTotal formatting
     def __formatVT(self, response):
         datas = response["data"]
 
@@ -95,16 +92,16 @@ class ExternAPI:
 
             out.append(
                 {
-                    "domain_name":data["attributes"]["host_name"],
-                    "ip_address":data["attributes"]["ip_address"],
+                    "domain_name": data["attributes"]["host_name"],
+                    "ip_address": data["attributes"]["ip_address"],
                     "first_updated_at": date,
                     "last_updated_at": date,
                 }
             )
-        
+
         return out
 
-    #AlienVault formatting
+    # AlienVault formatting
     def __formatAV(self, response):
         datas = response["passive_dns"]
 
@@ -119,8 +116,8 @@ class ExternAPI:
 
             out.append(
                 {
-                    "domain_name":data["hostname"],
-                    "ip_address":data["address"],
+                    "domain_name": data["hostname"],
+                    "ip_address": data["address"],
                     "first_updated_at": first,
                     "last_updated_at": last,
                 }

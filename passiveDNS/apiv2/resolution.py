@@ -74,7 +74,7 @@ def get_reverse_history(ip_address):
                 "first_updated_at": resolution.first_updated_at.isoformat(),
                 "last_updated_at": resolution.last_updated_at.isoformat(),
                 "ip": ip.json(),
-                "resolver":resolution.resolver,
+                "resolver": resolution.resolver,
             }
         )
 

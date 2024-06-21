@@ -221,7 +221,7 @@ def get(domain_name, user: User = Depends(get_current_user)):
             "ip_tags": [],
             "owned": owned,
             "followed": followed,
-            "resolver": None
+            "resolver": None,
         }
 
     ip = IPAddress.get(resolution.ip_address)
@@ -235,7 +235,7 @@ def get(domain_name, user: User = Depends(get_current_user)):
         "ip_tags": [t.tag for t in ip_tags],
         "owned": owned,
         "followed": followed,
-        "resolver": resolution.resolver
+        "resolver": resolution.resolver,
     }
 
 
