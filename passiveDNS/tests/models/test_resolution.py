@@ -31,7 +31,7 @@ example_res_list = [example_res]
 
 class TestResolution(TestCase):
     def test_init(self):
-        d = Resolution.new(domain_name, ip_address)
+        d = Resolution.new(domain_name, ip_address, "PassiveDNS")
         self.assertEqual(d._from, from_id)
         self.assertEqual(d._to, to_id)
 
