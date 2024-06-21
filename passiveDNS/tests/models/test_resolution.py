@@ -23,7 +23,7 @@ example_res = {
     "ip_address": ip_address,
     "last_updated_at": "2021-03-06T13:14:38.301500",
     "first_updated_at": "2021-03-06T13:14:38.301500",
-    "resolver":"PassiveDNS"
+    "resolver": "PassiveDNS",
 }
 
 example_res_list = [example_res]
