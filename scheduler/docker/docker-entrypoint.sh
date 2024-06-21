@@ -4,7 +4,7 @@ set -euo pipefail
 set -e
 
 if [[ "$1" =~ "scheduler" ]]; then
-    python main.py
+    celery -A tasks worker --loglevel=info
 fi
 
 if [[ "$1" =~ "shell" ]]; then
