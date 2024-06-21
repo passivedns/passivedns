@@ -13,24 +13,25 @@ class ResolutionTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
+        cls.db.clear()
 
         cls.user1 = User.new("TestUser1", "user1", "user1@test.com")
         cls.user1.insert()
 
         client.post("/token", json={"identity": "TestUser1", "password": "user1"})
-        client.post("/dn/dns.google.com")
-        cls.dn1 = DomainName.get("dns.google.com")
+        client.post("/dn/esiea.fr")
+        cls.dn1 = DomainName.get("esiea.fr")
         cls.ip1 = cls.dn1.resolve()
 
     @classmethod
     def tearDownClass(cls) -> None:
-        client.delete("/dn/dns.google.com")
+        client.delete("/dn/esiea.fr")
         client.get("/logout")
         cls.user1.delete()
 
     # /resolution/{dn} get
     def test_get_resolution(self) -> None:
-        response = client.get("/resolution/dns.google.com")
+        response = client.get("/resolution/esiea.fr")
         self.assertEqual(response.status_code, 200)
         self.assertIn("resolution", response.json())
 
@@ -40,7 +41,7 @@ class ResolutionTest(unittest.TestCase):
 
     # /resolution/{dn}/history get
     def test_get_resolution_history(self) -> None:
-        response = client.get("/resolution/dns.google.com/history")
+        response = client.get("/resolution/esiea.fr/history")
         self.assertEqual(response.status_code, 200)
         self.assertIn("history", response.json())
 
