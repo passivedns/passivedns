@@ -261,7 +261,7 @@ def put(domain_name):
 
     if not Resolution.exists(domain_name, ip_address):
         # ip change detected
-        resolution = Resolution.new(domain_name, ip_address, "dnspython")
+        resolution = Resolution.new(domain_name, ip_address, "PassiveDNS")
         resolution.insert()
 
     else:
