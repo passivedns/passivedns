@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, Response
 import validators
 
 import pandas
-from apiv2.auth import get_current_user
+from passiveDNS.apiv2.auth import get_current_user
 from passiveDNS.models.domain_name import DomainName
 from passiveDNS.db.database import ObjectNotFound
 from passiveDNS.models.domain_name import (

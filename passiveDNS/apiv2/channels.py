@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from apiv2.auth import get_current_user
+from passiveDNS.apiv2.auth import get_current_user
 from passiveDNS.models.channel import Channel
 from passiveDNS.models.user import User
 from passiveDNS.models.user_channel import UserChannel

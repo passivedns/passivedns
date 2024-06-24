@@ -1,15 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from channels.send import alert_all
-from apiv2.domain_name import put
-from apiv2.auth import get_current_user
-from models.domain_name import (
+from passiveDNS.channels.send import alert_all
+from passiveDNS.apiv2.domain_name import put
+from passiveDNS.apiv2.auth import get_current_user
+from passiveDNS.models.domain_name import (
     DomainName,
     DomainNameFilterNotFound,
     DomainNameSortNotFound,
 )
-from models.user import User
-from db.database import ObjectNotFound
+from passiveDNS.models.user import User
+from passiveDNS.db.database import ObjectNotFound
 
 scheduler_router = APIRouter()
 
