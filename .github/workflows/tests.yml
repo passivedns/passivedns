@@ -16,7 +16,7 @@ jobs:
 
         steps:
             - uses: actions/checkout@v4
-            - run: apt-get update && sudo apt-get install -y python3-pip && sudo pip3 install poetry
+            - run: sudo apt-get update && sudo apt-get install -y python3-pip && sudo pip3 install poetry
             - name: Run db and api
               run: |
                 docker compose -f docker-compose-dev.yml up -d db
