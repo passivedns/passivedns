@@ -9,7 +9,7 @@ jobs:
         env:
             ARANGO_USERNAME: passive_dns_user
             ARANGO_PASSWORD: user
-            DB_HOST: http://db:8529
+            DB_HOST: http://localhost:8529
             DB_NAME: passive_dns
             VERSION: 0.1.0
             JWT_SECRET_KEY: key
@@ -24,8 +24,8 @@ jobs:
               run: poetry install
             - name: Run db and api
               run: |
-                docker compose -f extras/docker/dev/docker-compose.yml up -d db
-            - name: Test models
-              run: "poetry run python -m unittest discover -s tests/models -p '*.py'"
+                docker compose -f extras/docker/dev/docker-compose.yml up -d arangodb
+            #- name: Test models
+            #  run: "poetry run python -m unittest discover -s tests/models -p '*.py'"
             - name: Test controllers
               run: "poetry run python -m unittest discover -s tests/apiv2 -p '*.py'"

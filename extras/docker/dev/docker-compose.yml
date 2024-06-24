@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  db:
+  arangodb:
     image: arangodb:latest
     ports:
       - 127.0.0.1:8529:8529
