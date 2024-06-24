@@ -2,33 +2,43 @@ name: Tests
 
 on: [pull_request]
 
-jobs: 
+jobs:
+  unittest:
+    runs-on: ubuntu-latest
+    env:
+      ARANGO_USERNAME: root
+      ARANGO_PASSWORD: ""
+      DB_HOST: http://localhost:8529
+      DB_NAME: passive_dns
+      VERSION: 0.1.0
+      JWT_SECRET_KEY: key
+      ALGORITHM: HS256
+      TIMEZONE: Europe/Paris
+      DEBUG: 0
+    strategy:
+      matrix:
+        python-version: [3.12]
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
 
-    unittest:
-        runs-on: ubuntu-latest
-        env:
-            ARANGO_USERNAME: root
-            ARANGO_PASSWORD: ""
-            DB_HOST: http://localhost:8529
-            DB_NAME: passive_dns
-            VERSION: 0.1.0
-            JWT_SECRET_KEY: key
-            ALGORITHM: HS256
-            TIMEZONE: Europe/Paris
-            DEBUG: 0
-        strategy:
-            matrix:
-                python-version: [3.12]
-                os: [ubuntu-latest]
-        steps:
-            - uses: actions/checkout@v4
-            - run: sudo apt-get update && sudo apt-get install -y python3-pip && sudo pip3 install poetry
-            - name: Install dependencies
-              run: poetry install
-            - name: Run db and api
-              run: |
-                docker compose -f extras/docker/dev/docker-compose.yml up -d arangodb
-            - name: Test models
-              run: "poetry run python -m unittest discover -s tests/models -p '*.py'"
-            - name: Test controllers
-              run: "poetry run python -m unittest discover -s tests/apiv2 -p '*.py'"
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+          pip3 install poetry
+          poetry install
+
+      - name: Run database
+        run: docker compose -f extras/docker/dev/docker-compose.yml up -d arangodb
+
+      - name: Test models
+        run: poetry run python -m unittest discover -s tests/models -p '*.py'
+
+      - name: Test controllers
+        run: poetry run python -m unittest discover -s tests/apiv2 -p '*.py'
