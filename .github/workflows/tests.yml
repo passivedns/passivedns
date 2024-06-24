@@ -7,8 +7,8 @@ jobs:
     unittest:
         runs-on: ubuntu-latest
         env:
-            ARANGO_USERNAME: passive_dns_user
-            ARANGO_PASSWORD: user
+            ARANGO_USERNAME: root
+            ARANGO_PASSWORD: ""
             DB_HOST: http://localhost:8529
             DB_NAME: passive_dns
             VERSION: 0.1.0
