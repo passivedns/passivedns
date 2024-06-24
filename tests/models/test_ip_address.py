@@ -1,10 +1,10 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
 
-from models.ip_address import IPAddress
-from db.database import ObjectNotFound
+from passiveDNS.models.ip_address import IPAddress
+from passiveDNS.db.database import ObjectNotFound
 
-from utils import config
+from passiveDNS.utils import config
 
 config.init_config()
 

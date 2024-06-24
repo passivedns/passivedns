@@ -1,9 +1,9 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
 
-from models.user import User, UserRole
+from passiveDNS.models.user import User, UserRole
 
-from utils import config
+from passiveDNS.utils import config
 
 config.init_config()
 
