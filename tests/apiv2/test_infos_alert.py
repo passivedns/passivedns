@@ -2,7 +2,7 @@ import unittest
 from fastapi.testclient import TestClient
 
 from passiveDNS.db.database import get_db
-from passiveDNS.odels.user import User
+from passiveDNS.models.user import User
 from passiveDNS.models.domain_name import DomainName
 from passiveDNS.webserver import app
 
