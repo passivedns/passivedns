@@ -2,7 +2,6 @@ from datetime import timedelta
 
 from fastapi import APIRouter, FastAPI, Depends
 from starlette.middleware.sessions import SessionMiddleware
-import uvicorn
 
 
 from utils import config
