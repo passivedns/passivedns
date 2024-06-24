@@ -1,12 +1,12 @@
 import unittest
 from fastapi.testclient import TestClient
 
-from db.database import get_db
-from models.user import User
-from models.ip_address import IPAddress
-from models.domain_name import DomainName
-from models.users_dn import UserDn
-from models.resolution import Resolution
+from passiveDNS.db.database import get_db
+from passiveDNS.models.user import User
+from passiveDNS.models.ip_address import IPAddress
+from passiveDNS.models.domain_name import DomainName
+from passiveDNS.models.users_dn import UserDn
+from passiveDNS.models.resolution import Resolution
 from passiveDNS.webserver import app
 
 client = TestClient(app)

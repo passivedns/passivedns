@@ -1,8 +1,8 @@
 import unittest
 from fastapi.testclient import TestClient
 
-from db.database import get_db
-from models.user import User
+from passiveDNS.db.database import get_db
+from passiveDNS.models.user import User
 from passiveDNS.webserver import app
 
 client = TestClient(app)

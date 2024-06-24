@@ -1,10 +1,10 @@
 import unittest
 from fastapi.testclient import TestClient
 
-from db.database import get_db
-from models.user import User
-from models.user_channel import UserChannel
-from models.channel import Channel
+from passiveDNS.db.database import get_db
+from passiveDNS.models.user import User
+from passiveDNS.models.user_channel import UserChannel
+from passiveDNS.models.channel import Channel
 from passiveDNS.webserver import app
 
 client = TestClient(app)
