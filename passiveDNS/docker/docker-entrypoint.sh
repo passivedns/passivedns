@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [[ "$1" = 'webserver' ]]; then
-    python main.py
+    poetry run python main.py
 elif [[ "$1" = 'create-user' ]]; then
     python ctl/cli.py create-user "${@:2}"
 elif [[ "$1" = 'reset-password' ]]; then
