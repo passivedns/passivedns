@@ -1,5 +1,6 @@
 from passiveDNS.db.database import get_db, ObjectNotFound
 
+
 class Edge(object):
     """
     The base class for Edge collections

@@ -1,7 +1,10 @@
 from datetime import datetime, date
 
 from passiveDNS.models.meta_edge import Edge
-from passiveDNS.models.domain_name import DOMAIN_NAME_COLLECTION, DomainNameResolutionError
+from passiveDNS.models.domain_name import (
+    DOMAIN_NAME_COLLECTION,
+    DomainNameResolutionError,
+)
 from passiveDNS.models.ip_address import IP_ADDRESS_COLLECTION
 from passiveDNS.utils import timezone, config
 
