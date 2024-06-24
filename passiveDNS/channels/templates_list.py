@@ -1,4 +1,4 @@
-from channels.templates import (
+from passiveDNS.channels.templates import (
     ChannelTemplate,
     EmailTemplate,
     TelegramTemplate,

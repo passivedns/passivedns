@@ -2,9 +2,9 @@ from operator import itemgetter
 
 from fastapi import APIRouter, HTTPException
 
-from models.domain_name import DomainNameResolutionError
-from models.ip_address import IPAddress
-from models.resolution import Resolution
+from passiveDNS.models.domain_name import DomainNameResolutionError
+from passiveDNS.models.ip_address import IPAddress
+from passiveDNS.models.resolution import Resolution
 
 resolution_router = APIRouter()
 

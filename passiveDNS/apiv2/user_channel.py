@@ -1,16 +1,16 @@
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 
-from channels.email import MailSendingError
-from channels.send import send
-from channels.telegram import TelegramSendingError
-from channels.templates_list import CHANNEL_VERIFY_TEMPLATE, TEST_TEMPLATE
-from apiv2.auth import get_current_user
-from db.database import ObjectNotFound
-from models.channel import Channel
-from models.user_channel import UserChannel
-from models.user import User
-from utils import config, timezone
+from passiveDNS.channels.email import MailSendingError
+from passiveDNS.channels.send import send
+from passiveDNS.channels.telegram import TelegramSendingError
+from passiveDNS.channels.templates_list import CHANNEL_VERIFY_TEMPLATE, TEST_TEMPLATE
+from passiveDNS.apiv2.auth import get_current_user
+from passiveDNS.db.database import ObjectNotFound
+from passiveDNS.models.channel import Channel
+from passiveDNS.models.user_channel import UserChannel
+from passiveDNS.models.user import User
+from passiveDNS.utils import config, timezone
 
 users_channel_router = APIRouter()
 

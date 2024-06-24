@@ -2,38 +2,37 @@ from datetime import timedelta
 
 from fastapi import APIRouter, FastAPI, Depends
 from starlette.middleware.sessions import SessionMiddleware
-import uvicorn
 
 
-from utils import config
+from passiveDNS.utils import config
 
 
 config.init_config()
 
-from apiv2.alert import alert_router  # noqa: E402
-from apiv2.auth import (  # noqa: E402
+from passiveDNS.apiv2.alert import alert_router  # noqa: E402
+from passiveDNS.apiv2.auth import (  # noqa: E402
     auth_router,
     get_current_user,
     check_admin_role,
     check_admin_user_role,
     check_scheduler_role,
 )
-from apiv2.channels import channels_router  # noqa: E402
-from apiv2.channels_admin import channels_admin_router  # noqa: E402
-from apiv2.domain_name import domain_name_router  # noqa: E402
-from apiv2.infos import infos_router  # noqa: E402
-from apiv2.resolution import resolution_router  # noqa: E402
-from apiv2.scheduler import scheduler_router  # noqa: E402
-from apiv2.scheduler_admin import scheduler_admin_router  # noqa: E402
-from apiv2.tag import tag_router  # noqa: E402
-from apiv2.tag_dn_ip import tag_dn_ip_router  # noqa: E402
-from apiv2.user_channel import users_channel_router  # noqa: E402
-from apiv2.users import users_router  # noqa: E402
-from apiv2.users_admin import users_admin_router  # noqa: E402
-from apiv2.api_integration import api_integration_router  # noqa: E402
+from passiveDNS.apiv2.channels import channels_router  # noqa: E402
+from passiveDNS.apiv2.channels_admin import channels_admin_router  # noqa: E402
+from passiveDNS.apiv2.domain_name import domain_name_router  # noqa: E402
+from passiveDNS.apiv2.infos import infos_router  # noqa: E402
+from passiveDNS.apiv2.resolution import resolution_router  # noqa: E402
+from passiveDNS.apiv2.scheduler import scheduler_router  # noqa: E402
+from passiveDNS.apiv2.scheduler_admin import scheduler_admin_router  # noqa: E402
+from passiveDNS.apiv2.tag import tag_router  # noqa: E402
+from passiveDNS.apiv2.tag_dn_ip import tag_dn_ip_router  # noqa: E402
+from passiveDNS.apiv2.user_channel import users_channel_router  # noqa: E402
+from passiveDNS.apiv2.users import users_router  # noqa: E402
+from passiveDNS.apiv2.users_admin import users_admin_router  # noqa: E402
+from passiveDNS.apiv2.api_integration import api_integration_router  # noqa: E402
 
 # global setup
-from utils.timezone import check_timezone  # noqa: E402
+from passiveDNS.utils.timezone import check_timezone  # noqa: E402
 
 
 check_timezone(config.g.TIMEZONE)
@@ -102,7 +101,3 @@ api_router.include_router(infos_router)
 app.include_router(api_router)
 
 debug = config.g.DEBUG == "1"
-
-# à la main avec poetry après
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8080)

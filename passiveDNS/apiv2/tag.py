@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
-from models.tag import Tag
-from models.tag_dn_ip import TagDnIP
+from passiveDNS.models.tag import Tag
+from passiveDNS.models.tag_dn_ip import TagDnIP
 
 tag_router = APIRouter()
 

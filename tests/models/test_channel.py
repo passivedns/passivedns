@@ -1,9 +1,9 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
 
-from models.channel import Channel, ChannelTypeError
+from passiveDNS.models.channel import Channel, ChannelTypeError
 
-from utils import config
+from passiveDNS.utils import config
 
 config.init_config()
 

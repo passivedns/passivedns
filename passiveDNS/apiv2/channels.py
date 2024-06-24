@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from apiv2.auth import get_current_user
-from models.channel import Channel
-from models.user import User
-from models.user_channel import UserChannel
-from db.database import ObjectNotFound
+from passiveDNS.apiv2.auth import get_current_user
+from passiveDNS.models.channel import Channel
+from passiveDNS.models.user import User
+from passiveDNS.models.user_channel import UserChannel
+from passiveDNS.db.database import ObjectNotFound
 
 channels_router = APIRouter()
 

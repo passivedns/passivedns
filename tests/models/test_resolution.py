@@ -1,12 +1,12 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
 
-from models.resolution import Resolution
-from models.domain_name import DOMAIN_NAME_COLLECTION
-from models.ip_address import IP_ADDRESS_COLLECTION
-from db.database import ObjectNotFound
+from passiveDNS.models.resolution import Resolution
+from passiveDNS.models.domain_name import DOMAIN_NAME_COLLECTION
+from passiveDNS.models.ip_address import IP_ADDRESS_COLLECTION
+from passiveDNS.db.database import ObjectNotFound
 
-from utils import config
+from passiveDNS.utils import config
 
 config.init_config()
 

@@ -1,7 +1,7 @@
 import click
 
-from models.user import User
-from db.database import ObjectNotFound
+from passiveDNS.models.user import User
+from passiveDNS.db.database import ObjectNotFound
 
 
 @click.group()

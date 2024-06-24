@@ -1,8 +1,7 @@
 from enum import Enum
 
 from Crypto.Protocol.KDF import bcrypt_check, bcrypt
-
-from models.meta_node import Node
+from passiveDNS.models.meta_node import Node
 
 
 class UserRole(Enum):

@@ -2,7 +2,7 @@ import time
 
 import requests
 
-from models.meta_node import Node
+from passiveDNS.models.meta_node import Node
 
 IP_ADDRESS_COLLECTION = "IPAddress"
 

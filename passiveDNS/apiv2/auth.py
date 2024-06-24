@@ -9,10 +9,10 @@ from jose import JWTError, jwt
 from starlette.requests import Request
 from pydantic import BaseModel
 
-from db.database import ObjectNotFound
-from models.user import User, UserRole
+from passiveDNS.db.database import ObjectNotFound
+from passiveDNS.models.user import User, UserRole
 
-from utils import config
+from passiveDNS.utils import config
 
 SECRET_KEY = config.g.JWT_SECRET_KEY
 ALGORITHM = config.g.ALGORITHM

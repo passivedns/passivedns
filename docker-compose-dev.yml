@@ -31,7 +31,10 @@ services:
       - ./passiveDNS:/app
     entrypoint:
       - /docker-entrypoint.sh
-    command: ['webserver']
+    command:
+      - /bin/bash
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
       
   front:
     build: 

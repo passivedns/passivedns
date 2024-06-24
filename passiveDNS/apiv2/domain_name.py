@@ -5,10 +5,10 @@ from fastapi import APIRouter, Depends, HTTPException, Response
 import validators
 
 import pandas
-from apiv2.auth import get_current_user
-from models.domain_name import DomainName
-from db.database import ObjectNotFound
-from models.domain_name import (
+from passiveDNS.apiv2.auth import get_current_user
+from passiveDNS.models.domain_name import DomainName
+from passiveDNS.db.database import ObjectNotFound
+from passiveDNS.models.domain_name import (
     DomainNameResolutionError,
     DomainNameFilterNotFound,
     DomainNameSortNotFound,
@@ -16,11 +16,11 @@ from models.domain_name import (
     EXPORT_CSV,
     EXPORT_JSON,
 )
-from models.ip_address import IPAddress, IP_ADDRESS_COLLECTION
-from models.resolution import Resolution
-from models.tag_dn_ip import TagDnIP
-from models.users_dn import UserDn
-from models.user import User
+from passiveDNS.models.ip_address import IPAddress, IP_ADDRESS_COLLECTION
+from passiveDNS.models.resolution import Resolution
+from passiveDNS.models.tag_dn_ip import TagDnIP
+from passiveDNS.models.users_dn import UserDn
+from passiveDNS.models.user import User
 
 domain_name_router = APIRouter()
 

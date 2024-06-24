@@ -1,4 +1,4 @@
-from db.database import get_db, ObjectNotFound
+from passiveDNS.db.database import get_db, ObjectNotFound
 
 
 class Edge(object):

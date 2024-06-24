@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 
-from apiv2.auth import get_current_user
-from models.user import User
+from passiveDNS.apiv2.auth import get_current_user
+from passiveDNS.models.user import User
 
 scheduler_admin_router = APIRouter()
 

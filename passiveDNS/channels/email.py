@@ -2,8 +2,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from channels.templates import ChannelTemplate
-from models.channel_meta import ChannelEmail
+from passiveDNS.channels.templates import ChannelTemplate
+from passiveDNS.models.channel_meta import ChannelEmail
 
 
 class MailSendingError(Exception):

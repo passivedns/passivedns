@@ -1,8 +1,8 @@
 import secrets
 from datetime import datetime
 
-from models.meta_node import Node
-from utils import timezone, config
+from passiveDNS.models.meta_node import Node
+from passiveDNS.utils import timezone, config
 
 USER_PENDING_COLLECTION = "UsersPending"
 

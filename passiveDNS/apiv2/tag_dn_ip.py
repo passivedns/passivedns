@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException
 
-from models.tag_dn_ip import TagDnIP
-from models.tag import Tag
-from models.domain_name import DOMAIN_NAME_COLLECTION, DomainName
-from models.ip_address import IP_ADDRESS_COLLECTION, IPAddress
+from passiveDNS.models.tag_dn_ip import TagDnIP
+from passiveDNS.models.tag import Tag
+from passiveDNS.models.domain_name import DOMAIN_NAME_COLLECTION, DomainName
+from passiveDNS.models.ip_address import IP_ADDRESS_COLLECTION, IPAddress
 
 tag_dn_ip_router = APIRouter()
 

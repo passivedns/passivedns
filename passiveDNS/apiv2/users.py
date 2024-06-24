@@ -1,16 +1,16 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
-from db.database import ObjectNotFound
-from models.user import User
-from models.user_pending import UserPending
-from models.user_request import UserRequest
-from models.channel import Channel
-from models.user_channel import UserChannel
-from models.api_integration import APIIntegration
-from analytics.extern_api import ExternAPI, RequestException
+from passiveDNS.db.database import ObjectNotFound
+from passiveDNS.models.user import User
+from passiveDNS.models.user_pending import UserPending
+from passiveDNS.models.user_request import UserRequest
+from passiveDNS.models.channel import Channel
+from passiveDNS.models.user_channel import UserChannel
+from passiveDNS.models.api_integration import APIIntegration
+from passiveDNS.analytics.extern_api import ExternAPI, RequestException
 
-from apiv2.auth import get_current_user
+from passiveDNS.apiv2.auth import get_current_user
 
 users_router = APIRouter()
 

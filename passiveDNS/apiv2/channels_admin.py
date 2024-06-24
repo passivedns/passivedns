@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from models.channel import Channel, ChannelTypeError
-from models.user_channel import UserChannel
+from passiveDNS.models.channel import Channel, ChannelTypeError
+from passiveDNS.models.user_channel import UserChannel
 
 channels_admin_router = APIRouter()
 
