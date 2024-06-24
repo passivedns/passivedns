@@ -19,7 +19,7 @@ jobs:
             - run: sudo apt-get update && sudo apt-get install -y python3-pip && sudo pip3 install poetry
             - name: Run db and api
               run: |
-                docker compose -f extra/docker/dev/docker-compose-dev.yml up -d db
+                docker compose -f extras/docker/dev/docker-compose.yml up -d db
             - name: Test models
               run: "poetry run python -m unittest discover -s tests/models -p '*.py'"
             - name: Test controllers
