@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 
 from passiveDNS.models.channel import Channel, ChannelTypeError
 
-from utils import config
+from passiveDNS.utils import config
 
 config.init_config()
 
