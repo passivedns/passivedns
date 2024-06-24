@@ -17,20 +17,17 @@ class ResolutionTest(unittest.TestCase):
         cls.user1.insert()
 
         client.post("/token", json={"identity": "TestUser1", "password": "user1"})
-        client.post("/dn/esiea.fr")
-        cls.dn1 = DomainName.get("esiea.fr")
+        client.post("/dn/gitlab.esiea.fr")
+        cls.dn1 = DomainName.get("gitlab.esiea.fr")
         cls.ip1 = cls.dn1.resolve()
 
     @classmethod
     def tearDownClass(cls) -> None:
-        client.delete("/dn/esiea.fr")
-        client.get("/logout")
-        cls.user1.delete()
         cls.db.clear()
 
     # /resolution/{dn} get
     def test_get_resolution(self) -> None:
-        response = client.get("/resolution/esiea.fr")
+        response = client.get("/resolution/gitlab.esiea.fr")
         self.assertEqual(response.status_code, 200)
         self.assertIn("resolution", response.json())
 
@@ -40,7 +37,7 @@ class ResolutionTest(unittest.TestCase):
 
     # /resolution/{dn}/history get
     def test_get_resolution_history(self) -> None:
-        response = client.get("/resolution/esiea.fr/history")
+        response = client.get("/resolution/gitlab.esiea.fr/history")
         self.assertEqual(response.status_code, 200)
         self.assertIn("history", response.json())
 
