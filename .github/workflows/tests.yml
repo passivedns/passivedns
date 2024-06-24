@@ -2,25 +2,25 @@ name: Tests
 
 on: [pull_request]
 
-jobs:
-  unittest:
-    runs-on: ubuntu-latest
-    env:
-      - ARANGO_USERNAME=root
-      - ARANGO_PASSWORD=root
-      - JWT_SECRET_KEY=key
-      - DB_HOST=http://db:8529
-      - DB_NAME=passive_dns
-      - TIMEZONE=Europe/Paris
-      - DEBUG=0
-      - ALGORITHM=HS256
-    steps:
-      - uses: actions/checkout@v4
-      - run: sudo apt-get install -y sudo pip3 install poetry
-      - name: Run db and api
-        run: docker compose -f extra/docker/docker-compose.yml up -d arangodb
-      - name: Test models 
-        run: docker compose -f docker-compose-dev.yml exec api sh -c "python -m unittest discover -s tests/models -p '*.py'"    
-      - name: Test controllers
-        run: docker compose -f docker-compose-dev.yml exec api sh -c "python -m unittest discover -s tests/apiv2 -p '*.py'"
-    
+jobs: 
+
+    unittest:
+        runs-on: ubuntu-latest
+        env:
+            ARANGO_USERNAME: passive_dns_user
+            ARANGO_PASSWORD: user
+            DB_HOST: http://db:8529
+            JWT_SECRET_KEY: key
+            TIMEZONE: Europe/Paris
+            DEBUG: 0
+
+        steps:
+            - uses: actions/checkout@v4
+            - run: sudo apt-get install -y sudo pip3 install poetry 
+            - name: Run db and api
+              run: |
+                docker compose -f docker-compose-dev.yml up -d db
+            - name: Test models
+              run: docker compose -f docker-compose-dev.yml exec api sh -c "python -m unittest discover -s tests/models -p '*.py'"
+            - name: Test controllers
+              run: docker compose -f docker-compose-dev.yml exec api sh -c "python -m unittest discover -s tests/apiv2 -p '*.py'"
