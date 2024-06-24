@@ -18,7 +18,7 @@ jobs:
             DEBUG: 0
         strategy:
             matrix:
-                python-version: ["3.12"]
+                python-version: [3.12]
                 os: [ubuntu-latest]
         steps:
             - uses: actions/checkout@v4
