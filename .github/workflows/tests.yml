@@ -25,7 +25,7 @@ jobs:
             - name: Run db and api
               run: |
                 docker compose -f extras/docker/dev/docker-compose.yml up -d arangodb
-            #- name: Test models
-            #  run: "poetry run python -m unittest discover -s tests/models -p '*.py'"
+            - name: Test models
+              run: "poetry run python -m unittest discover -s tests/models -p '*.py'"
             - name: Test controllers
               run: "poetry run python -m unittest discover -s tests/apiv2 -p '*.py'"
