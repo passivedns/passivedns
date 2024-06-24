@@ -7,7 +7,7 @@ from models.ip_address import IPAddress
 from models.domain_name import DomainName
 from models.users_dn import UserDn
 from models.resolution import Resolution
-from main import app
+from passiveDNS.webserver import app
 
 client = TestClient(app)
 

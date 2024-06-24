@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 
 from db.database import get_db
 from models.user import User
-from main import app
+from passiveDNS.webserver import app
 
 client = TestClient(app)
 

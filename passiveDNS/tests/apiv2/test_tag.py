@@ -6,7 +6,7 @@ from models.user import User
 from models.tag import Tag
 from models.tag_dn_ip import TagDnIP
 from models.domain_name import DomainName, DOMAIN_NAME_COLLECTION
-from main import app
+from passiveDNS.webserver import app
 
 client = TestClient(app)
 
