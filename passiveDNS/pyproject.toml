@@ -15,7 +15,6 @@ dnspython = "^2.6.1"
 python-whois = "^0.9.4"
 python-jose = "^3.3.0"
 python-dateutil = "^2.9.0.post0"
-discord.py = "^2.3.2"
 
 [build-system]
 requires = ["poetry-core"]

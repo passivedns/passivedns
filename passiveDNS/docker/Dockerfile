@@ -25,16 +25,22 @@ ENV JOB_URL=$JOB_URL
 ENV COMMIT_SHA=$COMMIT_SHA
 
 ENV TIMEZONE=$TIMEZONE
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    libmagic-dev \
+    git \
+    && apt-get clean && rm -rf /var/cache/apt/* /var/lib/apt/lists/*
 
 ADD . /app
 WORKDIR /app
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-
 COPY . .
 
 COPY --chmod=744 ./docker/docker-entrypoint.sh /docker-entrypoint.sh
+
+RUN pip3 install --upgrade pip && pip3 install poetry
+
+RUN poetry install --no-dev
 
 ENV PYTHONPATH /app
 
