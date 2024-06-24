@@ -16,7 +16,10 @@ jobs:
             ALGORITHM: HS256
             TIMEZONE: Europe/Paris
             DEBUG: 0
-
+        strategy:
+            matrix:
+                python-version: ["3.12"]
+                os: [ubuntu-latest]
         steps:
             - uses: actions/checkout@v4
             - run: sudo apt-get update && sudo apt-get install -y python3-pip && sudo pip3 install poetry
