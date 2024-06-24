@@ -1,0 +1,77 @@
+version: "3.3"
+services:
+  db:
+    build: 
+      context: ./db
+      dockerfile: docker/dev/Dockerfile
+    environment:
+      - ARANGO_ROOT_PASSWORD=root
+    volumes:
+      - ./db/volume:/var/lib/arangodb3
+    ports:
+      - "8529:8529"
+
+  api:
+    build: 
+      context: ./passiveDNS
+      dockerfile: docker/Dockerfile
+
+    environment :
+      - ARANGO_USERNAME=root
+      - ARANGO_PASSWORD=root
+      - JWT_SECRET_KEY=key
+      - DB_HOST=http://db:8529
+      - DB_NAME=passive_dns
+      - TIMEZONE=Europe/Paris
+      - DEBUG=0
+      - ALGORITHM=HS256
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./passiveDNS:/app
+    entrypoint:
+      - /docker-entrypoint.sh
+    command:
+      - /bin/bash
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+      
+  front:
+    build: 
+      context: ./front
+      dockerfile: docker/dev/Dockerfile
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./front:/app
+    entrypoint:
+      - /docker-entrypoint.sh
+    command:
+      - /bin/bash
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+
+  scheduler:
+    build:
+      context: ./scheduler
+      dockerfile: docker/Dockerfile
+    environment:
+      - LAUNCH_HOUR=8
+      - LAUNCH_MINUTE=0
+      - DAYS_FREQUENCY=1
+      - API_HOST=http://api:8080
+      - API_USERNAME=sched_1
+      - API_PASSWORD=sched_1
+      - THREAD_COUNT=5
+    entrypoint:
+      - /docker-entrypoint.sh
+    command:
+      - /bin/bash
+    stdin_open: true # docker run -
+    tty: true        # docker run -t
+    volumes:
+      - ./scheduler:/app
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
