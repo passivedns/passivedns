@@ -2,14 +2,14 @@ from multiprocessing import Process
 
 import pandas
 
-from channels.discord_chan import send_discord
-from channels.email import send_email
-from channels.telegram import send_telegram
-from channels.templates_list import ALERT_LIST_TEMPLATE
-from models.channel import Channel
-from models.user_channel import UserChannel
-from models.user import User, UserRole
-from models.channel_meta import ChannelTelegram, ChannelEmail, ChannelDiscord
+from passiveDNS.channels.discord_chan import send_discord
+from passiveDNS.channels.email import send_email
+from passiveDNS.channels.telegram import send_telegram
+from passiveDNS.channels.templates_list import ALERT_LIST_TEMPLATE
+from passiveDNS.models.channel import Channel
+from passiveDNS.models.user_channel import UserChannel
+from passiveDNS.models.user import User, UserRole
+from passiveDNS.models.channel_meta import ChannelTelegram, ChannelEmail, ChannelDiscord
 
 
 def send(to: str, channel: Channel, template):

@@ -1,4 +1,4 @@
-from models.meta_node import Node
+from passiveDNS.models.meta_node import Node
 
 APIINTEGRATION_COLLECTION = "APIIntegration"
 

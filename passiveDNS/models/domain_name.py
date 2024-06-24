@@ -2,7 +2,7 @@ import dns.rdatatype
 import dns.resolver
 from datetime import datetime
 
-from models.dns_records import (
+from passiveDNS.models.dns_records import (
     DnsRecordA,
     DnsRecordAAAA,
     DnsRecordMX,
@@ -11,10 +11,10 @@ from models.dns_records import (
     DnsRecordOther,
     DnsRecordTXT,
 )
-from models.ip_address import IPAddress
-from models.meta_node import Node
-from db.database import get_db
-from db.queries.dn_list import (
+from passiveDNS.models.ip_address import IPAddress
+from passiveDNS.models.meta_node import Node
+from passiveDNS.db.database import get_db
+from passiveDNS.db.queries.dn_list import (
     DOMAIN_NAME_LIST_FILTER_DN,
     DOMAIN_NAME_LIST_FILTER_IP,
     DOMAIN_NAME_LIST_FILTER_FOLLOWED_OWNED,
@@ -28,7 +28,7 @@ from db.queries.dn_list import (
     DOMAIN_NAME_LIST_SORT_CHANGE,
     DOMAIN_NAME_LIST_SORT_DN,
 )
-from db.queries.alert_list import (
+from passiveDNS.db.queries.alert_list import (
     ALERT_LIST_FILTER_DN,
     ALERT_LIST_FILTER_DN_TAGS,
     ALERT_LIST_FILTER_IP_TAG,
@@ -38,7 +38,7 @@ from db.queries.alert_list import (
     ALERT_LIST_SORT_DN,
     ALERT_LIST_SORT_LAST_IP,
 )
-from utils import timezone, config
+from passiveDNS.utils import timezone, config
 
 DOMAIN_NAME_COLLECTION = "DomainName"
 

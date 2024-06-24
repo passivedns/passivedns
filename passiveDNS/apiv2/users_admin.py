@@ -1,16 +1,16 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from channels.email import MailSendingError
-from channels.send import send
-from channels.telegram import TelegramSendingError
-from channels.templates_list import INVITE_TEMPLATE
-from db.database import ObjectNotFound
-from models.channel import Channel
-from models.user import User, UserRole
-from models.user_pending import UserPending
-from models.user_request import UserRequest
-from models.user_channel import UserChannel
+from passiveDNS.channels.email import MailSendingError
+from passiveDNS.channels.send import send
+from passiveDNS.channels.telegram import TelegramSendingError
+from passiveDNS.channels.templates_list import INVITE_TEMPLATE
+from passiveDNS.db.database import ObjectNotFound
+from passiveDNS.models.channel import Channel
+from passiveDNS.models.user import User, UserRole
+from passiveDNS.models.user_pending import UserPending
+from passiveDNS.models.user_request import UserRequest
+from passiveDNS.models.user_channel import UserChannel
 
 users_admin_router = APIRouter()
 

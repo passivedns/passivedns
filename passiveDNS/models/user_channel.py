@@ -1,6 +1,6 @@
-from models.meta_edge import Edge
-from models.user import USER_COLLECTION
-from models.channel import CHANNEL_COLLECTION
+from passiveDNS.models.meta_edge import Edge
+from passiveDNS.models.user import USER_COLLECTION
+from passiveDNS.models.channel import CHANNEL_COLLECTION
 import secrets
 
 USER_CHANNEL_COLLECTION = "UsersChannel"

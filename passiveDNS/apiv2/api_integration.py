@@ -3,12 +3,12 @@ from fastapi import APIRouter, Depends, HTTPException
 import validators
 
 from apiv2.auth import get_current_user
-from models.user import User
-from models.domain_name import DomainName
-from models.ip_address import IPAddress
-from models.resolution import Resolution
-from models.api_integration import APIIntegration
-from analytics.extern_api import (
+from passiveDNS.models.user import User
+from passiveDNS.models.domain_name import DomainName
+from passiveDNS.models.ip_address import IPAddress
+from passiveDNS.models.resolution import Resolution
+from passiveDNS.models.api_integration import APIIntegration
+from passiveDNS.analytics.extern_api import (
     ExternAPI,
     MethodException,
     FormatException,

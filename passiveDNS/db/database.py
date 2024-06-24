@@ -6,7 +6,7 @@ import requests
 import time
 import sys
 
-from utils import config
+from passiveDNS.utils import config
 
 
 class ObjectNotFound(Exception):

@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from utils import config
+from passiveDNS.utils import config
 
 infos_router = APIRouter()
 

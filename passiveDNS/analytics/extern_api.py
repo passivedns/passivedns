@@ -1,11 +1,11 @@
 import validators
 import requests
-from utils import config
-from utils.timezone import to_current_timezone
+from passiveDNS.utils import config
+from passiveDNS.utils.timezone import to_current_timezone
 from datetime import datetime
-from models.api_integration import APIIntegration
-from models.domain_name import DomainName
-from models.ip_address import IPAddress
+from passiveDNS.models.api_integration import APIIntegration
+from passiveDNS.models.domain_name import DomainName
+from passiveDNS.models.ip_address import IPAddress
 
 VIRUSTOTAL_API = "VirusTotal"
 ALIENVAULT_API = "AlienVault"

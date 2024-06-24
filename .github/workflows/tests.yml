@@ -10,6 +10,7 @@ jobs:
             ARANGO_USERNAME: passive_dns_user
             ARANGO_PASSWORD: user
             DB_HOST: http://db:8529
+            DB_NAME: passive_dns
             JWT_SECRET_KEY: key
             TIMEZONE: Europe/Paris
             DEBUG: 0
