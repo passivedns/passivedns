@@ -98,6 +98,6 @@ api_router.include_router(
 
 api_router.include_router(infos_router)
 
-app.include_router(api_router)
+app.include_router(api_router, prefix="/apiv2")
 
 debug = config.g.DEBUG == "1"
