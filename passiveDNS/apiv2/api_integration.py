@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 
 import validators
 
@@ -20,6 +21,36 @@ api_integration_router = APIRouter()
 
 # Tests for this controller have to be done manually since it needs a personal apikey
 
+class APIData(BaseModel):
+    base_url: str
+    header: str
+    ip_method: str
+    ip_uri: str
+    domain_method: str
+    domain_uri: str
+
+
+@api_integration_router.put("/apiintegration/{api_name}")
+def updateApi(api_name, data: APIData):
+    #check api exists
+    try:
+        api = APIIntegration.get(api_name)
+    except ObjectNotFound:
+        raise HTTPException(
+            status_code=404, detail=f"API {api_name} not found"
+        )
+
+    api.base_url = data.base_url
+    api.header = data.header
+    api.ip_method = data.ip_method
+    api.ip_uri = data.ip_uri
+    api.domain_method = data.domain_method
+    api.domain_uri = data.domain_uri
+    api.update()
+
+    return {
+        "msg":f"API {api_name} successfully updated"
+    }
 
 # get domain resolution from external api
 @api_integration_router.post("/apiintegration/dn/{api_name}")

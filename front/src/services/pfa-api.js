@@ -425,4 +425,24 @@ export default class PfaApi {
                 return false;
             })
     }
+
+    externApiUpdate(externApi) {
+        return this.service.put(`${this.routes.apiIntegrations}/${externApi._key}`, {
+                base_url: externApi.base_url,
+                header: externApi.header,
+                ip_method: externApi.ip_method,
+                ip_uri: externApi.ip_uri,
+                domain_method: externApi.domain_method,
+                domain_uri: externApi.domain_uri,
+            
+        })
+            .then(function(d) {
+                console.log(d.data.msg)
+                return true;
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
+                return false;
+            })
+    }
 }

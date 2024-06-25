@@ -10,7 +10,7 @@ import Alerts from "@/components/main/alerts/Alerts.vue";
 import Admin from "@/components/main/admin/Admin.vue";
 import Users from "@/components/main/admin/users/Users.vue";
 import DomainNameDetailPage from "@/components/main/home/DomainNameDetailPage.vue";
-import ExternApis from "@/components/main/ExternApis/ExternApis.vue";
+import ExternApis from "@/components/main/externApis/ExternApis.vue";
 
 
 const routes = [

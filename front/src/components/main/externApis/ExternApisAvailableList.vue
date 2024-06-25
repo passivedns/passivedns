@@ -9,11 +9,17 @@
                              src="../../../assets/icons/icons8-cloud-50.png" alt="API">
                         <span style="font-size: 24px" class="card-title">{{a._key}}</span>
                     </div>
-                    <div class="card-body">
-                        <span class="card-link">
+                    <div class="card-body row justify-content-between">
+                        <span class="card-link col-5">
                             <button @click="setup(a)" class="btn btn-primary">
                                 <img src="../../../assets/icons/icons8-settings-24.png" alt="setup">
                                 Setup
+                            </button>
+                        </span>
+                        <span class="card-link col-5">
+                            <button @click="update(a)" class="btn btn-primary">
+                                <img src="../../../assets/icons/icons8-edit-16.png" alt="edit">
+                                Edit
                             </button>
                         </span>
                     </div>
@@ -32,6 +38,10 @@
         methods: {
             setup(externApi) {
                 this.$emit('setup', externApi)
+            },
+
+            update(externApi) {
+                this.$emit('update', externApi)
             }
         }
     }

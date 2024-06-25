@@ -37,6 +37,12 @@ class APIIntegration(Node):
                 "uri": self.domain_uri,
             },
         }
+    
+    def update(self):
+        """
+        Update an existing APIIntegration
+        """
+        self._update()
 
     @staticmethod
     def get(name: str):

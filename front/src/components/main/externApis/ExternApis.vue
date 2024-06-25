@@ -2,12 +2,17 @@
     <div class="container" >
         <ExternApisAvailableList
                 @setup="setup"
+                @update="update"
                 :extern-apis-list="externApisAvailableList"
         />
 
         <ExternApiSetupModal
                 ref="externApiSetupModal"
                 @success="refreshLists"
+        />
+
+        <ExternApiUpdateModal
+                ref="externApiUpdateModal"
         />
 
         <ExternApisLinkedList
@@ -28,11 +33,12 @@
 import ExternApisLinkedList from "@/components/main/externApis/ExternApisLinkedList.vue";
     import ExternApisAvailableList from "@/components/main/externApis/ExternApisAvailableList.vue";
     import ExternApiSetupModal from "@/components/main/externApis/ExternApiSetupModal.vue";
+    import ExternApiUpdateModal from "@/components/main/externApis/ExternApiUpdateModal.vue";
     import ModalConfirm from "@/components/main/ModalConfirm.vue";
     import Services from "../../../services/services.js";
     export default {
         name: "ExternApis",
-        components: {ModalConfirm, ExternApiSetupModal, ExternApisAvailableList, ExternApisLinkedList},
+        components: {ModalConfirm, ExternApiSetupModal, ExternApiUpdateModal, ExternApisAvailableList, ExternApisLinkedList},
         data() {
             return {
                 externApisLinkedList: [],
@@ -66,6 +72,9 @@ import ExternApisLinkedList from "@/components/main/externApis/ExternApisLinkedL
             },
             setup(externApi) {
                 this.$refs.externApiSetupModal.show(externApi)
+            },
+            update(externApi) {
+                this.$refs.externApiUpdateModal.show(externApi)
             },
             remove(externApi) {
                 this.$refs.externApiRemoveConfirm.show(externApi);
