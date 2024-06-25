@@ -26,3 +26,7 @@ services:
     image: docker.io/dadard29/passive-dns-scheduler:latest
     env_file:
       - ./env/scheduler.env
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
