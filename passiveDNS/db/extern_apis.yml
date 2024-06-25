@@ -1,0 +1,21 @@
+---
+  _key: "AlienVault"
+  base_url: "https://otx.alienvault.com/api/v1"
+  header: "X-OTX-API-KEY"
+  ip: 
+    method: "GET"
+    uri: "/indicators/IPv4/%s/passive_dns"
+  domain: 
+    method: "GET"
+    uri: "/indicators/domain/%s/passive_dns"
+
+---
+  _key: "VirusTotal"
+  base_url: "https://www.virustotal.com/api/v3"
+  header: "X-Apikey"
+  ip: 
+      method: "GET"
+      uri: "/ip_addresses/%s/resolutions?limit=40"
+  domain: 
+      method: "GET"
+      uri: "/domains/%s/resolutions?limit=40"

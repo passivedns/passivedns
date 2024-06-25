@@ -5,6 +5,7 @@ import logging
 import requests
 import time
 import sys
+import yaml
 
 from passiveDNS.utils import config
 
@@ -111,36 +112,16 @@ class DatabaseSession(object):
         self.collection("UsersPending")
         extern_api_collection = self.collection("APIIntegration")
 
-        # add static content
-        if not extern_api_collection.has("AlienVault"):
-            extern_api_collection.insert(
-                {
-                    "_key": "AlienVault",
-                    "base_url": "https://otx.alienvault.com/api/v1",
-                    "header": "X-OTX-API-KEY",
-                    "ip": {"method": "GET", "uri": "/indicators/IPv4/%s/passive_dns"},
-                    "domain": {
-                        "method": "GET",
-                        "uri": "/indicators/domain/%s/passive_dns",
-                    },
-                }
-            )
-        if not extern_api_collection.has("VirusTotal"):
-            extern_api_collection.insert(
-                {
-                    "_key": "VirusTotal",
-                    "base_url": "https://www.virustotal.com/api/v3",
-                    "header": "X-Apikey",
-                    "ip": {
-                        "method": "GET",
-                        "uri": "/ip_addresses/%s/resolutions?limit=40",
-                    },
-                    "domain": {
-                        "method": "GET",
-                        "uri": "/domains/%s/resolutions?limit=40",
-                    },
-                }
-            )
+        # add extern apis data
+        file_path = "passiveDNS/db/extern_apis.yml"
+
+        with open(file_path, 'r') as file:
+            extern_apis = list(yaml.safe_load_all(file))
+        
+        for api in extern_apis:
+            if not extern_api_collection.has(api["_key"]):
+                extern_api_collection.insert(api)
+
 
         # empty default channel
         if not self._db.collection("Channel").has("_default"):
