@@ -115,13 +115,12 @@ class DatabaseSession(object):
         # add extern apis data
         file_path = "passiveDNS/db/extern_apis.yml"
 
-        with open(file_path, 'r') as file:
+        with open(file_path, "r") as file:
             extern_apis = list(yaml.safe_load_all(file))
-        
+
         for api in extern_apis:
             if not extern_api_collection.has(api["_key"]):
                 extern_api_collection.insert(api)
-
 
         # empty default channel
         if not self._db.collection("Channel").has("_default"):

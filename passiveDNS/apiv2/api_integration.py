@@ -21,6 +21,7 @@ api_integration_router = APIRouter()
 
 # Tests for this controller have to be done manually since it needs a personal apikey
 
+
 class APIData(BaseModel):
     base_url: str
     header: str
@@ -32,13 +33,11 @@ class APIData(BaseModel):
 
 @api_integration_router.put("/apiintegration/{api_name}")
 def updateApi(api_name, data: APIData):
-    #check api exists
+    # check api exists
     try:
         api = APIIntegration.get(api_name)
     except ObjectNotFound:
-        raise HTTPException(
-            status_code=404, detail=f"API {api_name} not found"
-        )
+        raise HTTPException(status_code=404, detail=f"API {api_name} not found")
 
     api.base_url = data.base_url
     api.header = data.header
@@ -48,9 +47,8 @@ def updateApi(api_name, data: APIData):
     api.domain_uri = data.domain_uri
     api.update()
 
-    return {
-        "msg":f"API {api_name} successfully updated"
-    }
+    return {"msg": f"API {api_name} successfully updated"}
+
 
 # get domain resolution from external api
 @api_integration_router.post("/apiintegration/dn/{api_name}")
