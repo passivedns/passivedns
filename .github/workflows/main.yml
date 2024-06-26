@@ -62,8 +62,8 @@ jobs:
       - name: Build and push front image
         uses: docker/build-push-action@v5
         with:
-          context: ./front
-          file: ./docker/prod/Dockerfile
+          context: .
+          file: ./front/docker/prod/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}/passivedns-front:latest
           labels: ${{ steps.meta.outputs.labels }}
