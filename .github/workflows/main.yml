@@ -53,9 +53,9 @@ jobs:
       - name: Build and push scheduler image
         uses: docker/build-push-action@v5
         with:
-          context: ./scheduler
+          context: .
           push: true
-          file: ./docker/Dockerfile
+          file: ./scheduler/docker/Dockerfile
           tags:  ghcr.io/${{ github.repository }}/passivedns-scheduler:latest
           labels: ${{ steps.meta.outputs.labels }}
           
