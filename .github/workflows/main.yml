@@ -63,7 +63,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./front
-          file: ./front/docker/prod/Dockerfile
+          file: ./docker/prod/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}/passivedns-front:latest
           labels: ${{ steps.meta.outputs.labels }}
