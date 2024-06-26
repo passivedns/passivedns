@@ -40,7 +40,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            PassiveDNS/passive-dns-api:latest, PassiveDNS/passive-dns-scheduler:latest,PassiveDNS/passive-dns-front:latest
+            PassiveDNS/passive-dns-api:latest 
+            PassiveDNS/passive-dns-scheduler:latest
+            PassiveDNS/passive-dns-front:latest
             ghcr.io/${{ github.repository }}
   
       - name: Build and push API image
