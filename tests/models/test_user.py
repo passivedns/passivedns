@@ -14,12 +14,13 @@ email = "email"
 
 role_user = UserRole.USER.value
 
+
 class TestUser(TestCase):
     def setUp(self):
         self.db = get_db()
         self.db.connect()
         self.db.clear()
-        
+
     def tearDown(self):
         self.db.clear()
 

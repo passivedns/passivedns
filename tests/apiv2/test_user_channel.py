@@ -150,7 +150,9 @@ class UserChannelTest(unittest.TestCase):
         self.assertEqual(response.status_code, 500)
 
     def test_user_channel_verify_invalid_token(self) -> None:
-        response = client.put("/apiv2/user/channels/channelTest2", json={"token": "test"})
+        response = client.put(
+            "/apiv2/user/channels/channelTest2", json={"token": "test"}
+        )
         self.assertEqual(response.status_code, 500)
 
     # /users/channels/{name} delete

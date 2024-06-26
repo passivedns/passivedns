@@ -14,7 +14,7 @@ class AuthTest(unittest.TestCase):
         cls.db = get_db()
         cls.db.clear()
         cls.db.connect()
-    
+
         cls.admin1 = User(
             _key="TestAdmin1",
             email="admin1@test.com",

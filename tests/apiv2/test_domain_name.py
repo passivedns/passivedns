@@ -16,7 +16,7 @@ class DomainNameTest(unittest.TestCase):
         cls.db = get_db()
         cls.db.connect()
         cls.db.clear()
-        
+
         cls.user1 = User.new("TestUser1", "user1", "user1@test.com")
         cls.user1.insert()
 

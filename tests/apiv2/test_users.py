@@ -30,7 +30,7 @@ class UsersTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls) -> None:
         cls.db.clear()
-        
+
     # /register post
     def test_register(self) -> None:
         response = client.post(

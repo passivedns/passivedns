@@ -42,7 +42,9 @@ class AdminUsersTest(unittest.TestCase):
         cls.user3 = User.new("TestUser3", "user3", "user3@test.com")
         cls.user3.insert()
 
-        client.post("/apiv2/token", json={"identity": "TestAdmin1", "password": "admin1"})
+        client.post(
+            "/apiv2/token", json={"identity": "TestAdmin1", "password": "admin1"}
+        )
 
     @classmethod
     def tearDownClass(cls) -> None:

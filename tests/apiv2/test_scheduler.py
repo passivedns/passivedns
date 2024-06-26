@@ -33,11 +33,13 @@ class SchedulerTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-       cls.db.clear()
+        cls.db.clear()
 
     # /scheduler/alerts get
     def test_get_alerts(self) -> None:
-        client.post("/apiv2/token", json={"identity": "TestSched1", "password": "sched1"})
+        client.post(
+            "/apiv2/token", json={"identity": "TestSched1", "password": "sched1"}
+        )
         response = client.get("/apiv2/scheduler/alerts")
         self.assertEqual(response.status_code, 200)
         self.assertIn("dn_list", response.json())
@@ -47,21 +49,27 @@ class SchedulerTest(unittest.TestCase):
 
     # /scheduler/dn/{dn} put
     def test_dn_update(self) -> None:
-        client.post("/apiv2/token", json={"identity": "TestSched1", "password": "sched1"})
+        client.post(
+            "/apiv2/token", json={"identity": "TestSched1", "password": "sched1"}
+        )
         response = client.put("/apiv2/scheduler/dn/example.com")
         self.assertEqual(response.status_code, 200)
         self.assertIn("dn", response.json())
         client.get("/apiv2/logout")
 
     def test_dn_update_not_found(self) -> None:
-        client.post("/apiv2/token", json={"identity": "TestSched1", "password": "sched1"})
+        client.post(
+            "/apiv2/token", json={"identity": "TestSched1", "password": "sched1"}
+        )
         response = client.put("/apiv2/scheduler/dn/test.com")
         self.assertEqual(response.status_code, 404)
         client.get("/apiv2/logout")
 
     # /admin/scheduler/{name} post
     def test_admin_create_scheduler(self) -> None:
-        client.post("/apiv2/token", json={"identity": "TestAdmin1", "password": "admin1"})
+        client.post(
+            "/apiv2/token", json={"identity": "TestAdmin1", "password": "admin1"}
+        )
         response = client.post(
             "/apiv2/admin/scheduler/TestSched2", json={"password": "sched2"}
         )
@@ -70,7 +78,9 @@ class SchedulerTest(unittest.TestCase):
         client.get("/apiv2/logout")
 
     def test_admin_create_scheduler_name_taken(self) -> None:
-        client.post("/apiv2/token", json={"identity": "TestAdmin1", "password": "admin1"})
+        client.post(
+            "/apiv2/token", json={"identity": "TestAdmin1", "password": "admin1"}
+        )
         response = client.post(
             "/apiv2/admin/scheduler/TestSched1", json={"password": "sched3"}
         )
@@ -79,14 +89,22 @@ class SchedulerTest(unittest.TestCase):
 
     # /admin/scheduler/{name} put
     def test_admin_update_scheduler_password(self) -> None:
-        client.post("/apiv2/token", json={"identity": "TestAdmin1", "password": "admin1"})
-        response = client.put("/apiv2/admin/scheduler/TestSched2", json={"password": "test"})
+        client.post(
+            "/apiv2/token", json={"identity": "TestAdmin1", "password": "admin1"}
+        )
+        response = client.put(
+            "/apiv2/admin/scheduler/TestSched2", json={"password": "test"}
+        )
         self.assertEqual(response.status_code, 200)
         self.assertIn("scheduler", response.json())
         client.get("/apiv2/logout")
 
     def test_admin_update_scheduler_not_found(self) -> None:
-        client.post("/apiv2/token", json={"identity": "TestAdmin1", "password": "admin1"})
-        response = client.put("/apiv2/admin/scheduler/Test", json={"password": "sched2"})
+        client.post(
+            "/apiv2/token", json={"identity": "TestAdmin1", "password": "admin1"}
+        )
+        response = client.put(
+            "/apiv2/admin/scheduler/Test", json={"password": "sched2"}
+        )
         self.assertEqual(response.status_code, 404)
         client.get("/apiv2/logout")

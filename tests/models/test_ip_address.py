@@ -16,7 +16,7 @@ class TestIpAddress(TestCase):
         self.db = get_db()
         self.db.connect()
         self.db.clear()
-        
+
     def tearDown(self):
         self.db.clear()
 

@@ -48,7 +48,9 @@ class AdminChannelTest(unittest.TestCase):
         )
         cls.channel2.insert()
 
-        client.post("/apiv2/token", json={"identity": "TestAdmin1", "password": "admin1"})
+        client.post(
+            "/apiv2/token", json={"identity": "TestAdmin1", "password": "admin1"}
+        )
 
     @classmethod
     def tearDownClass(cls) -> None:
