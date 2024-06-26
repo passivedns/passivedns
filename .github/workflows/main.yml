@@ -55,7 +55,7 @@ jobs:
         with:
           context: ./scheduler
           push: true
-          file: ./docker/Dockerfile
+          file: ./sheduler/docker/Dockerfile
           tags:  ghcr.io/${{ github.repository }}/passivedns-scheduler:latest
           labels: ${{ steps.meta.outputs.labels }}
           
@@ -63,7 +63,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./front
-          file: ./docker/prod/Dockerfile
+          file: ./front/docker/prod/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}/passivedns-front:latest
           labels: ${{ steps.meta.outputs.labels }}
