@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import MagicMock
 
 from passiveDNS.models.user import User, UserRole
-
+from passiveDNS.db.database import get_db
 from passiveDNS.utils import config
 
 config.init_config()
@@ -16,6 +16,14 @@ role_user = UserRole.USER.value
 
 
 class TestUser(TestCase):
+    def setUp(self):
+        self.db = get_db()
+        self.db.connect()
+        self.db.clear()
+        
+    def tearDown(self):
+        self.db.clear()
+        
     def test_init_user(self):
         u = User.new(username, password, email)
         self.assertEqual(u.username, username)

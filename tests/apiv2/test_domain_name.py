@@ -16,11 +16,13 @@ class DomainNameTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
-
+        cls.db = get_db()
+        cls.db.clear()
+        cls.db.connect()
         cls.user1 = User.new("TestUser1", "user1", "user1@test.com")
         cls.user1.insert()
 
-        client.post("/token", json={"identity": "TestUser1", "password": "user1"})
+        client.post("/apiv2/token", json={"identity": "TestUser1", "password": "user1"})
 
         cls.dn1 = DomainName.new("esiea.fr")
         cls.dn1.insert()
@@ -39,24 +41,12 @@ class DomainNameTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-        UserDn.get("TestUser1", "bing.com").delete()
-        cls.listDn = Resolution.list_from_domain("example.com")
-        for res in cls.listDn:
-            IPAddress.get(res.ip_address).delete()
-            res.delete()
-        client.get("/logout")
-        cls.user1.delete()
-        cls.userdn1.delete()
-        cls.dn1.delete()
-        cls.userdn2.delete()
-        cls.dn2.delete()
-        cls.userdn3.delete()
-        cls.dn3.delete()
+        cls.db.clear()
 
     # /dn get
     def test_dn_list(self) -> None:
         response = client.get(
-            "/dn",
+            "/apiv2/dn",
             params={
                 "filter": "google.com",
                 "filter_by": "ipAddress",
@@ -75,7 +65,7 @@ class DomainNameTest(unittest.TestCase):
 
     def test_dn_list_invalid_limit(self) -> None:
         response = client.get(
-            "/dn",
+            "/apiv2/dn",
             params={
                 "filter": "google.com",
                 "filter_by": "ipAddress",
@@ -89,7 +79,7 @@ class DomainNameTest(unittest.TestCase):
 
     def test_dn_list_invalid_filter(self) -> None:
         response = client.get(
-            "/dn",
+            "/apiv2/dn",
             params={
                 "filter": "google.com",
                 "filter_by": "ip",
@@ -103,7 +93,7 @@ class DomainNameTest(unittest.TestCase):
 
     def test_dn_list_invalid_sort(self) -> None:
         response = client.get(
-            "/dn",
+            "/apiv2/dn",
             params={
                 "filter": "google.com",
                 "filter_by": "ipAddress",
@@ -118,7 +108,7 @@ class DomainNameTest(unittest.TestCase):
     # /dn/export get
     def test_dn_list_export_csv(self) -> None:
         response = client.get(
-            "/dn/export",
+            "/apiv2/dn/export",
             params={
                 "filter": "google.com",
                 "filter_by": "ipAddress",
@@ -134,7 +124,7 @@ class DomainNameTest(unittest.TestCase):
 
     def test_dn_list_export_json(self) -> None:
         response = client.get(
-            "/dn/export",
+            "/apiv2/dn/export",
             params={
                 "filter": "google.com",
                 "filter_by": "ipAddress",
@@ -150,21 +140,21 @@ class DomainNameTest(unittest.TestCase):
 
     # /dn/{domain_name} post
     def test_dn_create(self) -> None:
-        response = client.post("/dn/dns.google.com")
+        response = client.post("/apiv2/dn/dns.google.com")
         self.assertEqual(response.status_code, 200)
         self.assertIn("dn", response.json())
 
     def test_dn_create_already_exists(self) -> None:
-        response = client.post("/dn/esiea.fr")
+        response = client.post("/apiv2/dn/esiea.fr")
         self.assertEqual(response.status_code, 500)
 
     def test_dn_create_not_resolved(self) -> None:
-        response = client.post("/dn/test")
+        response = client.post("/apiv2/dn/test")
         self.assertEqual(response.status_code, 500)
 
     # /dn/{domain_name} get
     def test_dn_get(self) -> None:
-        response = client.get("/dn/example.com")
+        response = client.get("/apiv2/dn/example.com")
         self.assertEqual(response.status_code, 200)
         self.assertIn("dn", response.json())
         self.assertIn("dn_tags", response.json())
@@ -174,43 +164,43 @@ class DomainNameTest(unittest.TestCase):
         self.assertIn("followed", response.json())
 
     def test_dn_get_not_found(self) -> None:
-        response = client.get("/dn/test.com")
+        response = client.get("/apiv2/dn/test.com")
         self.assertEqual(response.status_code, 404)
 
     # /dn/{domain_name} put
     def test_dn_update(self) -> None:
-        response = client.put("/dn/example.com")
+        response = client.put("/apiv2/dn/example.com")
         self.assertEqual(response.status_code, 200)
         self.assertIn("dn", response.json())
 
     def test_dn_update_not_found(self) -> None:
-        response = client.put("/dn/test.com")
+        response = client.put("/apiv2/dn/test.com")
         self.assertEqual(response.status_code, 404)
 
     # /dn/{domain_name} delete
     def test_dn_delete(self) -> None:
-        response = client.delete("/dn/dns.google.com")
+        response = client.delete("/apiv2/dn/dns.google.com")
         self.assertEqual(response.status_code, 200)
         self.assertIn("dn", response.json())
 
     def test_dn_delete_not_owned(self) -> None:
-        response = client.delete("/dn/bing.com")
+        response = client.delete("/apiv2/dn/bing.com")
         self.assertEqual(response.status_code, 403)
 
     # /dn/{dn}/follow post
     def test_dn_follow(self) -> None:
-        response = client.post("/dn/bing.com/follow")
+        response = client.post("/apiv2/dn/bing.com/follow")
         self.assertEqual(response.status_code, 200)
 
     def test_dn_follow_already_following(self) -> None:
-        response = client.post("/dn/esiea.fr/follow")
+        response = client.post("/apiv2/dn/esiea.fr/follow")
         self.assertEqual(response.status_code, 500)
 
     # /dn/{dn}/follow delete
     def test_dn_follow_remove(self) -> None:
-        response = client.delete("/dn/esiea.fr/follow")
+        response = client.delete("/apiv2/dn/esiea.fr/follow")
         self.assertEqual(response.status_code, 200)
 
     def test_dn_follow_remove_not_following(self) -> None:
-        response = client.delete("/dn/example.com/follow")
+        response = client.delete("/apiv2/dn/example.com/follow")
         self.assertEqual(response.status_code, 404)

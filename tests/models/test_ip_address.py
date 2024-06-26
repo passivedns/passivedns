@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 
 from passiveDNS.models.ip_address import IPAddress
 from passiveDNS.db.database import ObjectNotFound
-
+from passiveDNS.db.database import get_db
 from passiveDNS.utils import config
 
 config.init_config()
@@ -12,6 +12,13 @@ address = "51.83.46.84"
 
 
 class TestIpAddress(TestCase):
+    def setUp(self):
+        self.db = get_db()
+        self.db.connect()
+        self.db.clear()
+        
+    def tearDown(self):
+        self.db.clear()
     def test_init(self):
         i = IPAddress.new(address)
         self.assertEqual(i.address, address)

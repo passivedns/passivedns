@@ -13,7 +13,8 @@ class InfoAlertTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
-
+        cls.db.clear()
+        cls.db.connect()
         cls.user1 = User.new("TestUser1", "user1", "user1@test.com")
         cls.user1.insert()
 
@@ -22,14 +23,14 @@ class InfoAlertTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-        cls.user1.delete()
-        cls.dn1.delete()
+        cls.db.clear()
+        
 
     # /alert get
     def test_alert_list(self) -> None:
-        client.post("/token", json={"identity": "TestUser1", "password": "user1"})
+        client.post("/apiv2/token", json={"identity": "TestUser1", "password": "user1"})
         response = client.get(
-            "/alert",
+            "/apiv2/alert",
             params={
                 "filter": "dns.google.com",
                 "filter_by": "domainName",
@@ -44,12 +45,12 @@ class InfoAlertTest(unittest.TestCase):
         self.assertIn("stats", data)
         self.assertIn("transaction_time", data["stats"])
         self.assertIn("count", data["stats"])
-        client.get("/logout")
+        client.get("/apiv2/logout")
 
     def test_alert_list_invalid_limit(self) -> None:
-        client.post("/token", json={"identity": "TestUser1", "password": "user1"})
+        client.post("/apiv2/token", json={"identity": "TestUser1", "password": "user1"})
         response = client.get(
-            "/alert",
+            "/apiv2/alert",
             params={
                 "filter": "dns.google.com",
                 "filter_by": "domainName",
@@ -59,12 +60,12 @@ class InfoAlertTest(unittest.TestCase):
             },
         )
         self.assertEqual(response.status_code, 400)
-        client.get("/logout")
+        client.get("/apiv2/logout")
 
     def test_alert_list_invalid_days(self) -> None:
-        client.post("/token", json={"identity": "TestUser1", "password": "user1"})
+        client.post("/apiv2/token", json={"identity": "TestUser1", "password": "user1"})
         response = client.get(
-            "/alert",
+            "/apiv2/alert",
             params={
                 "filter": "dns.google.com",
                 "filter_by": "domainName",
@@ -74,12 +75,12 @@ class InfoAlertTest(unittest.TestCase):
             },
         )
         self.assertEqual(response.status_code, 400)
-        client.get("/logout")
+        client.get("/apiv2/logout")
 
     def test_alert_list_invalid_filter(self) -> None:
-        client.post("/token", json={"identity": "TestUser1", "password": "user1"})
+        client.post("/apiv2/token", json={"identity": "TestUser1", "password": "user1"})
         response = client.get(
-            "/alert",
+            "/apiv2/alert",
             params={
                 "filter": "dns.google.com",
                 "filter_by": "domain",
@@ -89,12 +90,12 @@ class InfoAlertTest(unittest.TestCase):
             },
         )
         self.assertEqual(response.status_code, 400)
-        client.get("/logout")
+        client.get("/apiv2/logout")
 
     def test_alert_list_invalid_sort(self) -> None:
-        client.post("/token", json={"identity": "TestUser1", "password": "user1"})
+        client.post("/apiv2/token", json={"identity": "TestUser1", "password": "user1"})
         response = client.get(
-            "/alert",
+            "/apiv2/alert",
             params={
                 "filter": "dns.google.com",
                 "filter_by": "domainName",
@@ -104,12 +105,13 @@ class InfoAlertTest(unittest.TestCase):
             },
         )
         self.assertEqual(response.status_code, 400)
+        client.get("/apiv2/logout")
 
     # /alert/export get
     def test_alert_list_export_csv(self) -> None:
-        client.post("/token", json={"identity": "TestUser1", "password": "user1"})
+        client.post("/apiv2/token", json={"identity": "TestUser1", "password": "user1"})
         response = client.get(
-            "/alert/export",
+            "/apiv2/alert/export",
             params={
                 "filter": "dns.google.com",
                 "filter_by": "domainName",
@@ -121,12 +123,12 @@ class InfoAlertTest(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers["Content-Type"], "text/csv")
-        client.get("/logout")
+        client.get("/apiv2/logout")
 
     def test_alert_list_export_json(self) -> None:
-        client.post("/token", json={"identity": "TestUser1", "password": "user1"})
+        client.post("/apiv2/token", json={"identity": "TestUser1", "password": "user1"})
         response = client.get(
-            "/alert/export",
+            "/apiv2/alert/export",
             params={
                 "filter": "dns.google.com",
                 "filter_by": "domainName",
@@ -138,12 +140,12 @@ class InfoAlertTest(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers["Content-Type"], "application/json")
-        client.get("/logout")
+        client.get("/apiv2/logout")
 
     def test_alert_list_export_invalid_export_field(self) -> None:
-        client.post("/token", json={"identity": "TestUser1", "password": "user1"})
+        client.post("/apiv2/token", json={"identity": "TestUser1", "password": "user1"})
         response = client.get(
-            "/alert/export",
+            "/apiv2/alert/export",
             params={
                 "filter": "dns.google.com",
                 "filter_by": "domainName",
@@ -154,12 +156,12 @@ class InfoAlertTest(unittest.TestCase):
             },
         )
         self.assertEqual(response.status_code, 400)
-        client.get("/logout")
+        client.get("/apiv2/logout")
 
     # infos
     # /infos get
     def test_get_infos(self) -> None:
-        response = client.get("/infos")
+        response = client.get("/apiv2/infos")
         self.assertEqual(response.status_code, 200)
         self.assertIn("version", response.json())
         self.assertIn("job_url", response.json())

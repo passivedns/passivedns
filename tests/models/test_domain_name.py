@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 
 from passiveDNS.models.domain_name import DomainName
 from passiveDNS.db.database import ObjectNotFound
-
+from passiveDNS.db.database import get_db
 from passiveDNS.utils import config
 
 config.init_config()
@@ -12,6 +12,13 @@ domain_name = "dns.google.com"
 
 
 class TestDomainName(TestCase):
+    def setUp(self):
+        self.db = get_db()
+        self.db.connect()
+        self.db.clear()
+        
+    def tearDown(self):
+        self.db.clear()
     def test_init(self):
         d = DomainName.new(domain_name)
         self.assertEqual(d.domain_name, domain_name)
