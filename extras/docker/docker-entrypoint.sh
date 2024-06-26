@@ -9,6 +9,8 @@ elif [[ "$1" = 'reset-password' ]]; then
     python ctl/cli.py reset-password "${@:2}"
 elif [[ "$1" = 'delete-user' ]]; then
     python ctl/cli.py delete-user "${@:2}"
+elif [[ "$1" = 'scheduler' ]]; then
+    poetry run celery -A passiveDNS.scheduler.tasks worker --loglevel=info
 else
     exec "$@"
 fi
