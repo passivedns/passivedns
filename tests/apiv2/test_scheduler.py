@@ -15,6 +15,7 @@ class SchedulerTest(unittest.TestCase):
         cls.db = get_db()
         cls.db.connect()
         cls.db.clear()
+
         cls.user1 = User.new("TestSched1", "sched1", "sched1@test.com", True)
         cls.user1.insert()
 

@@ -37,6 +37,7 @@ class TestResolution(TestCase):
         
     def tearDown(self):
         self.db.clear()
+
     def test_init(self):
         d = Resolution.new(domain_name, ip_address, "PassiveDNS")
         self.assertEqual(d._from, from_id)

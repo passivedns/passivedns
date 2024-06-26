@@ -3,10 +3,8 @@ from fastapi.testclient import TestClient
 
 from passiveDNS.db.database import get_db
 from passiveDNS.models.user import User
-from passiveDNS.models.ip_address import IPAddress
 from passiveDNS.models.domain_name import DomainName
 from passiveDNS.models.users_dn import UserDn
-from passiveDNS.models.resolution import Resolution
 from passiveDNS.webserver import app
 
 client = TestClient(app)
@@ -16,9 +14,9 @@ class DomainNameTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
-        cls.db = get_db()
-        cls.db.clear()
         cls.db.connect()
+        cls.db.clear()
+        
         cls.user1 = User.new("TestUser1", "user1", "user1@test.com")
         cls.user1.insert()
 

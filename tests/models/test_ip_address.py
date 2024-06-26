@@ -19,6 +19,7 @@ class TestIpAddress(TestCase):
         
     def tearDown(self):
         self.db.clear()
+
     def test_init(self):
         i = IPAddress.new(address)
         self.assertEqual(i.address, address)

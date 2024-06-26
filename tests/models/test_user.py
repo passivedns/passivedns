@@ -14,7 +14,6 @@ email = "email"
 
 role_user = UserRole.USER.value
 
-
 class TestUser(TestCase):
     def setUp(self):
         self.db = get_db()
@@ -23,7 +22,7 @@ class TestUser(TestCase):
         
     def tearDown(self):
         self.db.clear()
-        
+
     def test_init_user(self):
         u = User.new(username, password, email)
         self.assertEqual(u.username, username)

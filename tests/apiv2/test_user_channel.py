@@ -16,6 +16,7 @@ class UserChannelTest(unittest.TestCase):
         cls.db = get_db()
         cls.db.clear()
         cls.db.connect()
+
         cls.user1 = User.new(
             username="TestUser1", password="user1", email="user1@test.com"
         )

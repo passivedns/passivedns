@@ -35,7 +35,6 @@ class TestChannel(TestCase):
         
     def tearDown(self):
         self.db.clear()
-
     def test_init_email(self):
         ch = Channel.new(CHANNEL_NAME, channel_email["type"], channel_email["infos"])
         self.assertEqual(ch.name, CHANNEL_NAME)
