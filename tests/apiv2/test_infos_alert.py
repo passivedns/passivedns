@@ -13,6 +13,7 @@ class InfoAlertTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
+        cls.db.connect()
         cls.db.clear()
 
         cls.user1 = User.new("TestUser1", "user1", "user1@test.com")

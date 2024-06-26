@@ -15,6 +15,7 @@ class TagTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
+        cls.db.connect()
         cls.db.clear()
 
         cls.user1 = User.new(

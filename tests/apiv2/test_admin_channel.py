@@ -13,6 +13,7 @@ class AdminChannelTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
+        cls.db.connect()
         cls.db.clear()
         cls.admin1 = User(
             _key="TestAdmin1",
