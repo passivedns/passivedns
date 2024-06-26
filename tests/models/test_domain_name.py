@@ -19,7 +19,7 @@ class TestDomainName(TestCase):
         
     def tearDown(self):
         self.db.clear()
-    
+
     def test_init(self):
         d = DomainName.new(domain_name)
         self.assertEqual(d.domain_name, domain_name)

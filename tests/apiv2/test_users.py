@@ -10,30 +10,31 @@ client = TestClient(app)
 
 
 class UsersTest(unittest.TestCase):
-    def setUp(self) -> None:
-        self.db = get_db()
-        self.db.clear()
-        self.db.connect()
-    
-        self.user1 = User.new(
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.db = get_db()
+        cls.db.clear()
+        cls.db.connect()
+
+        cls.user1 = User.new(
             username="TestUser1", password="user1", email="user1@test.com"
         )
-        self.user1.insert()
-        self.user2Pending = UserPending.new("user2@test.com")
-        self.user3Pending = UserPending.new("user3@test.com")
-        self.user2Token = self.user2Pending.token
-        self.user2Pending.insert()
-        self.user3Pending.insert()
-        client.post("/token", json={"identity": "TestUser1", "password": "user1"})
+        cls.user1.insert()
+        cls.user2Pending = UserPending.new("user2@test.com")
+        cls.user3Pending = UserPending.new("user3@test.com")
+        cls.user2Token = cls.user2Pending.token
+        cls.user2Pending.insert()
+        cls.user3Pending.insert()
+        client.post("/apiv2/token", json={"identity": "TestUser1", "password": "user1"})
 
-    def tearDown(self) -> None:
-        client.get("/logout")
-        self.db.clear()
-
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.db.clear()
+        
     # /register post
     def test_register(self) -> None:
         response = client.post(
-            "/register",
+            "/apiv2/register",
             json={
                 "username": "TestUser2",
                 "password": "user2",
@@ -47,7 +48,7 @@ class UsersTest(unittest.TestCase):
 
     def test_register_username_taken(self) -> None:
         response = client.post(
-            "/register",
+            "/apiv2/register",
             json={
                 "username": "TestUser1",
                 "password": "user1",
@@ -58,7 +59,7 @@ class UsersTest(unittest.TestCase):
 
     def test_register_no_token(self) -> None:
         response = client.post(
-            "/register",
+            "/apiv2/register",
             json={"username": "TestUser3", "password": "user3", "token": ""},
         )
         self.assertEqual(response.status_code, 404)
@@ -66,17 +67,17 @@ class UsersTest(unittest.TestCase):
     # /register/check post
     def test_token_check(self) -> None:
         response = client.post(
-            "/register/check", json={"token": self.user3Pending.token}
+            "/apiv2/register/check", json={"token": self.user3Pending.token}
         )
         self.assertEqual(response.status_code, 200)
 
     def test_token_check_invalid(self) -> None:
-        response = client.post("/register/check", json={"token": self.user2Token})
+        response = client.post("/apiv2/register/check", json={"token": self.user2Token})
         self.assertEqual(response.status_code, 400)
 
     # /request post
     def test_request(self) -> None:
-        response = client.post("/request", json={"email": "user4@test.com"})
+        response = client.post("/apiv2/request", json={"email": "user4@test.com"})
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertEqual(
@@ -85,13 +86,13 @@ class UsersTest(unittest.TestCase):
         self.assertIn("user_request", data)
 
     def test_request_email_unavailable(self) -> None:
-        response = client.post("/request", json={"email": "user1@test.com"})
+        response = client.post("/apiv2/request", json={"email": "user1@test.com"})
         self.assertEqual(response.status_code, 500)
         data = response.json()
         self.assertEqual(data["detail"], "email unavailable")
 
     def test_request_pending_exists(self) -> None:
-        response = client.post("/request", json={"email": "user3@test.com"})
+        response = client.post("/apiv2/request", json={"email": "user3@test.com"})
         self.assertEqual(response.status_code, 500)
         data = response.json()
         self.assertEqual(
@@ -99,7 +100,7 @@ class UsersTest(unittest.TestCase):
         )
 
     def test_request_already_exists(self) -> None:
-        response = client.post("/request", json={"email": "user4@test.com"})
+        response = client.post("/apiv2/request", json={"email": "user4@test.com"})
         self.assertEqual(response.status_code, 500)
         data = response.json()
         self.assertEqual(
@@ -109,21 +110,21 @@ class UsersTest(unittest.TestCase):
     # /password put
     def test_password(self) -> None:
         response = client.put(
-            "/password",
+            "/apiv2/password",
             json={"current_password": "user1", "new_password": "user1changed"},
         )
         self.assertEqual(response.status_code, 200)
 
     def test_password_invalid(self) -> None:
         response = client.put(
-            "/password",
+            "/apiv2/password",
             json={"current_password": "none", "new_password": "user1changed"},
         )
         self.assertEqual(response.status_code, 401)
 
     def test_password_same(self) -> None:
         response = client.put(
-            "/password",
+            "/apiv2/password",
             json={"current_password": "user1changed", "new_password": "user1changed"},
         )
         self.assertEqual(response.status_code, 400)

@@ -22,7 +22,7 @@ class TestUser(TestCase):
         
     def tearDown(self):
         self.db.clear()
-    
+
     def test_init_user(self):
         u = User.new(username, password, email)
         self.assertEqual(u.username, username)

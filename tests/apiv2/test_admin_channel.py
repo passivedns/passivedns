@@ -48,23 +48,22 @@ class AdminChannelTest(unittest.TestCase):
         )
         cls.channel2.insert()
 
-        client.post("/token", json={"identity": "TestAdmin1", "password": "admin1"})
+        client.post("/apiv2/token", json={"identity": "TestAdmin1", "password": "admin1"})
 
     @classmethod
     def tearDownClass(cls) -> None:
-        client.get("/logout")
         cls.db.clear()
 
     # /admin/channels get
     def test_admin_channel_list(self) -> None:
-        response = client.get("/admin/channels")
+        response = client.get("/apiv2/admin/channels")
         self.assertEqual(response.status_code, 200)
         self.assertIn("channel_list", response.json())
 
     # /admin/channels/{name} post
     def test_admin_create_channel(self) -> None:
         response = client.post(
-            "/admin/channels/test1",
+            "/apiv2/admin/channels/test1",
             json={
                 "type": "email",
                 "infos": {
@@ -80,7 +79,7 @@ class AdminChannelTest(unittest.TestCase):
 
     def test_admin_create_channel_already_exists(self) -> None:
         response = client.post(
-            "/admin/channels/_default",
+            "/apiv2/admin/channels/_default",
             json={
                 "type": "email",
                 "infos": {
@@ -95,14 +94,14 @@ class AdminChannelTest(unittest.TestCase):
 
     def test_admin_create_channel_parsing_error(self) -> None:
         response = client.post(
-            "/admin/channels/test3",
+            "/apiv2/admin/channels/test3",
             json={"type": "email", "infos": {"smtp_host": "test", "smtp_port": "test"}},
         )
         self.assertEqual(response.status_code, 500)
 
     def test_admin_create_channel_invalid_type(self) -> None:
         response = client.post(
-            "/admin/channels/test4",
+            "/apiv2/admin/channels/test4",
             json={
                 "type": "test",
                 "infos": {
@@ -117,18 +116,18 @@ class AdminChannelTest(unittest.TestCase):
 
     # /admin/channels/{name} get
     def test_admin_get_channel(self) -> None:
-        response = client.get("/admin/channels/_default")
+        response = client.get("/apiv2/admin/channels/_default")
         self.assertEqual(response.status_code, 200)
         self.assertIn("channel", response.json())
 
     def test_admin_get_channel_not_found(self) -> None:
-        response = client.get("/admin/channels/none")
+        response = client.get("/apiv2/admin/channels/none")
         self.assertEqual(response.status_code, 404)
 
     # /admin/channels/{name} put
     def test_admin_update_channel(self) -> None:
         response = client.put(
-            "/admin/channels/channelTest1",
+            "/apiv2/admin/channels/channelTest1",
             json={
                 "type": "email",
                 "infos": {
@@ -144,7 +143,7 @@ class AdminChannelTest(unittest.TestCase):
 
     def test_admin_update_channel_not_found(self) -> None:
         response = client.put(
-            "/admin/channels/test5",
+            "/apiv2/admin/channels/test5",
             json={
                 "type": "email",
                 "infos": {
@@ -159,14 +158,14 @@ class AdminChannelTest(unittest.TestCase):
 
     # /admin/channels/{name} delete
     def test_admin_delete_channel(self) -> None:
-        response = client.delete("/admin/channels/channelTest2")
+        response = client.delete("/apiv2/admin/channels/channelTest2")
         self.assertEqual(response.status_code, 200)
         self.assertIn("channel", response.json())
 
     def test_admin_delete_channel_default(self) -> None:
-        response = client.delete("/admin/channels/_default")
+        response = client.delete("/apiv2/admin/channels/_default")
         self.assertEqual(response.status_code, 403)
 
     def test_admin_delete_channel_not_found(self) -> None:
-        response = client.delete("/admin/channels/test6")
+        response = client.delete("/apiv2/admin/channels/test6")
         self.assertEqual(response.status_code, 404)

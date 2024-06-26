@@ -14,8 +14,8 @@ class UserChannelTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
-        cls.db.connect()
         cls.db.clear()
+        cls.db.connect()
 
         cls.user1 = User.new(
             username="TestUser1", password="user1", email="user1@test.com"
@@ -81,16 +81,15 @@ class UserChannelTest(unittest.TestCase):
         cls.channelUser4.insert()
 
         # User login
-        client.post("/token", json={"identity": "TestUser1", "password": "user1"})
+        client.post("/apiv2/token", json={"identity": "TestUser1", "password": "user1"})
 
     @classmethod
     def tearDownClass(cls) -> None:
-        client.get("/logout")
         cls.db.clear()
 
     # /channels get
     def test_channels_get(self) -> None:
-        response = client.get("/channels")
+        response = client.get("/apiv2/channels")
         self.assertEqual(response.status_code, 200)
         self.assertIn("channel_list", response.json())
         self.assertIn("_key", response.json()["channel_list"][0])
@@ -98,19 +97,19 @@ class UserChannelTest(unittest.TestCase):
 
     # /channels/{name} get
     def test_channel_get_by_name(self) -> None:
-        response = client.get("/channels/_default")
+        response = client.get("/apiv2/channels/_default")
         self.assertEqual(response.status_code, 200)
         self.assertIn("channel", response.json())
         self.assertIn("_key", response.json()["channel"])
         self.assertEqual("_default", response.json()["channel"]["_key"])
 
     def test_channel_get_by_name_not_found(self) -> None:
-        response = client.get("/channels/test")
+        response = client.get("/apiv2/channels/test")
         self.assertEqual(response.status_code, 404)
 
     # /user/channels get
     def test_user_channels_get(self) -> None:
-        response = client.get("/user/channels")
+        response = client.get("/apiv2/user/channels")
         self.assertEqual(response.status_code, 200)
         self.assertIn("channel_list", response.json())
         self.assertIn("user_channel", response.json()["channel_list"][0])
@@ -118,14 +117,14 @@ class UserChannelTest(unittest.TestCase):
 
     # /users/channels/{name} get
     def test_user_channel_get_by_name(self) -> None:
-        response = client.get("/user/channels/_default")
+        response = client.get("/apiv2/user/channels/_default")
         self.assertEqual(response.status_code, 200)
         self.assertIn("user_channel", response.json())
         self.assertIn("channel_name", response.json()["user_channel"])
         self.assertEqual("_default", response.json()["user_channel"]["channel_name"])
 
     def test_user_channel_get_by_name_not_found(self) -> None:
-        response = client.get("/user/channels/test")
+        response = client.get("/apiv2/user/channels/test")
         self.assertEqual(response.status_code, 404)
 
     # /users/channels/{name} post : mail sending so manual testing
@@ -133,39 +132,39 @@ class UserChannelTest(unittest.TestCase):
     # /users/channels/{name} put
     def test_user_channel_verify(self) -> None:
         response = client.put(
-            "/user/channels/_default", json={"token": self.channelUser1.token}
+            "/apiv2/user/channels/_default", json={"token": self.channelUser1.token}
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn("user_channel", response.json())
 
     def test_user_channel_verify_not_found(self) -> None:
         response = client.put(
-            "/user/channels/test", json={"token": self.channelUser1.token}
+            "/apiv2/user/channels/test", json={"token": self.channelUser1.token}
         )
         self.assertEqual(response.status_code, 404)
 
     def test_user_channel_verify_already_verified(self) -> None:
         response = client.put(
-            "/user/channels/channelTest1", json={"token": self.channelUser1.token}
+            "/apiv2/user/channels/channelTest1", json={"token": self.channelUser1.token}
         )
         self.assertEqual(response.status_code, 500)
 
     def test_user_channel_verify_invalid_token(self) -> None:
-        response = client.put("/user/channels/channelTest2", json={"token": "test"})
+        response = client.put("/apiv2/user/channels/channelTest2", json={"token": "test"})
         self.assertEqual(response.status_code, 500)
 
     # /users/channels/{name} delete
     def test_user_channel_delete(self) -> None:
-        response = client.delete("/user/channels/channelTest3")
+        response = client.delete("/apiv2/user/channels/channelTest3")
         self.assertEqual(response.status_code, 200)
         self.assertIn("user_channel", response.json())
 
     def test_user_channel_delete_default(self) -> None:
-        response = client.delete("/user/channels/_default")
+        response = client.delete("/apiv2/user/channels/_default")
         self.assertEqual(response.status_code, 500)
 
     def test_user_channel_delete_not_found(self) -> None:
-        response = client.delete("/user/channels/test")
+        response = client.delete("/apiv2/user/channels/test")
         self.assertEqual(response.status_code, 404)
 
 
