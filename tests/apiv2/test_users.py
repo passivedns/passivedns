@@ -10,27 +10,25 @@ client = TestClient(app)
 
 
 class UsersTest(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.db = get_db()
-        cls.db.connect()
-        cls.db.clear()
-
-        cls.user1 = User.new(
+    def setUp(self) -> None:
+        self.db = get_db()
+        self.db.clear()
+        self.db.connect()
+    
+        self.user1 = User.new(
             username="TestUser1", password="user1", email="user1@test.com"
         )
-        cls.user1.insert()
-        cls.user2Pending = UserPending.new("user2@test.com")
-        cls.user3Pending = UserPending.new("user3@test.com")
-        cls.user2Token = cls.user2Pending.token
-        cls.user2Pending.insert()
-        cls.user3Pending.insert()
+        self.user1.insert()
+        self.user2Pending = UserPending.new("user2@test.com")
+        self.user3Pending = UserPending.new("user3@test.com")
+        self.user2Token = self.user2Pending.token
+        self.user2Pending.insert()
+        self.user3Pending.insert()
         client.post("/token", json={"identity": "TestUser1", "password": "user1"})
 
-    @classmethod
-    def tearDownClass(cls) -> None:
+    def tearDown(self) -> None:
         client.get("/logout")
-        cls.db.clear()
+        self.db.clear()
 
     # /register post
     def test_register(self) -> None:

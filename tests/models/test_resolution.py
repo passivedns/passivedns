@@ -5,7 +5,7 @@ from passiveDNS.models.resolution import Resolution
 from passiveDNS.models.domain_name import DOMAIN_NAME_COLLECTION
 from passiveDNS.models.ip_address import IP_ADDRESS_COLLECTION
 from passiveDNS.db.database import ObjectNotFound
-
+from passiveDNS.db.database import get_db
 from passiveDNS.utils import config
 
 config.init_config()
@@ -30,6 +30,14 @@ example_res_list = [example_res]
 
 
 class TestResolution(TestCase):
+    def setUp(self):
+        self.db = get_db()
+        self.db.connect()
+        self.db.clear()
+        
+    def tearDown(self):
+        self.db.clear()
+    
     def test_init(self):
         d = Resolution.new(domain_name, ip_address, "PassiveDNS")
         self.assertEqual(d._from, from_id)
