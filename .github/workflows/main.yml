@@ -36,10 +36,10 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            PassiveDNS/passive-dns-api:latest 
-            PassiveDNS/passive-dns-scheduler:latest
-            PassiveDNS/passive-dns-front:latest
-            ghcr.io/${{ github.repository }}
+            ghcr.io/${{ github.repository }}/PassiveDNS/passive-dns-api:latest 
+            ghcr.io/${{ github.repository }}/PassiveDNS/passive-dns-scheduler:latest
+            ghcr.io/${{ github.repository }}/PassiveDNS/passive-dns-front:latest
+            
   
       - name: Build and push API image
         uses: docker/build-push-action@v5
@@ -47,7 +47,7 @@ jobs:
           context: .
           file: ./extras/docker/Dockerfile
           push: true
-          tags: passivedns-api:latest
+          tags: ghcr.io/${{ github.repository }}/passivedns-api:latest
           labels: ${{ steps.meta.outputs.labels }}
           
       - name: Build and push scheduler image
@@ -56,7 +56,7 @@ jobs:
           context: ./scheduler
           push: true
           file: ./docker/Dockerfile
-          tags: passivedns-scheduler:latest
+          tags: ghcr.io/${{ github.repository }}/passivedns-scheduler:latest
           labels: ${{ steps.meta.outputs.labels }}
           
       - name: Build and push front image
@@ -65,6 +65,6 @@ jobs:
           context: ./front
           file: ./docker/prod/Dockerfile
           push: true
-          tags: passivedns-front:latest
+          tags: ghcr.io/${{ github.repository }}/passivedns-front:latest
           labels: ${{ steps.meta.outputs.labels }}
           
