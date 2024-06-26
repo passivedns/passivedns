@@ -15,6 +15,7 @@ class TagTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
+        cls.db.clear()
 
         cls.user1 = User.new(
             username="TestUser1", password="user1", email="user1@test.com"
@@ -46,16 +47,7 @@ class TagTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls) -> None:
         client.get("/logout")
-        cls.user1.delete()
-        cls.tag2.delete()
-        Tag.get("testTag1").delete()
-
-        cls.tag4.delete()
-        cls.dn4.delete()
-        cls.tag5.delete()
-
-        cls.tagdn5.delete()
-        TagDnIP.get("testTag4", "dns.google.com", DOMAIN_NAME_COLLECTION).delete()
+        cls.db.clear()
 
     # tag
 

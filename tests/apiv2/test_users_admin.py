@@ -13,6 +13,7 @@ class AdminUsersTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
+        cls.db.clear()
         cls.admin1 = User(
             _key="TestAdmin1",
             email="admin1@test.com",
@@ -44,9 +45,7 @@ class AdminUsersTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls) -> None:
         client.get("/logout")
-        cls.admin1.delete()
-        cls.user1Request.delete()
-        cls.admin2.delete()
+        cls.db.clear()
 
     # /admin/request/list get
     def test_request_list(self) -> None:

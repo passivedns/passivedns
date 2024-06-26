@@ -13,6 +13,7 @@ class SchedulerTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
+        cls.db.clear()
 
         cls.user1 = User.new("TestSched1", "sched1", "sched1@test.com", True)
         cls.user1.insert()
@@ -31,11 +32,7 @@ class SchedulerTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-        cls.user1.delete()
-        cls.admin1.delete()
-        cls.dn1.delete()
-
-        User.get("TestSched2").delete()
+        cls.db.clear()
 
     # /scheduler/alerts get
     def test_get_alerts(self) -> None:

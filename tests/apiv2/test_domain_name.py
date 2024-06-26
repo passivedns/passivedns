@@ -16,6 +16,7 @@ class DomainNameTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
+        cls.db.clear()
 
         cls.user1 = User.new("TestUser1", "user1", "user1@test.com")
         cls.user1.insert()
@@ -39,19 +40,8 @@ class DomainNameTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-        UserDn.get("TestUser1", "bing.com").delete()
-        cls.listDn = Resolution.list_from_domain("example.com")
-        for res in cls.listDn:
-            IPAddress.get(res.ip_address).delete()
-            res.delete()
         client.get("/logout")
-        cls.user1.delete()
-        cls.userdn1.delete()
-        cls.dn1.delete()
-        cls.userdn2.delete()
-        cls.dn2.delete()
-        cls.userdn3.delete()
-        cls.dn3.delete()
+        cls.db.clear()
 
     # /dn get
     def test_dn_list(self) -> None:

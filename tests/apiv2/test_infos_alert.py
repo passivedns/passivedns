@@ -13,6 +13,7 @@ class InfoAlertTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
+        cls.db.clear()
 
         cls.user1 = User.new("TestUser1", "user1", "user1@test.com")
         cls.user1.insert()
@@ -22,8 +23,7 @@ class InfoAlertTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-        cls.user1.delete()
-        cls.dn1.delete()
+        cls.db.clear()
 
     # /alert get
     def test_alert_list(self) -> None:

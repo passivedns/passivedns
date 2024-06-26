@@ -14,6 +14,7 @@ class UserChannelTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
+        cls.db.clear()
 
         cls.user1 = User.new(
             username="TestUser1", password="user1", email="user1@test.com"
@@ -84,13 +85,7 @@ class UserChannelTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls) -> None:
         client.get("/logout")
-        cls.user1.delete()
-        cls.channelUser1.delete()
-        cls.channel2.delete()
-        cls.channelUser2.delete()
-        cls.channel3.delete()
-        cls.channelUser3.delete()
-        cls.channel4.delete()
+        cls.db.clear()
 
     # /channels get
     def test_channels_get(self) -> None:

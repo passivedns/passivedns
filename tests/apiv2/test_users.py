@@ -14,6 +14,7 @@ class UsersTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
+        cls.db.clear()
 
         cls.user1 = User.new(
             username="TestUser1", password="user1", email="user1@test.com"
@@ -29,12 +30,7 @@ class UsersTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls) -> None:
         client.get("/logout")
-        cls.user1.delete()
-        cls.user3Pending.delete()
-        cls.user2 = User.get("TestUser2")
-        cls.user2.delete()
-        cls.user4Request = UserRequest.get("user4@test.com")
-        cls.user4Request.delete()
+        cls.db.clear()
 
     # /register post
     def test_register(self) -> None:

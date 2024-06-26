@@ -12,6 +12,7 @@ class AuthTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
+        cls.db.clear()
         cls.admin1 = User(
             _key="TestAdmin1",
             email="admin1@test.com",
@@ -28,8 +29,7 @@ class AuthTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-        cls.admin1.delete()
-        cls.user1.delete()
+        cls.db.clear()
 
     def test_login_admin(self) -> None:
         response = client.post(

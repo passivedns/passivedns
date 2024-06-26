@@ -13,6 +13,7 @@ class AdminChannelTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.db = get_db()
+        cls.db.clear()
         cls.admin1 = User(
             _key="TestAdmin1",
             email="admin1@test.com",
@@ -51,9 +52,7 @@ class AdminChannelTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls) -> None:
         client.get("/logout")
-        cls.admin1.delete()
-        cls.channel1.delete()
-        Channel.get("test1").delete()
+        cls.db.clear()
 
     # /admin/channels get
     def test_admin_channel_list(self) -> None:
