@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import MagicMock
 
 from passiveDNS.models.channel import Channel, ChannelTypeError
-
+from passiveDNS.db.database import get_db
 from passiveDNS.utils import config
 
 config.init_config()
@@ -28,6 +28,14 @@ CHANNEL_NAME = "new_chan"
 
 
 class TestChannel(TestCase):
+    def setUp(self):
+        self.db = get_db()
+        self.db.connect()
+        self.db.clear()
+
+    def tearDown(self):
+        self.db.clear()
+
     def test_init_email(self):
         ch = Channel.new(CHANNEL_NAME, channel_email["type"], channel_email["infos"])
         self.assertEqual(ch.name, CHANNEL_NAME)

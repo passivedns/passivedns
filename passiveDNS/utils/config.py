@@ -50,5 +50,6 @@ class Config(object):
             self.JOB_URL = self.get_env_value("JOB_URL")
         self.JWT_SECRET_KEY = self.get_env_value("JWT_SECRET_KEY")
         self.TIMEZONE = self.get_env_value("TIMEZONE")
-        self.DEBUG = self.get_env_value("DEBUG")
+        if "DEBUG" in os.environ.keys():
+            self.DEBUG = self.get_env_value("DEBUG")
         self.ALGORITHM = self.get_env_value("ALGORITHM")

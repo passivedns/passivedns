@@ -1,21 +1,11 @@
-FROM node:latest as build-stage
+FROM node:buster AS frontend-builder
 
-ARG HOST=http://localhost:8080
-
-ENV NODE_OPTIONS=--openssl-legacy-provider
-
+ADD . /app
 WORKDIR /app
-COPY package*.json ./
 
 RUN npm install
-
-COPY ./ .
-
-RUN sed -i -e "s+{{HOST}}+$HOST+g" "./src/services/config.json"
 RUN npm run build
 
-FROM nginx as production-stage
-
-RUN mkdir /app
-COPY --from=build-stage /app/dist /app
-COPY nginx.conf /etc/nginx/nginx.conf
+FROM nginx:latest AS frontend
+COPY --from=frontend-builder /app/dist /www
+EXPOSE 80
