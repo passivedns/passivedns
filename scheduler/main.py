@@ -1,4 +1,3 @@
-import os
 from argparse import ArgumentParser
 
 from tasks import daily_task
