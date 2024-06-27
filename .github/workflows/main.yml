@@ -40,7 +40,6 @@ jobs:
             ghcr.io/${{ github.repository }}/passive-dns-scheduler:latest
             ghcr.io/${{ github.repository }}/passive-dns-front:latest
             
-  
       - name: Build and push API image
         uses: docker/build-push-action@v5
         with:

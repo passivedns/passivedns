@@ -4,9 +4,8 @@ set -euo pipefail
 set -e
 
 if [[ "$1" =~ "scheduler" ]]; then
-    poetry run celery -A tasks worker --loglevel=info
+    poetry run celery -A tasks worker --loglevel=info --purge -B -P threads
 fi
-
 if [[ "$1" =~ "shell" ]]; then
     /bin/bash
 fi
