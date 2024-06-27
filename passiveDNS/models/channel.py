@@ -1,5 +1,5 @@
-from models.channel_meta import ChannelTelegram, ChannelEmail, ChannelDiscord
-from models.meta_node import Node
+from passiveDNS.models.channel_meta import ChannelTelegram, ChannelEmail, ChannelDiscord
+from passiveDNS.models.meta_node import Node
 
 CHANNEL_COLLECTION = "Channel"
 

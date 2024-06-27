@@ -1,8 +1,8 @@
 import discord
 from multiprocessing import Process
 
-from channels.templates import ChannelTemplate
-from models.channel_meta import ChannelDiscord
+from passiveDNS.channels.templates import ChannelTemplate
+from passiveDNS.models.channel_meta import ChannelDiscord
 
 
 class DiscordSendingError(Exception):

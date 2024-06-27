@@ -11,6 +11,7 @@
                     <th scope="col">Country</th>
                     <th scope="col">Last seen</th>
                     <th scope="col">First seen</th>
+                    <th scope="col">Resolver</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -19,6 +20,7 @@
                     <td>{{r.ip.location.country}}</td>
                     <td>{{formatDate(r.last_updated_at)}}</td>
                     <td>{{formatDate(r.first_updated_at)}}</td>
+                    <td>{{ r.resolver }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -39,7 +41,7 @@
         },
         methods: {
             formatDate(d) {
-                return DateUtil.formatDiffNow(d)
+                return DateUtil.format(d)
             }
         }
     }

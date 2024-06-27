@@ -1,7 +1,7 @@
 import requests
 
-from channels.templates import ChannelTemplate
-from models.channel_meta import ChannelTelegram
+from passiveDNS.channels.templates import ChannelTemplate
+from passiveDNS.models.channel_meta import ChannelTelegram
 
 
 class TelegramSendingError(Exception):

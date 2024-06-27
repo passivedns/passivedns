@@ -3,15 +3,15 @@ from time import time
 from fastapi import APIRouter, Depends, HTTPException, Response
 
 import pandas
-from apiv2.auth import get_current_user
-from models.domain_name import (
+from passiveDNS.apiv2.auth import get_current_user
+from passiveDNS.models.domain_name import (
     DomainNameFilterNotFound,
     DomainNameSortNotFound,
     DomainName,
     EXPORT_CSV,
     EXPORT_JSON,
 )
-from models.user import User
+from passiveDNS.models.user import User
 
 alert_router = APIRouter()
 

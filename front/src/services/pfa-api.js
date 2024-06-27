@@ -21,7 +21,10 @@ export default class PfaApi {
             "tagLinked": "/apiv2/tag_dn_ip",
             "tagLinkedList": "/apiv2/tag_dn_ip/list/from",
             "password": "/apiv2/password",
-            "logout": "/apiv2/logout"
+            "logout": "/apiv2/logout",
+            "apikey": "/apiv2/apikey",
+            "apiIntegrations": "/apiv2/apiintegration",
+            "userApis": "/apiv2/user/apiintegration"
         };
     }
 
@@ -333,6 +336,108 @@ export default class PfaApi {
         return this.service.delete(`${this.routes.dn}/${dn}`)
             .then(function(d) {
                 console.log(d.data.msg);
+                return true;
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
+                return false;
+            })
+    }
+
+    getExternApisAvailableList() {
+        return this.service.get(this.routes.apiIntegrations)
+            .then(function(d) {
+                console.log(d.data.msg);
+                return d.data.api_list
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
+            })
+    }
+
+    getExternApiLinkedList() {
+        return this.service.get(this.routes.userApis)
+            .then(function(d) {
+                console.log(d.data.msg);
+                return d.data.api_list;
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
+            })
+    }
+
+    setupExternApi(externApi, user_key) {
+        return this.service.post(`${this.routes.apikey}/${externApi}`, {}, {
+            params: {
+                api_key: user_key
+            }
+        })
+            .then(function(d) {
+                console.log(d.data.msg);
+                return true;
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
+                return false;
+            })
+    }
+
+    removeExternApi(externApi) {
+        return this.service.delete(`${this.routes.apikey}/${externApi}`)
+            .then(function(d) {
+                console.log(d.data.msg);
+                return true;
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
+                return false;
+            })
+    }
+
+    requestExternApiDn(externApi, dn) {
+        return this.service.post(`${this.routes.apiIntegrations}/dn/${externApi}`, {}, {
+            params: {
+                domain_name: dn
+            }
+        })
+            .then(function(d) {
+                console.log(d.data.msg)
+                return true;
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
+                return false;
+            })
+    }
+
+    requestExternApiIp(externApi, ip) {
+        return this.service.post(`${this.routes.apiIntegrations}/ip/${externApi}`, {}, {
+            params: {
+                ip_address: ip
+            }
+        })
+            .then(function(d) {
+                console.log(d.data.msg)
+                return true;
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
+                return false;
+            })
+    }
+
+    externApiUpdate(externApi) {
+        return this.service.put(`${this.routes.apiIntegrations}/${externApi._key}`, {
+                base_url: externApi.base_url,
+                header: externApi.header,
+                ip_method: externApi.ip_method,
+                ip_uri: externApi.ip_uri,
+                domain_method: externApi.domain_method,
+                domain_uri: externApi.domain_uri,
+            
+        })
+            .then(function(d) {
+                console.log(d.data.msg)
                 return true;
             })
             .catch(function(err) {

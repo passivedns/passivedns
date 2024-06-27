@@ -34,6 +34,7 @@ DOMAIN_NAME_LIST_RETURN = """
         ip_address: resolution.ip_address,
         ip_address_tags: ip_tags,
         last_ip_change: resolution.first_updated_at,
+        resolver: resolution.resolver,
         owned: owned,
         followed: followed
     }

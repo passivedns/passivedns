@@ -1,4 +1,4 @@
-from db.database import get_db, ObjectNotFound
+from passiveDNS.db.database import get_db, ObjectNotFound
 
 
 class Node(object):
@@ -59,6 +59,18 @@ class Node(object):
             UPDATE c WITH {self.json()} IN {self._collection}
         """,
             bind_vars={"key": self._key},
+        )
+
+    def _replace(self):
+        """
+        Update a node in the collection
+        :return:
+        """
+        session = get_db()
+        session.exec_aql(
+            f"""
+        REPLACE "{self._key}" WITH {self.json()} IN {self._collection}
+        """
         )
 
     @staticmethod

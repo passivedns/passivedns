@@ -1,8 +1,7 @@
 from enum import Enum
 
 from Crypto.Protocol.KDF import bcrypt_check, bcrypt
-
-from models.meta_node import Node
+from passiveDNS.models.meta_node import Node
 
 
 class UserRole(Enum):
@@ -26,6 +25,7 @@ class User(Node):
         self.email = user_json["email"]
         self.hashed_password = user_json["hashed_password"]
         self.role = user_json["role"]
+        self.api_keys = user_json["api_keys"]
 
     def json(self) -> dict:
         """
@@ -37,6 +37,7 @@ class User(Node):
             "hashed_password": self.hashed_password,
             "email": self.email,
             "role": self.role,
+            "api_keys": self.api_keys,
         }
 
     def safe_json(self) -> dict:
@@ -71,8 +72,29 @@ class User(Node):
         self.hashed_password = self._hash_password(password)
         self._update()
 
+    def update_api_keys(self, api_name, api_key):
+        """
+        Add or replace an API key
+        :param api_name: the name of the api
+        :param api_key: the key associated to the api
+        :return:
+        """
+        self.api_keys[api_name] = api_key
+        self._update()
+
+    def remove_api_key(self, api_name):
+        """
+        Remove an API key
+        :param api_name: the name of the api
+        :return:
+        """
+        del self.api_keys[api_name]
+        self._replace()
+
     @staticmethod
-    def new(username: str, password: str, email: str, is_scheduler=False):
+    def new(
+        username: str, password: str, email: str, is_scheduler=False, is_admin=False
+    ):
         """
         Build a new User object
         :param username: the User name
@@ -82,13 +104,19 @@ class User(Node):
         :return: a new User object
         """
         hashed_password = User._hash_password(password)
-        if is_scheduler:
+        if is_admin:
+            role = UserRole.ADMIN.value
+        elif is_scheduler:
             role = UserRole.SCHEDULER.value
         else:
             role = UserRole.USER.value
 
         return User(
-            _key=username, email=email, hashed_password=hashed_password, role=role
+            _key=username,
+            email=email,
+            hashed_password=hashed_password,
+            role=role,
+            api_keys={},
         )
 
     @staticmethod

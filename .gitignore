@@ -7,3 +7,4 @@ api/*.env
 .idea/*
 .venv
 venv/*
+tests/apiv2/__pycache__

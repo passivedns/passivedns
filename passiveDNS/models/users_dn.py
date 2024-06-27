@@ -1,6 +1,6 @@
-from models.meta_edge import Edge
-from models.user import USER_COLLECTION
-from models.domain_name import DOMAIN_NAME_COLLECTION
+from passiveDNS.models.meta_edge import Edge
+from passiveDNS.models.user import USER_COLLECTION
+from passiveDNS.models.domain_name import DOMAIN_NAME_COLLECTION
 
 USER_DN_COLLECTION = "UsersDn"
 

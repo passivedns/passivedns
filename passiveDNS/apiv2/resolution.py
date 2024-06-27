@@ -2,9 +2,9 @@ from operator import itemgetter
 
 from fastapi import APIRouter, HTTPException
 
-from models.domain_name import DomainNameResolutionError
-from models.ip_address import IPAddress
-from models.resolution import Resolution
+from passiveDNS.models.domain_name import DomainNameResolutionError
+from passiveDNS.models.ip_address import IPAddress
+from passiveDNS.models.resolution import Resolution
 
 resolution_router = APIRouter()
 
@@ -37,6 +37,7 @@ def get_resolution_history(domain_name):
                 "first_updated_at": resolution.first_updated_at.isoformat(),
                 "last_updated_at": resolution.last_updated_at.isoformat(),
                 "ip": ip.json(),
+                "resolver": resolution.resolver,
             }
         )
     out_sorted = sorted(out, key=itemgetter("last_updated_at"), reverse=True)
@@ -73,6 +74,7 @@ def get_reverse_history(ip_address):
                 "first_updated_at": resolution.first_updated_at.isoformat(),
                 "last_updated_at": resolution.last_updated_at.isoformat(),
                 "ip": ip.json(),
+                "resolver": resolution.resolver,
             }
         )
 

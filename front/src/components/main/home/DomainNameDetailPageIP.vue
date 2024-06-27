@@ -32,6 +32,10 @@
                 <div class="col-3">AS server</div>
                 <div class="col"><span class="font-weight-bold">{{details.ip.location.AS}}</span></div>
             </div>
+            <div class="row">
+                <div class="col-3">Resolver</div>
+                <div class="col"><span class="font-weight-bold">{{details.resolver}}</span></div>
+            </div>
         </div>
     </div>
 </template>

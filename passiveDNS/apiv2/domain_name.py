@@ -2,12 +2,13 @@ from time import time
 
 from defang import refang
 from fastapi import APIRouter, Depends, HTTPException, Response
+import validators
 
 import pandas
-from apiv2.auth import get_current_user
-from models.domain_name import DomainName
-from db.database import ObjectNotFound
-from models.domain_name import (
+from passiveDNS.apiv2.auth import get_current_user
+from passiveDNS.models.domain_name import DomainName
+from passiveDNS.db.database import ObjectNotFound
+from passiveDNS.models.domain_name import (
     DomainNameResolutionError,
     DomainNameFilterNotFound,
     DomainNameSortNotFound,
@@ -15,11 +16,11 @@ from models.domain_name import (
     EXPORT_CSV,
     EXPORT_JSON,
 )
-from models.ip_address import IPAddress, IP_ADDRESS_COLLECTION
-from models.resolution import Resolution
-from models.tag_dn_ip import TagDnIP
-from models.users_dn import UserDn
-from models.user import User
+from passiveDNS.models.ip_address import IPAddress, IP_ADDRESS_COLLECTION
+from passiveDNS.models.resolution import Resolution
+from passiveDNS.models.tag_dn_ip import TagDnIP
+from passiveDNS.models.users_dn import UserDn
+from passiveDNS.models.user import User
 
 domain_name_router = APIRouter()
 
@@ -151,6 +152,8 @@ def export_domain_name_list(
 @domain_name_router.post("/dn/{domain_name}")
 def create_domain_name(domain_name, user: User = Depends(get_current_user)):
     domain_name = refang(domain_name)
+    if not validators.domain(domain_name):
+        raise HTTPException(status_code=500, detail="domain name not valid")
     if DomainName.exists(domain_name):
         raise HTTPException(
             status_code=500, detail=f"domain name {domain_name} already exists"
@@ -167,7 +170,7 @@ def create_domain_name(domain_name, user: User = Depends(get_current_user)):
             ip = IPAddress.new(ip_address)
             ip.insert()
 
-        resolution = Resolution.new(domain_name, ip_address)
+        resolution = Resolution.new(domain_name, ip_address, "PassiveDNS")
         resolution.insert()
     else:
         dn.delete()
@@ -218,6 +221,7 @@ def get(domain_name, user: User = Depends(get_current_user)):
             "ip_tags": [],
             "owned": owned,
             "followed": followed,
+            "resolver": None,
         }
 
     ip = IPAddress.get(resolution.ip_address)
@@ -231,12 +235,15 @@ def get(domain_name, user: User = Depends(get_current_user)):
         "ip_tags": [t.tag for t in ip_tags],
         "owned": owned,
         "followed": followed,
+        "resolver": resolution.resolver,
     }
 
 
 @domain_name_router.put("/dn/{domain_name}")
 def put(domain_name):
     domain_name = refang(domain_name)
+    if not validators.domain(domain_name):
+        raise HTTPException(status_code=500, detail="domain name not valid")
 
     try:
         dn = DomainName.get(domain_name)
@@ -254,7 +261,7 @@ def put(domain_name):
 
     if not Resolution.exists(domain_name, ip_address):
         # ip change detected
-        resolution = Resolution.new(domain_name, ip_address)
+        resolution = Resolution.new(domain_name, ip_address, "PassiveDNS")
         resolution.insert()
 
     else:

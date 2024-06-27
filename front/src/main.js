@@ -10,6 +10,7 @@ import Alerts from "@/components/main/alerts/Alerts.vue";
 import Admin from "@/components/main/admin/Admin.vue";
 import Users from "@/components/main/admin/users/Users.vue";
 import DomainNameDetailPage from "@/components/main/home/DomainNameDetailPage.vue";
+import ExternApis from "@/components/main/externApis/ExternApis.vue";
 
 
 const routes = [
@@ -18,6 +19,7 @@ const routes = [
   {path: "/user", component: User},
   {path: "/alerts", component: Alerts},
   {path: "/channels", component: Channels},
+  {path: "/externApis", component: ExternApis},
   {path: "/admin", component: Admin},
   {path: "/users", component: Users},
   {path: "/user", component: User},

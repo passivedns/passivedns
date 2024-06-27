@@ -1,9 +1,12 @@
-from datetime import datetime
+from datetime import datetime, date
 
-from models.meta_edge import Edge
-from models.domain_name import DOMAIN_NAME_COLLECTION, DomainNameResolutionError
-from models.ip_address import IP_ADDRESS_COLLECTION
-from utils import timezone, config
+from passiveDNS.models.meta_edge import Edge
+from passiveDNS.models.domain_name import (
+    DOMAIN_NAME_COLLECTION,
+    DomainNameResolutionError,
+)
+from passiveDNS.models.ip_address import IP_ADDRESS_COLLECTION
+from passiveDNS.utils import timezone, config
 
 RESOLUTION_COLLECTION = "DomainNameResolution"
 
@@ -19,6 +22,7 @@ class Resolution(Edge):
         )
         self.domain_name = resolution_json["domain_name"]
         self.ip_address = resolution_json["ip_address"]
+        self.resolver = resolution_json["resolver"]
         self.last_updated_at = datetime.fromisoformat(
             resolution_json["last_updated_at"]
         )
@@ -36,20 +40,27 @@ class Resolution(Edge):
             "_to": self._to,
             "domain_name": self.domain_name,
             "ip_address": self.ip_address,
+            "resolver": self.resolver,
             "last_updated_at": self.last_updated_at.isoformat(),
             "first_updated_at": self.first_updated_at.isoformat(),
         }
 
     def update(self):
         """
-        Set the last updated date to now, and save in DB
+        Set the last updated date to now and last resolver, and save in DB
         :return:
         """
         self.last_updated_at = timezone.get_current_datetime(config.g.TIMEZONE)
-        self._update(dict(last_updated_at=self.last_updated_at))
+        self._update(dict(last_updated_at=self.last_updated_at, resolver=self.resolver))
 
     @staticmethod
-    def new(domain_name, ip_address):
+    def new(
+        domain_name: str,
+        ip_address: str,
+        resolver: str,
+        last_updated: date = None,
+        first_updated: date = None,
+    ):
         """
         Build a new Resolution object
         :param domain_name: the domain name to link
@@ -58,14 +69,25 @@ class Resolution(Edge):
         """
         from_id = Resolution._get_id(DOMAIN_NAME_COLLECTION, domain_name)
         to_id = Resolution._get_id(IP_ADDRESS_COLLECTION, ip_address)
-        now = timezone.get_current_datetime(config.g.TIMEZONE)
+
+        if last_updated is None:
+            last = timezone.get_current_datetime(config.g.TIMEZONE)
+        else:
+            last = last_updated
+
+        if first_updated is None:
+            first = timezone.get_current_datetime(config.g.TIMEZONE)
+        else:
+            first = first_updated
+
         return Resolution(
             _from=from_id,
             _to=to_id,
             domain_name=domain_name,
             ip_address=ip_address,
-            last_updated_at=now,
-            first_updated_at=now,
+            resolver=resolver,
+            last_updated_at=last,
+            first_updated_at=first,
         )
 
     @staticmethod

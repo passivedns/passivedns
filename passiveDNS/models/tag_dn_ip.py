@@ -1,5 +1,5 @@
-from models.meta_edge import Edge
-from models.tag import TAG_COLLECTION
+from passiveDNS.models.meta_edge import Edge
+from passiveDNS.models.tag import TAG_COLLECTION
 
 TAG_DN_IP_COLLECTION = "TagDnIp"
 
