@@ -17,7 +17,7 @@ RUN chmod +x /docker-entrypoint.sh
 
 RUN pip3 install --upgrade pip && pip3 install poetry
 
-RUN poetry install --no-dev
+RUN poetry install --no-root
 
 ENV PYTHONPATH /app
 
