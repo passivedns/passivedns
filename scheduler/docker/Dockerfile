@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     git \
     && apt-get clean && rm -rf /var/cache/apt/* /var/lib/apt/lists/*
 
-ADD . /app
+ADD ./scheduler /app
 WORKDIR /app
 
 RUN cp ./scheduler/docker/docker-entrypoint.sh /docker-entrypoint.sh
