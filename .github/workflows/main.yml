@@ -1,5 +1,4 @@
 # This is a basic workflow to help you get started with Actions
-
 name: Docker Image Publishing
 
 # Controls when the workflow will run
@@ -12,54 +11,59 @@ on:
 
 jobs:
   push_to_registry:
-    name: Push Docker image to Docker Hub
+    name: Push Docker image to github container registry
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
         
-      - name: Setting up env
-        run: |
-          echo "VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-          echo "COMMIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
-          echo "JOB_URL=https://github.com/PassiveDNS/PassiveDNS/actions/runs/${GITHUB_RUN_ID}" >> $GITHUB_ENV
-      
-      - name: Logging build args
-        run: |
-          echo "version: ${VERSION}"
-          echo "commit SHA: ${COMMIT_SHA}"
-          echo "job URL: ${JOB_URL}"
-      
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v1
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      
+            registry: ghcr.io
+            username: ${{ github.actor }}
+            password: ${{ secrets.GITHUB_TOKEN }}
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
-          images: dadard29/passive-dns-api,dadard29/passive-dns-scheduler
-      
+          images: |
+            ghcr.io/${{ github.repository }}/passive-dns-api:latest 
+            ghcr.io/${{ github.repository }}/passive-dns-scheduler:latest
+            ghcr.io/${{ github.repository }}/passive-dns-front:latest
+            
       - name: Build and push API image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
-          context: ./api
+          context: .
+          file: ./extras/docker/Dockerfile
           push: true
-          tags: dadard29/passive-dns-api:latest
+          tags: ghcr.io/${{ github.repository }}/passivedns-api:latest
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            VERSION=${{ env.VERSION }}
-            COMMIT_SHA=${{ env.COMMIT_SHA }}
-            JOB_URL=${{ env.JOB_URL }}
-      
+          
       - name: Build and push scheduler image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
-          context: ./scheduler
+          context: .
           push: true
-          tags: dadard29/passive-dns-scheduler:latest
+          file: ./scheduler/docker/prod/Dockerfile
+          tags:  ghcr.io/${{ github.repository }}/passivedns-scheduler:latest
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            VERSION=${{ env.VERSION }}
+          
+      - name: Build and push front image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./front/docker/prod/Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository }}/passivedns-front:latest
+          labels: ${{ steps.meta.outputs.labels }}
+          

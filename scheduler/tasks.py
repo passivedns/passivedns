@@ -27,8 +27,8 @@ def resolve(client_data: dict, domain_name: str):
 def daily_task():
     client_data = {
         "host": os.environ["API_HOST"],
-        "username": os.environ["API_USERNAME"],
-        "password": os.environ["API_PASSWORD"],
+        "username": os.environ["SCHEDULER_USERNAME"],
+        "password": os.environ["SCHEDULER_PASSWORD"],
     }
     client = ApiClient(**client_data)
     client.login()

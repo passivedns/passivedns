@@ -35,6 +35,7 @@ ADD . /app
 WORKDIR /app
 
 RUN cp ./extras/docker/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
 RUN pip3 install --upgrade pip && pip3 install poetry
 

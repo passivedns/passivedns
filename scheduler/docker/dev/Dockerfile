@@ -12,11 +12,12 @@ RUN apt-get update && apt-get install -y \
 ADD . /app
 WORKDIR /app
 
-COPY --chmod=744 ./docker/docker-entrypoint.sh /docker-entrypoint.sh
+RUN cp ./docker/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
 RUN pip3 install --upgrade pip && pip3 install poetry
 
-RUN poetry install --no-dev
+RUN poetry install --no-root
 
 ENV PYTHONPATH /app
 

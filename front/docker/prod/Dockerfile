@@ -1,6 +1,6 @@
 FROM node:buster AS frontend-builder
 
-ADD . /app
+ADD ./front /app
 WORKDIR /app
 
 RUN npm install

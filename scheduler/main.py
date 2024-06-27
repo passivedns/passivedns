@@ -1,14 +1,6 @@
-import os
 from argparse import ArgumentParser
 
 from tasks import daily_task
-
-host = os.environ["API_HOST"]
-username = os.environ["API_USERNAME"]
-password = os.environ["API_PASSWORD"]
-
-
-thread_count = int(os.environ["THREAD_COUNT"])
 
 
 def arg_parser():
