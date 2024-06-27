@@ -55,7 +55,7 @@ jobs:
         with:
           context: .
           push: true
-          file: ./scheduler/docker/Dockerfile
+          file: ./scheduler/docker/prod/Dockerfile
           tags:  ghcr.io/${{ github.repository }}/passivedns-scheduler:latest
           labels: ${{ steps.meta.outputs.labels }}
           
