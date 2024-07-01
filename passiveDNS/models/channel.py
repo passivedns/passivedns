@@ -1,4 +1,4 @@
-from passiveDNS.models.channel_meta import ChannelTelegram, ChannelEmail, ChannelDiscord
+from passiveDNS.models.channel_meta import ChannelTelegram, ChannelEmail, ChannelDiscord, ChannelRedis
 from passiveDNS.models.meta_node import Node
 
 CHANNEL_COLLECTION = "Channel"
@@ -41,6 +41,9 @@ class Channel(Node):
 
         elif self.type == ChannelDiscord.TYPE:
             self.infos = ChannelDiscord(**infos)
+
+        elif self.type == ChannelRedis.TYPE:
+            self.infos = ChannelRedis(**infos)
 
         else:
             raise ChannelTypeError(f"cannot parse channel of type {self.type}")

@@ -61,7 +61,7 @@
                     <form v-else-if="channelType === channelTypeRedis">
                         <div class="form-group">
                             <label for="database">Database</label>
-                            <input v-model="channelInfos.database" type="text" class="form-control" id="database">
+                            <input v-model="channelInfos.db" type="text" class="form-control" id="database">
                         </div>
                         <div class="form-group">
                             <label for="host">Host</label>
