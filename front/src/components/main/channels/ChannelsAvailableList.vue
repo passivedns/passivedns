@@ -11,11 +11,13 @@
                              src="../../../assets/icons/icons8-telegram-app-48.png" alt="telegram">
                         <img v-else-if="c.type === channelTypeDiscord" class="mr-2 light"
                              src="../../../assets/icons/icons8-discord-48.png" alt="discord">
+                        <img v-else-if="c.type === channelTypeRedis" class="mr-2 light"
+                             src="../../../assets/icons/icons8-mail-48.png" alt="redis">
                         <span style="font-size: 24px" class="card-title">{{c._key}}</span>
                     </div>
                     <div class="card-body">
                         <span class="card-link">
-                            <button @click="setup(c)" class="btn btn-primary">
+                            <button v-if="c.type !== channelTypeRedis" @click="setup(c)" class="btn btn-primary">
                                 <img src="../../../assets/icons/icons8-settings-24.png" alt="setup">
                                 Setup
                             </button>
@@ -35,6 +37,7 @@
             channelTypeEmail: String,
             channelTypeTelegram: String,
             channelTypeDiscord: String,
+            channelTypeRedis: String,
         },
         methods: {
             setup(channel) {
