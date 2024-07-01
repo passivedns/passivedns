@@ -57,6 +57,28 @@
                             </div>
                         </div>
                     </form>
+                    <form v-else-if="channel.type === channelTypeRedis">
+                        <div class="form-group">
+                            <label for="redisDatabase">Database</label>
+                            <input v-model="channel.infos.database" type="text" class="form-control" id="redisDatabase">
+                        </div>
+                        <div class="form-group">
+                            <label for="redisHost">Host</label>
+                            <input v-model="channel.infos.host" type="text" class="form-control" id="redisHost">
+                        </div>
+                        <div class="form-group">
+                            <label for="redisPort">Port</label>
+                            <input v-model="channel.infos.port" type="text" class="form-control" id="redisPort">
+                        </div>
+                        <div class="form-group">
+                            <label for="redisQueueName">Queue name</label>
+                            <input v-model="channel.infos.queue_name" type="text" class="form-control" id="redisQueueName">
+                        </div>
+                        <div class="form-group">
+                            <label for="redisPassword">Password</label>
+                            <input v-model="channel.infos.password" type="password" class="form-control" id="redisPassword">
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -79,6 +101,7 @@ import AuthCheck from "@/components/connection/AuthCheck.vue";
             channelTypeEmail: String,
             channelTypeTelegram: String,
             channelTypeDiscord: String,
+            channelTypeRedis: String,
         },
         data() {
             return {

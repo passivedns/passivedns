@@ -108,10 +108,9 @@ export default class PfaApiAdmin {
     }
 
     channelCreate(name, infos, type) {
-        return this.service.post(`${this.routes.channels}/${name}`, infos, {
-            params: {
-                type: type
-            }
+        return this.service.post(`${this.routes.channels}/${name}`, {
+            type: type,
+            infos: infos
         })
             .then(function(d) {
                 console.log(d.data.msg);

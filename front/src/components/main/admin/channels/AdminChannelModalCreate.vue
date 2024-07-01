@@ -22,6 +22,7 @@
                                 <option :value="channelTypeEmail">Email</option>
                                 <option :value="channelTypeTelegram">Telegram</option>
                                 <option :value="channelTypeDiscord">Discord</option>
+                                <option :value="channelTypeRedis">Redis</option>
                             </select>
                         </div>
 
@@ -57,6 +58,28 @@
                             <input v-model="channelInfos.bot_token" type="text" class="form-control" id="discordBotToken">
                         </div>
                     </form>
+                    <form v-else-if="channelType === channelTypeRedis">
+                        <div class="form-group">
+                            <label for="database">Database</label>
+                            <input v-model="channelInfos.database" type="text" class="form-control" id="database">
+                        </div>
+                        <div class="form-group">
+                            <label for="host">Host</label>
+                            <input v-model="channelInfos.host" type="text" class="form-control" id="host">
+                        </div>
+                        <div class="form-group">
+                            <label for="senderEmail">Port</label>
+                            <input v-model="channelInfos.port" type="text" class="form-control" id="senderEmail">
+                        </div>
+                        <div class="form-group">
+                            <label for="queueName">Queue name</label>
+                            <input v-model="channelInfos.queue_name" type="text" class="form-control" id="queueName">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input v-model="channelInfos.password" type="password" class="form-control" id="password">
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -81,6 +104,7 @@ import AuthCheck from "@/components/connection/AuthCheck.vue";
             channelTypeEmail: String,
             channelTypeTelegram: String,
             channelTypeDiscord: String,
+            channelTypeRedis: String
         },
         data() {
             return {

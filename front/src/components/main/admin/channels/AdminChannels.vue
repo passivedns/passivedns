@@ -14,6 +14,7 @@
                 :channel-type-email="channelTypeEmail"
                 :channel-type-telegram="channelTypeTelegram"
                 :channel-type-discord="channelTypeDiscord"
+                :channel-type-redis="channelTypeRedis"
         />
 
         <AdminChannelModalUpdate
@@ -22,6 +23,7 @@
                 :channel-type-telegram="channelTypeTelegram"
                 :channel-type-email="channelTypeEmail"
                 :channel-type-discord="channelTypeDiscord"
+                :channel-type-redis="channelTypeRedis"
         />
 
         <AdminChannelModalCreate
@@ -30,6 +32,7 @@
                 :channel-type-email="channelTypeEmail"
                 :channel-type-telegram="channelTypeTelegram"
                 :channel-type-discord="channelTypeDiscord"
+                :channel-type-redis="channelTypeRedis"
         />
 
         <ModalConfirm ref="modalConfirm" @confirm="removeConfirmed"
@@ -54,7 +57,8 @@
                 channelsList: [],
                 channelTypeEmail: "email",
                 channelTypeTelegram: "telegram",
-                channelTypeDiscord: "discord"
+                channelTypeDiscord: "discord",
+                channelTypeRedis: "redis",
             }
         },
         mounted() {

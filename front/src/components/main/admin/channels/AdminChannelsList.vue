@@ -21,6 +21,9 @@
                     <td v-else-if="ch.type === channelTypeDiscord">
                         <img class="light" src="../../../../assets/icons/icons8-discord-48.png" alt="discord">
                     </td>
+                    <td v-else-if="ch.type === channelTypeRedis">
+                        <img class="light" src="../../../../assets/icons/icons8-mail-48.png" alt="redis">
+                    </td>
 
                     <td class="align-middle">
                         <h4>{{ch._key}}</h4>
@@ -56,6 +59,7 @@
             channelTypeEmail: String,
             channelTypeTelegram: String,
             channelTypeDiscord: String,
+            channelTypeRedis: String,
         },
         data() {
             return {
