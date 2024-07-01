@@ -1,6 +1,6 @@
 import requests
 
-from passiveDNS.channels.templates import ChannelTemplate
+from passiveDNS.utils.channels.templates import ChannelTemplate
 from passiveDNS.models.channel_meta import ChannelTelegram
 
 

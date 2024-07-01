@@ -2,14 +2,27 @@ from multiprocessing import Process
 
 import pandas
 
-from passiveDNS.channels.discord_chan import send_discord
-from passiveDNS.channels.email import send_email
-from passiveDNS.channels.telegram import send_telegram
-from passiveDNS.channels.templates_list import ALERT_LIST_TEMPLATE
+from passiveDNS.utils.channels.discord_chan import send_discord
+from passiveDNS.utils.channels.email import send_email
+from passiveDNS.utils.channels.telegram import send_telegram
+from passiveDNS.utils.channels.redis import send_redis
+from passiveDNS.utils.channels.templates_list import ALERT_LIST_TEMPLATE
 from passiveDNS.models.channel import Channel
 from passiveDNS.models.user_channel import UserChannel
 from passiveDNS.models.user import User, UserRole
-from passiveDNS.models.channel_meta import ChannelTelegram, ChannelEmail, ChannelDiscord
+from passiveDNS.models.channel_meta import (
+    ChannelTelegram,
+    ChannelEmail,
+    ChannelDiscord,
+    ChannelRedis,
+)
+
+send_channels = {
+    ChannelEmail.TYPE: send_email,
+    ChannelTelegram.TYPE: send_telegram,
+    ChannelDiscord.TYPE: send_discord,
+    ChannelRedis.TYPE: send_redis,
+}
 
 
 def send(to: str, channel: Channel, template):
@@ -20,14 +33,10 @@ def send(to: str, channel: Channel, template):
     :param template: the message to send
     :return:
     """
-    if channel.type == ChannelEmail.TYPE:
-        send_email(to, channel.infos, template)
+    if channel.type not in send_channels:
+        raise ValueError("Channel type not supported")
 
-    elif channel.type == ChannelTelegram.TYPE:
-        send_telegram(to, channel.infos, template)
-
-    elif channel.type == ChannelDiscord.TYPE:
-        send_discord(to, channel.infos, template)
+    send_channels[channel.type](to, channel, template)
 
 
 def alert_all_process(dn_list):

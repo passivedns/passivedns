@@ -2,7 +2,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from passiveDNS.channels.templates import ChannelTemplate
+from passiveDNS.utils.channels.templates import ChannelTemplate
 from passiveDNS.models.channel_meta import ChannelEmail
 
 

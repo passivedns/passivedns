@@ -34,16 +34,27 @@ class DiscordTemplate(object):
         self.msg = msg
 
 
+class RedisTemplate(object):
+    """
+    The Redis template
+    Needs the content as markdown
+    """
+
+    def __init__(self, msg: str):
+        self.msg = msg
+
+
 class ChannelTemplate(object):
     """
     The base class for templates
     Can be parsed into channels specific format
     """
 
-    def __init__(self, email, telegram, discord):
+    def __init__(self, email, telegram, discord, redis):
         self.email = email
         self.telegram = telegram
         self.discord = discord
+        self.redis_channel = redis
         self.formatted_att = {}
 
     def set_format(self, **formatted_att):
@@ -57,3 +68,6 @@ class ChannelTemplate(object):
 
     def get_discord_msg(self):
         return self.discord.msg.format(**self.formatted_att)
+
+    def get_redis_msg(self):
+        return self.redis_channel.msg
