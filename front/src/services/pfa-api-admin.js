@@ -122,8 +122,11 @@ export default class PfaApiAdmin {
             })
     }
 
-    channelUpdate(name, infos) {
-        return this.service.put(`${this.routes.channels}/${name}`, infos)
+    channelUpdate(name, infos, type) {
+        return this.service.put(`${this.routes.channels}/${name}`, {
+            type: type,
+            infos: infos
+        })
             .then(function(d) {
                 console.log(d.data.msg);
                 return true;

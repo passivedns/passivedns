@@ -125,7 +125,7 @@ import AuthCheck from "@/components/connection/AuthCheck.vue";
                 let self = this;
                 this.loading = true;
                 this.valid = null;
-                this.service.channelUpdate(this.channel._key, this.channel.infos)
+                this.service.channelUpdate(this.channel._key, this.channel.infos, this.channel.type)
                     .then(function(b) {
                         self.valid = b;
 
