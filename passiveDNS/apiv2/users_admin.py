@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from passiveDNS.channels.email import MailSendingError
-from passiveDNS.channels.send import send
-from passiveDNS.channels.telegram import TelegramSendingError
-from passiveDNS.channels.templates_list import INVITE_TEMPLATE
+from passiveDNS.utils.channels.email import MailSendingError
+from passiveDNS.utils.channels.send import send
+from passiveDNS.utils.channels.telegram import TelegramSendingError
+from passiveDNS.utils.channels.templates_list import INVITE_TEMPLATE
 from passiveDNS.db.database import ObjectNotFound
 from passiveDNS.models.channel import Channel
 from passiveDNS.models.user import User, UserRole

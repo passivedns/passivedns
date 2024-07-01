@@ -4,6 +4,7 @@ from passiveDNS.utils.channels.templates import (
     TelegramTemplate,
     PARSE_MODE_MARKDOWN,
     DiscordTemplate,
+    RedisTemplate,
 )
 
 TEST_TEMPLATE = ChannelTemplate(
@@ -22,6 +23,11 @@ TEST_TEMPLATE = ChannelTemplate(
     DiscordTemplate(
         """
         {date}: **Testing** channel discord
+        """
+    ),
+    RedisTemplate(
+        """
+        {date}: **Testing** channel redis
         """
     ),
 )
@@ -50,6 +56,12 @@ INVITE_TEMPLATE = ChannelTemplate(
         You have been invited by the admin of Passive DNS to join in, as a user.
         Use this token to register on the server: {token} 
     
+        Cheers,
+        """
+    ),
+    RedisTemplate(
+        """
+        You have been invited by the admin of Passive DNS to join in, as a user.
         Cheers,
         """
     ),
@@ -82,6 +94,13 @@ Please use this token to confirm the setup: `{token}`
         **Passive DNS - Discord verification**
         You are currently trying to configure the channel `{channel}` for alerting purpose.
         Please use this token to confirm the setup: `{token}`
+        """
+    ),
+    RedisTemplate(
+        """
+        **Passive DNS - Redis verification**
+        You are currently trying to configure the channel `{channel}` for alerting purpose.
+        Please use this token to confirm the setup: `{queue_name}`
         """
     ),
 )
@@ -125,4 +144,10 @@ NB: you are receiving this alert via Discord because you configured it in the Pa
 To unsubscribe from those alerts, please remove this channel from your settings: {url_channels}.
         """
     ),
+    RedisTemplate(
+        """
+        {date}: **Testing** channel redis
+        """
+         
+        )
 )
