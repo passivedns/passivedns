@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from passiveDNS.channels.send import alert_all
+from passiveDNS.utils.channels.send import alert_all
 from passiveDNS.apiv2.domain_name import put
 from passiveDNS.apiv2.auth import get_current_user
 from passiveDNS.models.domain_name import (
