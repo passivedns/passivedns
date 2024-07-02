@@ -16,7 +16,7 @@
                     <div>
                         <div class="form-group">
                             <label for="apiKeyInput">API Key</label>
-                            <input id="apiKeyInput" v-model="api_key" type="text" class="form-control">
+                            <input id="apiKeyInput" v-model="api_key" type="text" class="form-control" required>
                         </div>
                     </div>
                 </div>

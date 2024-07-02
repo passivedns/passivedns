@@ -27,7 +27,7 @@
                         <div class="form-group">
                             <label v-if="channel.type === channelTypeEmail" for="contactInput">Email</label>
                             <label v-else-if="channel.type === channelTypeTelegram" for="contactInput">Chat ID</label>
-                            <input id="contactInput" v-model="contact" type="text" class="form-control">
+                            <input id="contactInput" v-model="contact" type="text" class="form-control" required>
                         </div>
                     </div>
                 </div>

@@ -17,11 +17,11 @@
                         <div>
                             <div class="form-group">
                                 <label for="schedulerName">Scheduler name</label>
-                                <input id="schedulerName" v-model="schedulerName" type="text" class="form-control">
+                                <input id="schedulerName" v-model="schedulerName" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label for="schedulerPassword">Scheduler password</label>
-                                <input id="schedulerPassword" v-model="schedulerPassword" type="password" class="form-control">
+                                <input id="schedulerPassword" v-model="schedulerPassword" type="password" class="form-control" required>
                             </div>
                         </div>
                     </div>

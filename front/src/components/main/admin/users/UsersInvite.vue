@@ -4,7 +4,7 @@
             <h3>User invitation</h3>
             <div>
                 <div class="input-group mb-3">
-                    <input v-model="invitedEmailInput" type="text" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="button-login">
+                    <input v-model="invitedEmailInput" type="text" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="button-login" required>
                     <div class="input-group-append">
                         <button @click="invite" class="btn btn-outline-primary" type="button" id="button-login">Invite</button>
                     </div>

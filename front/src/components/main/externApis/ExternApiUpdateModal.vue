@@ -13,11 +13,11 @@
                     <form>
                         <div class="form-group">
                             <label for="baseUrl">Base URL</label>
-                            <input v-model="externApi.base_url" type="text" class="form-control" id="baseUrl">
+                            <input v-model="externApi.base_url" type="text" class="form-control" id="baseUrl" required>
                         </div>
                         <div class="form-group">
                             <label for="apiHeader">Header</label>
-                            <input v-model="externApi.header" type="text" class="form-control" id="apiHeader">
+                            <input v-model="externApi.header" type="text" class="form-control" id="apiHeader" required>
                         </div>
                         <div class="form-group">
                             IP
@@ -27,7 +27,7 @@
                                 <option value="POST">POST</option>
                             </select>
                             <label for="ipUri">IP URI</label>
-                            <input v-model="externApi.ip_uri" type="text" class="form-control" id="ipUri">
+                            <input v-model="externApi.ip_uri" type="text" class="form-control" id="ipUri" required>
                         </div>
                         <div class="form-group">
                             <label for="dnMethod">Domain Method</label>
@@ -36,7 +36,7 @@
                                 <option value="POST">POST</option>
                             </select>
                             <label for="dnUri">Domain URI</label>
-                            <input v-model="externApi.domain_uri" type="text" class="form-control" id="dnUri">
+                            <input v-model="externApi.domain_uri" type="text" class="form-control" id="dnUri" required>
                         </div>
                         
                     </form>

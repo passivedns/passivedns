@@ -13,7 +13,7 @@
                     <div>
                         <div class="form-group">
                             <label for="tokenInput">Validation token</label>
-                            <input id="tokenInput" v-model="token" type="password" class="form-control">
+                            <input id="tokenInput" v-model="token" type="password" class="form-control" required>
                         </div>
                     </div>
                 </div>

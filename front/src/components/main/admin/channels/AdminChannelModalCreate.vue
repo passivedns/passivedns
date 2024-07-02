@@ -13,7 +13,7 @@
                     <div>
                         <div class="form-group">
                             <label for="channelCreateName">Channel name</label>
-                            <input v-model="channelName" type="text" class="form-control" id="channelCreateName">
+                            <input v-model="channelName" type="text" class="form-control" id="channelCreateName" required>
                         </div>
 
                         <div class="form-group">
@@ -61,19 +61,19 @@
                     <form v-else-if="channelType === channelTypeRedis">
                         <div class="form-group">
                             <label for="database">Database</label>
-                            <input v-model="channelInfos.db" type="text" class="form-control" id="database">
+                            <input v-model="channelInfos.db" type="text" class="form-control" id="database" required>
                         </div>
                         <div class="form-group">
                             <label for="host">Host</label>
-                            <input v-model="channelInfos.host" type="text" class="form-control" id="host">
+                            <input v-model="channelInfos.host" type="text" class="form-control" id="host" value="redis" required>
                         </div>
                         <div class="form-group">
                             <label for="senderEmail">Port</label>
-                            <input v-model="channelInfos.port" type="text" class="form-control" id="senderEmail">
+                            <input v-model="channelInfos.port" type="text" class="form-control" id="senderEmail" value="6379" required>
                         </div>
                         <div class="form-group">
                             <label for="queueName">Queue name</label>
-                            <input v-model="channelInfos.queue_name" type="text" class="form-control" id="queueName">
+                            <input v-model="channelInfos.queue_name" type="text" class="form-control" id="queueName" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>

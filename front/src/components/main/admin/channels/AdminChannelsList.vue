@@ -22,7 +22,7 @@
                         <img class="light" src="../../../../assets/icons/icons8-discord-48.png" alt="discord">
                     </td>
                     <td v-else-if="ch.type === channelTypeRedis">
-                        <img class="light" src="../../../../assets/icons/icons8-mail-48.png" alt="redis">
+                        <img class="light" src="../../../../assets/icons/redis-48.png" alt="redis">
                     </td>
 
                     <td class="align-middle">

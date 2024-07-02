@@ -12,7 +12,7 @@
                         <img v-else-if="c.type === channelTypeDiscord" class="mr-2 light"
                              src="../../../assets/icons/icons8-discord-48.png" alt="discord">
                         <img v-else-if="c.type === channelTypeRedis" class="mr-2 light"
-                             src="../../../assets/icons/icons8-mail-48.png" alt="redis">
+                             src="../../../assets/icons/redis-48.png" alt="redis">
                         <span style="font-size: 24px" class="card-title">{{c._key}}</span>
                     </div>
                     <div class="card-body">
