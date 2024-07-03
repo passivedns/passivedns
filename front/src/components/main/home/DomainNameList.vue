@@ -87,6 +87,7 @@ import Services from "../../../services/services.js";
 
 export default {
   name: "DomainNameList",
+  expose: ['refreshDnList'],
   components: { DomainNameListStats, DomainNameListView },
   data: function () {
     return {

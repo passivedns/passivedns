@@ -48,6 +48,7 @@ import AuthCheck from "@/components/connection/AuthCheck.vue";
                         self.valid = b;
                         setTimeout(function() {
                             self.loading = false;
+                            self.$emit('success');
                         }, 1000)
                     })
             }

@@ -41,8 +41,8 @@ def get_domain_name_list(
     input_filter_by = filter_by
     limit_str = limit
 
-    owned_filter = owned
-    followed_filter = followed
+    owned_filter = owned == 'true'
+    followed_filter = followed == 'true'
 
     if not limit_str.isdigit():
         raise HTTPException(status_code=400, detail="invalid limit")
