@@ -2,6 +2,12 @@
     <div>
         <div v-if="displayedDnList.length > 0">
 
+            <AuthCheck :valid="valid"
+                            :loading="loading"
+                            valid-msg="History retrieved"
+                            invalid-msg="Failed to retrieve history"
+                            loading-msg="Retrieving history"/>
+
             <div class="row m-2">
                 <div class="col-"><img class="light" src="../../../assets/icons/icons8-expand-arrow-26-muted.png" alt="expand"></div>
                 <div class="col font-weight-bold">Domain name</div>
@@ -99,6 +105,7 @@
 </template>
 
 <script>
+    import AuthCheck from "@/components/connection/AuthCheck.vue";
     import DomainNameDetail from "@/components/main/home/DomainNameDetail.vue";
     import DateUtil from "@/services/date-util.js";
     import StringUtil from "@/services/string-util.js";
@@ -106,7 +113,7 @@
 
     export default {
         name: "DomainNameListView",
-        components: {DomainNameDetail},
+        components: {DomainNameDetail, AuthCheck},
         props: {
             dnList: Array,
             resolverList: Array,
@@ -140,6 +147,8 @@
                 dnPerPage: 10,
                 selectedDn: "",
                 selectedDnData: null,
+                loading: false,
+                valid: null,
             }
         },
         mounted() {
@@ -217,20 +226,30 @@
 
             resolveDn(dn, resolver) {
                 let self = this;
+                this.loading = true;
                 this.service.requestExternApiDn(resolver, dn)
                     .then(function(b) {
+                        self.valid = b
                         if (b) {
-                            self.$emit('refresh')
+                            setTimeout(function() {
+                            self.loading = false;
+                            self.$emit('refresh');
+                        }, 1000)
                         }
                     })
             },
 
             resolveIp(ip, resolver) {
                 let self = this;
+                this.loading = true;
                 this.service.requestExternApiIp(resolver, ip)
                     .then(function(b) {
+                        self.valid = b
                         if (b) {
-                            self.$emit('refresh')
+                            setTimeout(function() {
+                            self.loading = false;
+                            self.$emit('refresh');
+                        }, 1000)
                         }
                     })
             }
