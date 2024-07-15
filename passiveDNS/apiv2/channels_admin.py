@@ -57,7 +57,7 @@ def channel_get(name):
 @channels_admin_router.put("/admin/channels/{name}")
 def channel_update(name, data: ChannelData):
     infos = data.infos
-
+    
     if not Channel.exists(name):
         raise HTTPException(status_code=404, detail=f"channel {name} not found")
 
