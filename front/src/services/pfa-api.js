@@ -9,8 +9,8 @@ export default class PfaApi {
         });
 
         this.routes = {
-            "dnList": "/apiv2/dn",
-            "dnListExport": "/apiv2/dn/export",
+            "dnList": "/apiv2/dn/list",
+            "dnListExport": "/apiv2/dn/list/export",
             "dn": "/apiv2/dn",
             "alert": "/apiv2/alert",
             "alertExport": "apiv2/alert/export",
@@ -201,7 +201,11 @@ export default class PfaApi {
     }
 
     getDn(domainName) {
-        return this.service.get(`${this.routes.dn}/${domainName}`)
+        return this.service.get(this.routes.dn, {
+                params: {
+                    domain: domainName
+                }
+            })
             .then(function(d) {
                 console.log(d.data.msg);
                 return d.data;
