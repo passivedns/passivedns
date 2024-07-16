@@ -35,7 +35,7 @@ import DomainNameDetailPageDn from "@/components/main/home/DomainNameDetailPageD
             let jwt = localStorage.getItem('jwt');
             this.service = Services.getPfaApiService(jwt);
 
-            this.dn = this.$route.params.dn;
+            this.dn = this.$route.query.domain;
             this.getDn();
             this.getIpHistory();
         },

@@ -33,7 +33,7 @@
                     </div>
 
                     <div class="col">
-                        <router-link :to="`/dn/${dn.domain_name}`">
+                        <router-link :to="{path:`/dn`, query: {domain:`${dn.domain_name}`}}">
                             {{formatDn(dn.domain_name)}}
                         </router-link>
                     </div>
