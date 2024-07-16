@@ -15,7 +15,7 @@ import ExternApis from "@/components/main/externApis/ExternApis.vue";
 
 const routes = [
   {path: "/", component: Home},
-  {path: "/dn/:dn", component: DomainNameDetailPage},
+  {path: "/dn", component: DomainNameDetailPage},
   {path: "/user", component: User},
   {path: "/alerts", component: Alerts},
   {path: "/channels", component: Channels},

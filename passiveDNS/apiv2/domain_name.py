@@ -25,7 +25,7 @@ from passiveDNS.models.user import User
 domain_name_router = APIRouter()
 
 
-@domain_name_router.get("/dn")
+@domain_name_router.get("/dn/list")
 def get_domain_name_list(
     filter: str,
     filter_by: str,
@@ -41,8 +41,8 @@ def get_domain_name_list(
     input_filter_by = filter_by
     limit_str = limit
 
-    owned_filter = owned == 'true'
-    followed_filter = followed == 'true'
+    owned_filter = owned == "true"
+    followed_filter = followed == "true"
 
     if not limit_str.isdigit():
         raise HTTPException(status_code=400, detail="invalid limit")
@@ -80,7 +80,7 @@ def get_domain_name_list(
 
 
 # Export in csv or json
-@domain_name_router.get("/dn/export")
+@domain_name_router.get("/dn/list/export")
 def export_domain_name_list(
     filter_by: str,
     sort_by: str,
@@ -184,9 +184,9 @@ def create_domain_name(domain_name, user: User = Depends(get_current_user)):
     return {"msg": "domain name created", "dn": dn.json()}
 
 
-@domain_name_router.get("/dn/{domain_name}")
-def get(domain_name, user: User = Depends(get_current_user)):
-    domain_name = refang(domain_name)
+@domain_name_router.get("/dn")
+def get(domain: str, user: User = Depends(get_current_user)):
+    domain_name = refang(domain)
 
     dn = None
     dn_tags = []
