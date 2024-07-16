@@ -45,5 +45,4 @@ class ChannelRedis(ChannelMeta):
     TYPE = "redis"
 
     def __init__(self, **infos_json):
-
         super().__init__(infos_json, ["host", "port", "db", "queue_name"])

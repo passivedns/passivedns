@@ -148,6 +148,5 @@ To unsubscribe from those alerts, please remove this channel from your settings:
         """
         {date}: **Testing** channel redis
         """
-         
-        )
+    ),
 )

@@ -41,8 +41,8 @@ def get_domain_name_list(
     input_filter_by = filter_by
     limit_str = limit
 
-    owned_filter = owned == 'true'
-    followed_filter = followed == 'true'
+    owned_filter = owned == "true"
+    followed_filter = followed == "true"
 
     if not limit_str.isdigit():
         raise HTTPException(status_code=400, detail="invalid limit")
@@ -185,7 +185,7 @@ def create_domain_name(domain_name, user: User = Depends(get_current_user)):
 
 
 @domain_name_router.get("/dn")
-def get(domain:str, user: User = Depends(get_current_user)):
+def get(domain: str, user: User = Depends(get_current_user)):
     domain_name = refang(domain)
 
     dn = None

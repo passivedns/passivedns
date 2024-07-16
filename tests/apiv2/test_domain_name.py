@@ -152,9 +152,7 @@ class DomainNameTest(unittest.TestCase):
 
     # /dn/{domain_name} get
     def test_dn_get(self) -> None:
-        response = client.get("/apiv2/dn", params={
-            "domain":"example.com"
-        })
+        response = client.get("/apiv2/dn", params={"domain": "example.com"})
         self.assertEqual(response.status_code, 200)
         self.assertIn("dn", response.json())
         self.assertIn("dn_tags", response.json())
@@ -164,9 +162,7 @@ class DomainNameTest(unittest.TestCase):
         self.assertIn("followed", response.json())
 
     def test_dn_get_not_found(self) -> None:
-        response = client.get("/apiv2/dn", params={
-            "domain":"test.com"
-        })
+        response = client.get("/apiv2/dn", params={"domain": "test.com"})
         self.assertEqual(response.status_code, 404)
 
     # /dn/{domain_name} put
