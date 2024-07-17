@@ -33,7 +33,7 @@ def alert_all_users_dn_changes(user: User = Depends(get_current_user)):
     except DomainNameSortNotFound:
         raise HTTPException(status_code=400, detail="invalid sort field")
 
-    try:   
+    try:
         alert_all(dn_list)
     except ObjectNotFound as o:
         raise HTTPException(status_code=404, detail=str(o))

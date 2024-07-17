@@ -42,4 +42,3 @@ class ApiClient(BaseModel):
             raise RequestError(r.status_code)
         logging.debug(f"dn_list: {r.json()}")
         return r.json()["dn_list"]
-    
