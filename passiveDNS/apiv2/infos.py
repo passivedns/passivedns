@@ -6,7 +6,7 @@ infos_router = APIRouter()
 
 
 @infos_router.get("/infos")
-def get_infos():
+async def get_infos():
     return {
         "version": config.g.VERSION,
         "job_url": config.g.JOB_URL,

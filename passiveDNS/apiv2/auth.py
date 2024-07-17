@@ -30,7 +30,7 @@ class LoginCred(BaseModel):
     password: str
 
 
-def create_access_token(data: dict, expires_delta: datetime.timedelta | None = None):
+async def create_access_token(data: dict, expires_delta: datetime.timedelta | None = None):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.datetime.now(datetime.UTC) + expires_delta
@@ -41,7 +41,7 @@ def create_access_token(data: dict, expires_delta: datetime.timedelta | None = N
     return encoded_jwt
 
 
-def get_current_user(
+async def get_current_user(
     request: Request,
     token: str = Depends(oauth2_scheme),
     cookie: str = Depends(cookie_scheme),
@@ -77,7 +77,7 @@ def get_current_user(
 
 
 # Check roles
-def check_admin_user_role(current_user: User = Depends(get_current_user)):
+async def check_admin_user_role(current_user: User = Depends(get_current_user)):
     """
     Check if the JWT belongs to a User or an Admin
     :return: error view if condition not reached
@@ -90,7 +90,7 @@ def check_admin_user_role(current_user: User = Depends(get_current_user)):
     return {"msg": "permission granted"}
 
 
-def check_scheduler_role(current_user: User = Depends(get_current_user)):
+async def check_scheduler_role(current_user: User = Depends(get_current_user)):
     """
     Check if the JWT belongs to a Scheduler
     :return: error view if condition not reached
@@ -103,7 +103,7 @@ def check_scheduler_role(current_user: User = Depends(get_current_user)):
     return {"msg": "permission granted"}
 
 
-def check_admin_role(current_user: User = Depends(get_current_user)):
+async def check_admin_role(current_user: User = Depends(get_current_user)):
     """
     Check if the JWT belongs to an Admin
     :return: error view if condition not reached
@@ -118,7 +118,7 @@ def check_admin_role(current_user: User = Depends(get_current_user)):
 
 # Routes
 @auth_router.post("/token")
-def login(response: Response, form_data: LoginCred):
+async def login(response: Response, form_data: LoginCred):
     identity = form_data.identity
     password = form_data.password
 
@@ -149,7 +149,7 @@ def login(response: Response, form_data: LoginCred):
 
 
 @auth_router.get("/token")
-def check_jwt(token: str = Depends(cookie_scheme)):
+async def check_jwt(token: str = Depends(cookie_scheme)):
     if not token or token not in SESSION_STORE:
         raise HTTPException(status_code=400, detail="invalid token")
 
@@ -157,7 +157,7 @@ def check_jwt(token: str = Depends(cookie_scheme)):
 
 
 @auth_router.get("/logout")
-def logout(response: Response, cookie: str = Depends(cookie_scheme)):
+async def logout(response: Response, cookie: str = Depends(cookie_scheme)):
     response.delete_cookie(key="passiveDNS_session")
     SESSION_STORE.remove(cookie)
     return {"msg": "Logged out"}

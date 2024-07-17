@@ -14,7 +14,7 @@ class ChannelData(BaseModel):
 
 # get channel list - admin view
 @channels_admin_router.get("/admin/channels")
-def channels_admin_list():
+async def channels_admin_list():
     ch_list = Channel.list()
     # formatting and sorting for json response
     ch_list_json = [ch.json() for ch in ch_list]
@@ -23,7 +23,7 @@ def channels_admin_list():
 
 
 @channels_admin_router.post("/admin/channels/{name}")
-def channel_create(name, data: ChannelData):
+async def channel_create(name, data: ChannelData):
     ch_type = data.type
     infos = data.infos
 
@@ -46,7 +46,7 @@ def channel_create(name, data: ChannelData):
 
 
 @channels_admin_router.get("/admin/channels/{name}")
-def channel_get(name):
+async def channel_get(name):
     if not Channel.exists(name):
         raise HTTPException(status_code=404, detail=f"channel {name} not found")
 
@@ -55,7 +55,7 @@ def channel_get(name):
 
 
 @channels_admin_router.put("/admin/channels/{name}")
-def channel_update(name, data: ChannelData):
+async def channel_update(name, data: ChannelData):
     infos = data.infos
 
     if not Channel.exists(name):
@@ -68,7 +68,7 @@ def channel_update(name, data: ChannelData):
 
 
 @channels_admin_router.delete("/admin/channels/{name}")
-def channel_delete(name):
+async def channel_delete(name):
     if name == Channel.DEFAULT:
         raise HTTPException(status_code=403, detail="cannot modify default channel")
 

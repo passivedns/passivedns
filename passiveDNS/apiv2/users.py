@@ -36,7 +36,7 @@ class ChangePassword(BaseModel):
 
 # require a token from the UsersPending table (sent by email)
 @users_router.post("/register")
-def register(user_data: UserRegistration):
+async def register(user_data: UserRegistration):
     if User.exists(user_data.username):
         raise HTTPException(
             status_code=500,
@@ -72,7 +72,7 @@ def register(user_data: UserRegistration):
 
 # require a token from the UsersPending table (sent by email)
 @users_router.post("/register/check")
-def token_check(token_data: CheckToken):
+async def token_check(token_data: CheckToken):
     token = token_data.token
 
     if UserPending.exists(token):
@@ -83,7 +83,7 @@ def token_check(token_data: CheckToken):
 
 # require nothing
 @users_router.post("/request")
-def request_access(access_data: Access):
+async def request_access(access_data: Access):
     email = access_data.email
 
     if User.exists_from_email(email):
@@ -109,7 +109,7 @@ def request_access(access_data: Access):
 
 
 @users_router.put("/password", dependencies=[Depends(get_current_user)])
-def change_password(
+async def change_password(
     password_data: ChangePassword, current_user: User = Depends(get_current_user)
 ):
     current_password = password_data.current_password
@@ -129,7 +129,7 @@ def change_password(
 
 
 @users_router.post("/apikey/{api_name}", dependencies=[Depends(get_current_user)])
-def add_api_key(api_name, api_key: str, user: User = Depends(get_current_user)):
+async def add_api_key(api_name, api_key: str, user: User = Depends(get_current_user)):
     # check api exists
     try:
         api = APIIntegration.get(api_name)
@@ -148,7 +148,7 @@ def add_api_key(api_name, api_key: str, user: User = Depends(get_current_user)):
 
 
 @users_router.delete("/apikey/{api_name}", dependencies=[Depends(get_current_user)])
-def remove_api_key(api_name, user: User = Depends(get_current_user)):
+async def remove_api_key(api_name, user: User = Depends(get_current_user)):
     # check api exists
     try:
         APIIntegration.get(api_name)

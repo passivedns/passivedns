@@ -28,7 +28,7 @@ class UserChannelUpdate(BaseModel):
 
 # get the list of channels setup by the user
 @users_channel_router.get("/user/channels")
-def users_channel_list(user: User = Depends(get_current_user)):
+async def users_channel_list(user: User = Depends(get_current_user)):
     username = user.username
 
     ch_list = []
@@ -53,7 +53,7 @@ def users_channel_list(user: User = Depends(get_current_user)):
 
 
 @users_channel_router.get("/user/channels/{channel_name}")
-def user_channel_get(channel_name, user: User = Depends(get_current_user)):
+async def user_channel_get(channel_name, user: User = Depends(get_current_user)):
     username = user.username
     try:
         user_channel = UserChannel.get(username, channel_name)
@@ -67,7 +67,7 @@ def user_channel_get(channel_name, user: User = Depends(get_current_user)):
 
 
 @users_channel_router.post("/user/channels/{channel_name}")
-def user_channel_create(
+async def user_channel_create(
     channel_name, contact: str, user: User = Depends(get_current_user)
 ):
     new_user_channel = None
@@ -104,7 +104,7 @@ def user_channel_create(
 
 
 @users_channel_router.put("/user/channels/{channel_name}")
-def user_channel_verify(
+async def user_channel_verify(
     channel_name, data: UserChannelUpdate, user: User = Depends(get_current_user)
 ):
     username = user.username
@@ -131,7 +131,7 @@ def user_channel_verify(
 
 
 @users_channel_router.delete("/user/channels/{channel_name}")
-def user_channel_delete(channel_name, user: User = Depends(get_current_user)):
+async def user_channel_delete(channel_name, user: User = Depends(get_current_user)):
     username = user.username
 
     if channel_name == Channel.DEFAULT:
@@ -147,7 +147,7 @@ def user_channel_delete(channel_name, user: User = Depends(get_current_user)):
 
 
 @users_channel_router.get("/user/channels/{channel_name}/test")
-def channel_test(channel_name, user: User = Depends(get_current_user)):
+async def channel_test(channel_name, user: User = Depends(get_current_user)):
     username = user.username
     try:
         user = User.get(username)

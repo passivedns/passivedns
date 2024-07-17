@@ -32,7 +32,7 @@ class APIData(BaseModel):
 
 
 @api_integration_router.put("/apiintegration/{api_name}")
-def updateApi(api_name, data: APIData):
+async def updateApi(api_name, data: APIData):
     # check api exists
     try:
         api = APIIntegration.get(api_name)
@@ -52,7 +52,7 @@ def updateApi(api_name, data: APIData):
 
 # get domain resolution from external api
 @api_integration_router.post("/apiintegration/dn/{api_name}")
-def getDomain(api_name, domain_name: str, user: User = Depends(get_current_user)):
+async def getDomain(api_name, domain_name: str, user: User = Depends(get_current_user)):
     # check domain exists
     try:
         domain = DomainName.get(domain_name)
@@ -130,7 +130,7 @@ def getDomain(api_name, domain_name: str, user: User = Depends(get_current_user)
 
 
 @api_integration_router.post("/apiintegration/ip/{api_name}")
-def getIP(api_name, ip_address: str, user: User = Depends(get_current_user)):
+async def getIP(api_name, ip_address: str, user: User = Depends(get_current_user)):
     # check ip exists
     try:
         ip = IPAddress.get(ip_address)
@@ -209,7 +209,7 @@ def getIP(api_name, ip_address: str, user: User = Depends(get_current_user)):
 
 
 @api_integration_router.get("/apiintegration")
-def api_integration_list(user: User = Depends(get_current_user)):
+async def api_integration_list(user: User = Depends(get_current_user)):
     """
     The list of available apis for a user
     """
@@ -224,7 +224,7 @@ def api_integration_list(user: User = Depends(get_current_user)):
 
 
 @api_integration_router.get("/user/apiintegration")
-def api_integration_user_list(user: User = Depends(get_current_user)):
+async def api_integration_user_list(user: User = Depends(get_current_user)):
     """
     The list of linked apis for a user
     """

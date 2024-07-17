@@ -1,7 +1,7 @@
 from time import time
 
 from defang import refang
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException, Response, UploadFile
 import validators
 
 import pandas
@@ -26,7 +26,7 @@ domain_name_router = APIRouter()
 
 
 @domain_name_router.get("/dn/list")
-def get_domain_name_list(
+async def get_domain_name_list(
     filter: str,
     filter_by: str,
     sort_by: str,
@@ -81,7 +81,7 @@ def get_domain_name_list(
 
 # Export in csv or json
 @domain_name_router.get("/dn/list/export")
-def export_domain_name_list(
+async def export_domain_name_list(
     filter_by: str,
     sort_by: str,
     limit: str,
@@ -148,9 +148,23 @@ def export_domain_name_list(
 
     return Response(exported_data, headers={"Content-Type": mimetype})
 
+@domain_name_router.post("/dn/list/import")
+async def upload_from_file(file: UploadFile):
+    contents = await file.read()
+    domains = contents.decode().splitlines()
+    
+    #for each domain
+    #check valid
+    #check already exists
+    #resolve and add
+
+    return {
+        "msg": "domains successfully added",
+        "domains":domains
+    }
 
 @domain_name_router.post("/dn/{domain_name}")
-def create_domain_name(domain_name, user: User = Depends(get_current_user)):
+async def create_domain_name(domain_name, user: User = Depends(get_current_user)):
     domain_name = refang(domain_name)
     if not validators.domain(domain_name):
         raise HTTPException(status_code=500, detail="domain name not valid")
@@ -185,7 +199,7 @@ def create_domain_name(domain_name, user: User = Depends(get_current_user)):
 
 
 @domain_name_router.get("/dn")
-def get(domain: str, user: User = Depends(get_current_user)):
+async def get(domain: str, user: User = Depends(get_current_user)):
     domain_name = refang(domain)
 
     dn = None
@@ -240,7 +254,7 @@ def get(domain: str, user: User = Depends(get_current_user)):
 
 
 @domain_name_router.put("/dn/{domain_name}")
-def put(domain_name):
+async def put(domain_name):
     domain_name = refang(domain_name)
     if not validators.domain(domain_name):
         raise HTTPException(status_code=500, detail="domain name not valid")
@@ -273,7 +287,7 @@ def put(domain_name):
 
 
 @domain_name_router.delete("/dn/{domain_name}")
-def delete(domain_name, user: User = Depends(get_current_user)):
+async def delete(domain_name, user: User = Depends(get_current_user)):
     domain_name = refang(domain_name)
 
     username = user.username
@@ -321,7 +335,7 @@ def delete(domain_name, user: User = Depends(get_current_user)):
 
 
 @domain_name_router.post("/dn/{domain_name}/follow")
-def manage_follow(domain_name, user: User = Depends(get_current_user)):
+async def manage_follow(domain_name, user: User = Depends(get_current_user)):
     domain_name = refang(domain_name)
     username = user.username
 
@@ -334,7 +348,7 @@ def manage_follow(domain_name, user: User = Depends(get_current_user)):
 
 
 @domain_name_router.delete("/dn/{domain_name}/follow")
-def remowe_follow(domain_name, user: User = Depends(get_current_user)):
+async def remowe_follow(domain_name, user: User = Depends(get_current_user)):
     domain_name = refang(domain_name)
     username = user.username
 

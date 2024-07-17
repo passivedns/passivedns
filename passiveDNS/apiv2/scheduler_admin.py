@@ -12,7 +12,7 @@ class PasswordJson(BaseModel):
 
 
 @scheduler_admin_router.post("/admin/scheduler/{scheduler_name}")
-def create_scheduler(
+async def create_scheduler(
     scheduler_name, data: PasswordJson, admin_user: User = Depends(get_current_user)
 ):
     if User.exists(scheduler_name):
@@ -27,7 +27,7 @@ def create_scheduler(
 
 
 @scheduler_admin_router.put("/admin/scheduler/{scheduler_name}")
-def update_scheduler(scheduler_name, data: PasswordJson):
+async def update_scheduler(scheduler_name, data: PasswordJson):
     if not User.exists(scheduler_name):
         raise HTTPException(status_code=404, detail="scheduler not found")
 

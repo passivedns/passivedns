@@ -15,13 +15,13 @@ scheduler_router = APIRouter()
 
 
 @scheduler_router.get("/scheduler/alerts")
-def get_full_dn_list():
+async def get_full_dn_list():
     dn_list = DomainName.full_list()
     return {"msg": "full domain name list retrieved", "dn_list": dn_list}
 
 
 @scheduler_router.post("/scheduler/alerts")
-def alert_all_users_dn_changes(user: User = Depends(get_current_user)):
+async def alert_all_users_dn_changes(user: User = Depends(get_current_user)):
     username = user.username
 
     try:
@@ -44,6 +44,6 @@ def alert_all_users_dn_changes(user: User = Depends(get_current_user)):
 
 
 @scheduler_router.put("/scheduler/dn/{domain_name}")
-def update_dn(domain_name):
+async def update_dn(domain_name):
     # use the same workflow as for the user
     return put(domain_name)

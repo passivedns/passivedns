@@ -7,7 +7,7 @@ tag_router = APIRouter()
 
 
 @tag_router.post("/tag/{tag_name}")
-def create_tag(tag_name):
+async def create_tag(tag_name):
     if Tag.exists(tag_name):
         raise HTTPException(status_code=500, detail="tag already exists")
 
@@ -20,7 +20,7 @@ def create_tag(tag_name):
 
 
 @tag_router.delete("/tag/{tag_name}")
-def delete_tag(tag_name):
+async def delete_tag(tag_name):
     if not Tag.exists(tag_name):
         raise HTTPException(status_code=404, detail="tag not found")
 
@@ -37,7 +37,7 @@ def delete_tag(tag_name):
 
 
 @tag_router.get("/tag")
-def get_tag_list():
+async def get_tag_list():
     return {
         "msg": "tag list retrieved",
         "tag_list": [t.json()["_key"] for t in Tag.list()],
