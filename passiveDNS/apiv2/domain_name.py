@@ -149,18 +149,42 @@ async def export_domain_name_list(
     return Response(exported_data, headers={"Content-Type": mimetype})
 
 @domain_name_router.post("/dn/list/import")
-async def upload_from_file(file: UploadFile):
+async def upload_from_file(file: UploadFile, user: User = Depends(get_current_user)):
     contents = await file.read()
     domains = contents.decode().splitlines()
+    if not domains:
+        raise HTTPException(status_code=500, detail="file is empty")
+    out = []
     
-    #for each domain
-    #check valid
-    #check already exists
-    #resolve and add
+    for domain in domains:
+        domain_name = refang(domain)
+        #check valid and not already exists
+        if validators.domain(domain_name) and not DomainName.exists(domain_name):
+            dn = DomainName.new(domain_name)
+            dn.insert()
+
+            ip_address = dn.resolve()
+
+            # in case resolutions went fine
+            if ip_address is not None:
+                if not IPAddress.exists(ip_address):
+                    ip = IPAddress.new(ip_address)
+                    ip.insert()
+
+                resolution = Resolution.new(domain_name, ip_address, "PassiveDNS")
+                resolution.insert()
+            else:
+                dn.delete()
+
+            # create user link
+            username = user.username
+            user_dn = UserDn.new(username, dn.domain_name, True)
+            user_dn.insert()
+            out.append(domain_name)
 
     return {
         "msg": "domains successfully added",
-        "domains":domains
+        "domains":out
     }
 
 @domain_name_router.post("/dn/{domain_name}")

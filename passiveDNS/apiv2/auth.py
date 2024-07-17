@@ -30,7 +30,7 @@ class LoginCred(BaseModel):
     password: str
 
 
-async def create_access_token(data: dict, expires_delta: datetime.timedelta | None = None):
+def create_access_token(data: dict, expires_delta: datetime.timedelta | None = None):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.datetime.now(datetime.UTC) + expires_delta
@@ -41,7 +41,7 @@ async def create_access_token(data: dict, expires_delta: datetime.timedelta | No
     return encoded_jwt
 
 
-async def get_current_user(
+def get_current_user(
     request: Request,
     token: str = Depends(oauth2_scheme),
     cookie: str = Depends(cookie_scheme),
@@ -77,7 +77,7 @@ async def get_current_user(
 
 
 # Check roles
-async def check_admin_user_role(current_user: User = Depends(get_current_user)):
+def check_admin_user_role(current_user: User = Depends(get_current_user)):
     """
     Check if the JWT belongs to a User or an Admin
     :return: error view if condition not reached
@@ -90,7 +90,7 @@ async def check_admin_user_role(current_user: User = Depends(get_current_user)):
     return {"msg": "permission granted"}
 
 
-async def check_scheduler_role(current_user: User = Depends(get_current_user)):
+def check_scheduler_role(current_user: User = Depends(get_current_user)):
     """
     Check if the JWT belongs to a Scheduler
     :return: error view if condition not reached
@@ -103,7 +103,7 @@ async def check_scheduler_role(current_user: User = Depends(get_current_user)):
     return {"msg": "permission granted"}
 
 
-async def check_admin_role(current_user: User = Depends(get_current_user)):
+def check_admin_role(current_user: User = Depends(get_current_user)):
     """
     Check if the JWT belongs to an Admin
     :return: error view if condition not reached
