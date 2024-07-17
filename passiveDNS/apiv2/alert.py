@@ -3,6 +3,7 @@ from time import time
 from fastapi import APIRouter, Depends, HTTPException, Response
 
 import pandas
+import logging
 from passiveDNS.apiv2.auth import get_current_user
 from passiveDNS.models.domain_name import (
     DomainNameFilterNotFound,
@@ -47,6 +48,7 @@ def get_alert(
         dn_list = DomainName.list_recent_changes(
             username, days, input_filter, input_filter_by, sort_by, limit
         )
+        print(f"Domain name list retrieved: {dn_list}")
         t2 = time()
     except DomainNameFilterNotFound:
         raise HTTPException(status_code=400, detail="invalid filter field")
