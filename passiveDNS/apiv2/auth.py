@@ -118,7 +118,7 @@ def check_admin_role(current_user: User = Depends(get_current_user)):
 
 # Routes
 @auth_router.post("/token")
-def login(response: Response, form_data: LoginCred):
+async def login(response: Response, form_data: LoginCred):
     identity = form_data.identity
     password = form_data.password
 
@@ -149,7 +149,7 @@ def login(response: Response, form_data: LoginCred):
 
 
 @auth_router.get("/token")
-def check_jwt(token: str = Depends(cookie_scheme)):
+async def check_jwt(token: str = Depends(cookie_scheme)):
     if not token or token not in SESSION_STORE:
         raise HTTPException(status_code=400, detail="invalid token")
 
@@ -157,7 +157,7 @@ def check_jwt(token: str = Depends(cookie_scheme)):
 
 
 @auth_router.get("/logout")
-def logout(response: Response, cookie: str = Depends(cookie_scheme)):
+async def logout(response: Response, cookie: str = Depends(cookie_scheme)):
     response.delete_cookie(key="passiveDNS_session")
     SESSION_STORE.remove(cookie)
     return {"msg": "Logged out"}

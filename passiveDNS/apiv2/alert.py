@@ -17,7 +17,7 @@ alert_router = APIRouter()
 
 
 @alert_router.get("/alert")
-def get_alert(
+async def get_alert(
     filter: str,
     filter_by: str,
     sort_by: str,
@@ -68,7 +68,7 @@ def get_alert(
 
 # Export in csv or json
 @alert_router.get("/alert/export")
-def export_alert(
+async def export_alert(
     filter: str,
     filter_by: str,
     sort_by: str,

@@ -1,7 +1,7 @@
 from time import time
 
 from defang import refang
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException, Response, UploadFile
 import validators
 
 import pandas
@@ -26,7 +26,7 @@ domain_name_router = APIRouter()
 
 
 @domain_name_router.get("/dn/list")
-def get_domain_name_list(
+async def get_domain_name_list(
     filter: str,
     filter_by: str,
     sort_by: str,
@@ -81,7 +81,7 @@ def get_domain_name_list(
 
 # Export in csv or json
 @domain_name_router.get("/dn/list/export")
-def export_domain_name_list(
+async def export_domain_name_list(
     filter_by: str,
     sort_by: str,
     limit: str,
@@ -149,8 +149,45 @@ def export_domain_name_list(
     return Response(exported_data, headers={"Content-Type": mimetype})
 
 
+@domain_name_router.post("/dn/list/import")
+async def upload_from_file(file: UploadFile, user: User = Depends(get_current_user)):
+    contents = await file.read()
+    domains = contents.decode().splitlines()
+    if not domains:
+        raise HTTPException(status_code=500, detail="file is empty")
+    out = []
+
+    for domain in domains:
+        domain_name = refang(domain)
+        # check valid and not already exists
+        if validators.domain(domain_name) and not DomainName.exists(domain_name):
+            dn = DomainName.new(domain_name)
+            dn.insert()
+
+            ip_address = dn.resolve()
+
+            # in case resolutions went fine
+            if ip_address is not None:
+                if not IPAddress.exists(ip_address):
+                    ip = IPAddress.new(ip_address)
+                    ip.insert()
+
+                resolution = Resolution.new(domain_name, ip_address, "PassiveDNS")
+                resolution.insert()
+            else:
+                dn.delete()
+
+            # create user link
+            username = user.username
+            user_dn = UserDn.new(username, dn.domain_name, True)
+            user_dn.insert()
+            out.append(domain_name)
+
+    return {"msg": "domains successfully added", "domains": out}
+
+
 @domain_name_router.post("/dn/{domain_name}")
-def create_domain_name(domain_name, user: User = Depends(get_current_user)):
+async def create_domain_name(domain_name, user: User = Depends(get_current_user)):
     domain_name = refang(domain_name)
     if not validators.domain(domain_name):
         raise HTTPException(status_code=500, detail="domain name not valid")
@@ -185,7 +222,7 @@ def create_domain_name(domain_name, user: User = Depends(get_current_user)):
 
 
 @domain_name_router.get("/dn")
-def get(domain: str, user: User = Depends(get_current_user)):
+async def get(domain: str, user: User = Depends(get_current_user)):
     domain_name = refang(domain)
 
     dn = None
@@ -240,7 +277,7 @@ def get(domain: str, user: User = Depends(get_current_user)):
 
 
 @domain_name_router.put("/dn/{domain_name}")
-def put(domain_name):
+async def put(domain_name):
     domain_name = refang(domain_name)
     if not validators.domain(domain_name):
         raise HTTPException(status_code=500, detail="domain name not valid")
@@ -273,7 +310,7 @@ def put(domain_name):
 
 
 @domain_name_router.delete("/dn/{domain_name}")
-def delete(domain_name, user: User = Depends(get_current_user)):
+async def delete(domain_name, user: User = Depends(get_current_user)):
     domain_name = refang(domain_name)
 
     username = user.username
@@ -321,7 +358,7 @@ def delete(domain_name, user: User = Depends(get_current_user)):
 
 
 @domain_name_router.post("/dn/{domain_name}/follow")
-def manage_follow(domain_name, user: User = Depends(get_current_user)):
+async def manage_follow(domain_name, user: User = Depends(get_current_user)):
     domain_name = refang(domain_name)
     username = user.username
 
@@ -334,7 +371,7 @@ def manage_follow(domain_name, user: User = Depends(get_current_user)):
 
 
 @domain_name_router.delete("/dn/{domain_name}/follow")
-def remowe_follow(domain_name, user: User = Depends(get_current_user)):
+async def remowe_follow(domain_name, user: User = Depends(get_current_user)):
     domain_name = refang(domain_name)
     username = user.username
 

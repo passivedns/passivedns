@@ -10,7 +10,7 @@ resolution_router = APIRouter()
 
 
 @resolution_router.get("/resolution/{domain_name}")
-def get_resolutions(domain_name):
+async def get_resolutions(domain_name):
     try:
         # return the list of IPs resolved by this domain name
         r = Resolution.get_current_from_domain(domain_name)
@@ -21,7 +21,7 @@ def get_resolutions(domain_name):
 
 
 @resolution_router.get("/resolution/{domain_name}/history")
-def get_resolution_history(domain_name):
+async def get_resolution_history(domain_name):
     out = []
 
     resolution_list = Resolution.list_from_domain(domain_name)
@@ -45,7 +45,7 @@ def get_resolution_history(domain_name):
 
 
 @resolution_router.get("/reverse/{ip_address}")
-def get_reverse(ip_address):
+async def get_reverse(ip_address):
     resolution_list = Resolution.list_from_ip(ip_address)
     if len(resolution_list) == 0:
         raise HTTPException(status_code=404, detail="no resolution found for this IP")
@@ -57,7 +57,7 @@ def get_reverse(ip_address):
 
 
 @resolution_router.get("/reverse/{ip_address}/history")
-def get_reverse_history(ip_address):
+async def get_reverse_history(ip_address):
     out = []
 
     resolution_list = Resolution.list_from_ip(ip_address)

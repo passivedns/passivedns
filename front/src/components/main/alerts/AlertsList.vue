@@ -136,7 +136,7 @@ import AlertListView from "@/components/main/alerts/AlertListView.vue";
                 let self = this;
                 if (e.keyCode === 13) {
                     this.$router.push({
-                        path: '/',
+                        path: '/alerts',
                         query: {
                             filter: self.filter,
                             filterType: self.filterType,

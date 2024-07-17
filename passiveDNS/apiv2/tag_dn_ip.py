@@ -9,7 +9,7 @@ tag_dn_ip_router = APIRouter()
 
 
 @tag_dn_ip_router.post("/tag_dn_ip")
-def create_tag_dn_ip(tag: str, object: str, type: str):
+async def create_tag_dn_ip(tag: str, object: str, type: str):
     object_key = object
     object_type = type
 
@@ -36,7 +36,7 @@ def create_tag_dn_ip(tag: str, object: str, type: str):
 
 
 @tag_dn_ip_router.delete("/tag_dn_ip/{tag}/{object}/{type}")
-def delete_tag_dn_ip(tag: str, object: str, type: str):
+async def delete_tag_dn_ip(tag: str, object: str, type: str):
     object_key = object
     object_type = type
 
@@ -50,7 +50,7 @@ def delete_tag_dn_ip(tag: str, object: str, type: str):
 
 
 @tag_dn_ip_router.get("/tag_dn_ip/list/from")
-def get_tag_dn_ip_list(object: str, type: str):
+async def get_tag_dn_ip_list(object: str, type: str):
     object_key = object
     object_type = type
 

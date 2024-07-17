@@ -26,7 +26,7 @@ class VerifyUser(BaseModel):
 # get the list of all the requested access
 # require admin JWT
 @users_admin_router.get("/admin/request/list")
-def request_list():
+async def request_list():
     user_request_list = UserRequest.list()
     return {
         "msg": "requested user list retrieved",
@@ -37,7 +37,7 @@ def request_list():
 # remove a user access
 # require admin JWT
 @users_admin_router.delete("/admin/request/{email}")
-def request_remove(email: str):
+async def request_remove(email: str):
     try:
         user_request = UserRequest.get(email)
     except ObjectNotFound:
@@ -51,7 +51,7 @@ def request_remove(email: str):
 # get the list of all the requested access
 # require admin JWT
 @users_admin_router.get("/admin/invite/list")
-def pending_list():
+async def pending_list():
     user_invite_list = UserPending.list()
     return {
         "msg": "requested user list retrieved",
@@ -62,7 +62,7 @@ def pending_list():
 # the list of the users registered
 # require admin JWT
 @users_admin_router.get("/admin/users/list")
-def get_user_list():
+async def get_user_list():
     user_list = User.list()
     return {
         "msg": "user list retrieved",
@@ -73,7 +73,7 @@ def get_user_list():
 # remove a user
 # require admin JWT
 @users_admin_router.delete("/admin/users/{username}")
-def remove_user(username):
+async def remove_user(username):
     try:
         user = User.get(username)
     except ObjectNotFound:
@@ -94,7 +94,7 @@ def remove_user(username):
 
 # require admin JWT
 @users_admin_router.post("/admin/invite")
-def invite(user_data: Invite):
+async def invite(user_data: Invite):
     user_pending = None
 
     email = user_data.email
@@ -143,7 +143,7 @@ def invite(user_data: Invite):
 
 
 @users_admin_router.post("/admin/verify")
-def verify_requested_user(user_data: VerifyUser):
+async def verify_requested_user(user_data: VerifyUser):
     user_pending = None
 
     email = user_data.email

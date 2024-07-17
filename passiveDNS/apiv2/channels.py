@@ -11,7 +11,7 @@ channels_router = APIRouter()
 
 # get the list of all available channels
 @channels_router.get("/channels")
-def channels_list(user: User = Depends(get_current_user)):
+async def channels_list(user: User = Depends(get_current_user)):
     ch_list = Channel.list()
 
     username = user.username
@@ -34,7 +34,7 @@ def channels_list(user: User = Depends(get_current_user)):
 
 
 @channels_router.get("/channels/{channel_name}")
-def channel_get(channel_name):
+async def channel_get(channel_name):
     try:
         ch = Channel.get(channel_name)
     except ObjectNotFound:

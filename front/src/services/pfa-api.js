@@ -11,6 +11,7 @@ export default class PfaApi {
         this.routes = {
             "dnList": "/apiv2/dn/list",
             "dnListExport": "/apiv2/dn/list/export",
+            "dnListImport": "/apiv2/dn/list/import",
             "dn": "/apiv2/dn",
             "alert": "/apiv2/alert",
             "alertExport": "apiv2/alert/export",
@@ -107,6 +108,21 @@ export default class PfaApi {
         })
             .then(function(d) {
                 return d.data
+            })
+    }
+
+    async importDnList(file) {
+        return this.service.post(this.routes.dnListImport, file, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(function(d) {
+                console.log(d.data.msg);
+                return d.data;
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg);
             })
     }
 
