@@ -3,7 +3,6 @@ from time import time
 from fastapi import APIRouter, Depends, HTTPException, Response
 
 import pandas
-import logging
 from passiveDNS.apiv2.auth import get_current_user
 from passiveDNS.models.domain_name import (
     DomainNameFilterNotFound,
