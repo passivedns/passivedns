@@ -46,4 +46,4 @@ async def alert_all_users_dn_changes(user: User = Depends(get_current_user)):
 @scheduler_router.put("/scheduler/dn/{domain_name}")
 async def update_dn(domain_name):
     # use the same workflow as for the user
-    return put(domain_name)
+    return await put(domain_name)
