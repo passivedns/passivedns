@@ -148,6 +148,7 @@ async def export_domain_name_list(
 
     return Response(exported_data, headers={"Content-Type": mimetype})
 
+
 @domain_name_router.post("/dn/list/import")
 async def upload_from_file(file: UploadFile, user: User = Depends(get_current_user)):
     contents = await file.read()
@@ -155,10 +156,10 @@ async def upload_from_file(file: UploadFile, user: User = Depends(get_current_us
     if not domains:
         raise HTTPException(status_code=500, detail="file is empty")
     out = []
-    
+
     for domain in domains:
         domain_name = refang(domain)
-        #check valid and not already exists
+        # check valid and not already exists
         if validators.domain(domain_name) and not DomainName.exists(domain_name):
             dn = DomainName.new(domain_name)
             dn.insert()
@@ -182,10 +183,8 @@ async def upload_from_file(file: UploadFile, user: User = Depends(get_current_us
             user_dn.insert()
             out.append(domain_name)
 
-    return {
-        "msg": "domains successfully added",
-        "domains":out
-    }
+    return {"msg": "domains successfully added", "domains": out}
+
 
 @domain_name_router.post("/dn/{domain_name}")
 async def create_domain_name(domain_name, user: User = Depends(get_current_user)):
