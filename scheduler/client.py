@@ -1,4 +1,5 @@
 import requests
+import logging
 from pydantic import BaseModel
 
 
@@ -39,5 +40,5 @@ class ApiClient(BaseModel):
         )
         if r.status_code != 200:
             raise RequestError(r.status_code)
-
+        logging.debug(f"dn_list: {r.json()}")
         return r.json()["dn_list"]

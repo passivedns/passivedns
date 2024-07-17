@@ -1,6 +1,7 @@
 from multiprocessing import Process
 
 import pandas
+import logging
 
 from passiveDNS.utils.channels.discord_chan import send_discord
 from passiveDNS.utils.channels.email import send_email
@@ -55,7 +56,7 @@ def alert_all_process(dn_list):
                 dn["current_ip_address"],
             ]
         )
-
+    logging.debug(f"Data: {data}")
     columns = ["Domain name", "Last IP address", "Current IP address"]
     df = pandas.DataFrame(data=data, columns=columns)
 
@@ -75,8 +76,10 @@ def alert_all_process(dn_list):
             continue
 
         user_channels = UserChannel.list_from_username(u.username)
+        logging.debug(f"User Channel: {user_channels}")
         for u_ch in user_channels:
             channel = Channel.get(u_ch.channel_name)
+            logging.debug(f"alerting {u_ch.contact} with {channel.type}")
             send(u_ch.contact, channel, template)
 
 
