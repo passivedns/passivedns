@@ -45,13 +45,17 @@ class Resolution(Edge):
             "first_updated_at": self.first_updated_at.isoformat(),
         }
 
-    def update(self):
+    def update(self, resolver=None):
         """
         Set the last updated date to now and last resolver, and save in DB
         :return:
         """
         self.last_updated_at = timezone.get_current_datetime(config.g.TIMEZONE)
-        self._update(dict(last_updated_at=self.last_updated_at, resolver=self.resolver))
+        if not resolver:
+            r = self.resolver
+        else:
+            r = resolver
+        self._update(dict(last_updated_at=self.last_updated_at, resolver=r))
 
     @staticmethod
     def new(
