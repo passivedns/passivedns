@@ -1,7 +1,5 @@
 from passiveDNS.models.channel_meta import (
-    ChannelTelegram,
     ChannelEmail,
-    ChannelDiscord,
     ChannelRedis,
 )
 from passiveDNS.models.meta_node import Node
@@ -40,12 +38,6 @@ class Channel(Node):
 
         if self.type == ChannelEmail.TYPE:
             self.infos = ChannelEmail(**infos)
-
-        elif self.type == ChannelTelegram.TYPE:
-            self.infos = ChannelTelegram(**infos)
-
-        elif self.type == ChannelDiscord.TYPE:
-            self.infos = ChannelDiscord(**infos)
 
         elif self.type == ChannelRedis.TYPE:
             self.infos = ChannelRedis(**infos)

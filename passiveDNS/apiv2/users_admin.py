@@ -3,7 +3,6 @@ from pydantic import BaseModel
 
 from passiveDNS.utils.channels.email import MailSendingError
 from passiveDNS.utils.channels.send import send
-from passiveDNS.utils.channels.telegram import TelegramSendingError
 from passiveDNS.utils.channels.templates_list import INVITE_TEMPLATE
 from passiveDNS.db.database import ObjectNotFound
 from passiveDNS.models.channel import Channel
@@ -129,7 +128,7 @@ async def invite(user_data: Invite):
 
     try:
         send(user_pending.email, default_channel, template)
-    except (MailSendingError, TelegramSendingError):
+    except (MailSendingError):
         # in case the mail cannot be sent, abort the invitation and delete the pending user in database
         if user_pending is not None:
             user_pending.delete()
@@ -178,7 +177,7 @@ async def verify_requested_user(user_data: VerifyUser):
     template.set_format(token=user_pending.token)
     try:
         send(user_pending.email, default_channel, template)
-    except (MailSendingError, TelegramSendingError):
+    except (MailSendingError):
         # in case the mail cannot be sent, abort the invitation and delete the pending user in database
         if user_pending is not None:
             user_pending.delete()

@@ -3,7 +3,6 @@ from pydantic import BaseModel
 
 from passiveDNS.utils.channels.email import MailSendingError
 from passiveDNS.utils.channels.send import send
-from passiveDNS.utils.channels.telegram import TelegramSendingError
 from passiveDNS.utils.channels.templates_list import (
     CHANNEL_VERIFY_TEMPLATE,
     TEST_TEMPLATE,
@@ -89,7 +88,7 @@ async def user_channel_create(
     template.set_format(token=new_user_channel.token, channel=channel.name)
     try:
         send(contact, channel, template)
-    except (MailSendingError, TelegramSendingError):
+    except (MailSendingError):
         if new_user_channel is not None:
             new_user_channel.delete()
 
@@ -163,7 +162,7 @@ async def channel_test(channel_name, user: User = Depends(get_current_user)):
 
     try:
         send(user_channel.contact, channel, template)
-    except (MailSendingError, TelegramSendingError):
+    except (MailSendingError):
         raise HTTPException(status_code=500, detail="failed to send test")
 
     return {"msg": "user channel tested", "user_channel": user_channel.safe_json()}

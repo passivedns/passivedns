@@ -29,10 +29,8 @@ class ChannelTemplate(object):
     Can be parsed into channels specific format
     """
 
-    def __init__(self, email, telegram, discord, redis):
+    def __init__(self, email, redis):
         self.email = email
-        self.telegram = telegram
-        self.discord = discord
         self.redis_channel = redis
         self.formatted_att = {}
 

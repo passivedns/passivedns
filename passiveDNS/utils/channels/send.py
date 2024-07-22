@@ -10,9 +10,7 @@ from passiveDNS.models.channel import Channel
 from passiveDNS.models.user_channel import UserChannel
 from passiveDNS.models.user import User, UserRole
 from passiveDNS.models.channel_meta import (
-    ChannelTelegram,
     ChannelEmail,
-    ChannelDiscord,
     ChannelRedis,
 )
 
