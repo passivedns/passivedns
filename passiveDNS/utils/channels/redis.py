@@ -3,7 +3,7 @@ from passiveDNS.utils.channels.templates import ChannelTemplate
 from passiveDNS.models.channel_meta import ChannelRedis
 
 
-def send_redis(queue: str, channel: ChannelRedis, template: ChannelTemplate):
+def send_redis(channel: ChannelRedis, template: ChannelTemplate):
     """
     Send a message to a user through Redis
     :param channel: Redis Configuration
@@ -11,4 +11,4 @@ def send_redis(queue: str, channel: ChannelRedis, template: ChannelTemplate):
     :return:
     """
     r = redis.Redis(host=channel.host, port=channel.port, db=channel.db)
-    r.lpush(queue, template.get_redis_msg())
+    r.lpush(channel.queue, template.get_redis_msg())
