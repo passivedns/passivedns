@@ -35,5 +35,4 @@ def daily_task():
     dn_list = client.dn_list()
     for domain_name in dn_list:
         resolve.delay(client.model_dump_json(), domain_name)
-    client.dn_update()
     return "done"
