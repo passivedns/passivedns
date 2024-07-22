@@ -7,10 +7,6 @@
                     <div class="card-header">
                         <img v-if="c.channel.type === channelTypeEmail" class="mr-2 light"
                              src="../../../assets/icons/icons8-mail-48.png" alt="mail">
-                        <img v-else-if="c.channel.type === channelTypeTelegram" class="mr-2 light"
-                             src="../../../assets/icons/icons8-telegram-app-48.png" alt="telegram">
-                        <img v-else-if="c.channel.type === channelTypeDiscord" class="mr-2 light"
-                             src="../../../assets/icons/icons8-discord-48.png" alt="discord">
                         <span style="font-size: 24px" class="card-title">{{c.channel._key}}</span>
                     </div>
                     <div class="card-body">
@@ -60,8 +56,6 @@
         props: {
             channelsList: Array,
             channelTypeEmail: String,
-            channelTypeTelegram: String,
-            channelTypeDiscord: String,
 
             channelDefault: String
         },

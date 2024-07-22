@@ -5,8 +5,6 @@
                 @setup="setup"
                 :channels-list="channelsAvailableList"
                 :channel-type-email="channelTypeEmail"
-                :channel-type-telegram="channelTypeTelegram"
-                :channel-type-discord="channelTypeDiscord"
                 :channel-type-redis="channelTypeRedis"
         />
 
@@ -14,8 +12,6 @@
                 ref="channelSetupModal"
                 @success="refreshLists"
                 :channel-type-email="channelTypeEmail"
-                :channel-type-telegram="channelTypeTelegram"
-                :channel-type-discord="channelTypeDiscord"
                 :channel-type-redis="channelTypeRedis"
         />
 
@@ -25,8 +21,6 @@
                 @test="test"
                 :channels-list="channelsLinkedList"
                 :channel-type-email="channelTypeEmail"
-                :channel-type-telegram="channelTypeTelegram"
-                :channel-type-discord="channelTypeDiscord"
                 :channel-type-redis="channelTypeRedis"
                 :channel-default="channelDefault"
         />
@@ -35,8 +29,6 @@
                 ref="channelVerifyModal"
                 @success="refreshLists"
                 :channel-type-email="channelTypeEmail"
-                :channel-type-telegram="channelTypeTelegram"
-                :channel-type-discord="channelTypeDiscord"
                 :channel-type-redis="channelTypeRedis"
         />
 
@@ -65,8 +57,6 @@ import ChannelsLinkedList from "@/components/main/channels/ChannelsLinkedList.vu
                 channelsAvailableList: [],
 
                 channelTypeEmail: "email",
-                channelTypeTelegram: "telegram",
-                channelTypeDiscord: "discord",
                 channelTypeRedis: "redis",
                 channelDefault: "_default"
             }

@@ -3,9 +3,7 @@ from multiprocessing import Process
 import pandas
 import logging
 
-from passiveDNS.utils.channels.discord_chan import send_discord
 from passiveDNS.utils.channels.email import send_email
-from passiveDNS.utils.channels.telegram import send_telegram
 from passiveDNS.utils.channels.redis import send_redis
 from passiveDNS.utils.channels.templates_list import ALERT_LIST_TEMPLATE
 from passiveDNS.models.channel import Channel
@@ -20,8 +18,6 @@ from passiveDNS.models.channel_meta import (
 
 send_channels = {
     ChannelEmail.TYPE: send_email,
-    ChannelTelegram.TYPE: send_telegram,
-    ChannelDiscord.TYPE: send_discord,
     ChannelRedis.TYPE: send_redis,
 }
 

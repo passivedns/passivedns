@@ -39,8 +39,6 @@ import AuthCheck from "@/components/connection/AuthCheck.vue";
         },
         props: {
             channelTypeEmail: String,
-            channelTypeTelegram: String,
-            channelTypeDiscord: String,
         },
         data() {
             return {

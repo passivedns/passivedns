@@ -14,19 +14,9 @@
                         This channel allows you to be alerted by email.
                         Put right below the email with which you want to be alerted.
                     </p>
-                    <p class="card-text" v-else-if="channel.type === channelTypeTelegram">
-                        This channel allows you to be alerted via Telegram.
-                        Put right below the chat ID where you want to be alerted.
-                        It can be a group chat or an individual chat.
-                    </p>
-                    <p class="card-text" v-else-if="channel.type === channelTypeDiscord">
-                        This channel allows you to be alerted via Discord.
-                        Put right below your user ID (it should be a number of 18 digits).
-                    </p>
                     <div>
                         <div class="form-group">
                             <label v-if="channel.type === channelTypeEmail" for="contactInput">Email</label>
-                            <label v-else-if="channel.type === channelTypeTelegram" for="contactInput">Chat ID</label>
                             <input id="contactInput" v-model="contact" type="text" class="form-control" required>
                         </div>
                     </div>
@@ -51,8 +41,6 @@ import AuthCheck from "@/components/connection/AuthCheck.vue";
         components: {AuthCheck},
         props: {
             channelTypeEmail: String,
-            channelTypeTelegram: String,
-            channelTypeDiscord: String,
         },
         data() {
             return {
