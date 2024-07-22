@@ -1,5 +1,4 @@
 from passiveDNS.models.channel_meta import (
-    ChannelEmail,
     ChannelRedis,
 )
 from passiveDNS.models.meta_node import Node
@@ -36,10 +35,7 @@ class Channel(Node):
         :raise: ChannelTypeError if type cannot be parsed
         """
 
-        if self.type == ChannelEmail.TYPE:
-            self.infos = ChannelEmail(**infos)
-
-        elif self.type == ChannelRedis.TYPE:
+        if self.type == ChannelRedis.TYPE:
             self.infos = ChannelRedis(**infos)
 
         else:

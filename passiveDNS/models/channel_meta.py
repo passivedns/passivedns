@@ -17,14 +17,6 @@ class ChannelMeta(object):
 
         return out
 
-
-class ChannelTelegram(ChannelMeta):
-    TYPE = "telegram"
-
-    def __init__(self, **infos_json):
-        super().__init__(infos_json, ["bot_token"])
-
-
 class ChannelEmail(ChannelMeta):
     TYPE = "email"
 
@@ -32,14 +24,6 @@ class ChannelEmail(ChannelMeta):
         super().__init__(
             infos_json, ["smtp_host", "smtp_port", "sender_email", "sender_password"]
         )
-
-
-class ChannelDiscord(ChannelMeta):
-    TYPE = "discord"
-
-    def __init__(self, **infos_json):
-        super().__init__(infos_json, ["bot_token"])
-
 
 class ChannelRedis(ChannelMeta):
     TYPE = "redis"

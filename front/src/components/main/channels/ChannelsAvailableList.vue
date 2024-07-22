@@ -5,9 +5,7 @@
             <div class="col-" v-for="c in channelsList" :key="c._key">
                 <div class="card m-1" style="width: 20rem;">
                     <div class="card-header">
-                        <img v-if="c.type === channelTypeEmail" class="mr-2 light"
-                             src="../../../assets/icons/icons8-mail-48.png" alt="mail">
-                        <img v-else-if="c.type === channelTypeRedis" class="mr-2 light"
+                        <img v-if="c.type === channelTypeRedis" class="mr-2 light"
                              src="../../../assets/icons/redis-48.png" alt="redis">
                         <span style="font-size: 24px" class="card-title">{{c._key}}</span>
                     </div>
@@ -30,7 +28,6 @@
         name: "ChannelsAvailableList",
         props: {
             channelsList: Array,
-            channelTypeEmail: String,
             channelTypeRedis: String,
         },
         methods: {

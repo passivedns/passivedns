@@ -19,46 +19,13 @@
                         <div class="form-group">
                             <label for="channelTypeSelect" class="sr-only">Channel type select</label>
                             <select v-model="channelType" class="custom-select" id="channelTypeSelect">
-                                <option :value="channelTypeEmail">Email</option>
-                                <option :value="channelTypeTelegram">Telegram</option>
-                                <option :value="channelTypeDiscord">Discord</option>
                                 <option :value="channelTypeRedis">Redis</option>
                             </select>
                         </div>
 
                     </div>
 
-                    <form v-if="channelType === channelTypeEmail">
-                        <div class="form-group">
-                            <label for="smtpHost">SMTP host</label>
-                            <input v-model="channelInfos.smtp_host" type="text" class="form-control" id="smtpHost">
-                        </div>
-                        <div class="form-group">
-                            <label for="smtpPort">SMTP port</label>
-                            <input v-model="channelInfos.smtp_port" type="text" class="form-control" id="smtpPort">
-                        </div>
-                        <div class="form-group">
-                            <label for="senderEmail">Sender email</label>
-                            <input v-model="channelInfos.sender_email" type="email" class="form-control" id="senderEmail">
-                        </div>
-                        <div class="form-group">
-                            <label for="senderPassword">Password</label>
-                            <input v-model="channelInfos.sender_password" type="password" class="form-control" id="senderPassword">
-                        </div>
-                    </form>
-                    <form v-else-if="channelType === channelTypeTelegram">
-                        <div class="form-group">
-                            <label for="botToken">Bot token</label>
-                            <input v-model="channelInfos.bot_token" type="text" class="form-control" id="botToken">
-                        </div>
-                    </form>
-                    <form v-else-if="channelType === channelTypeDiscord">
-                        <div class="form-group">
-                            <label for="discordBotToken">Bot token</label>
-                            <input v-model="channelInfos.bot_token" type="text" class="form-control" id="discordBotToken">
-                        </div>
-                    </form>
-                    <form v-else-if="channelType === channelTypeRedis">
+                    <form v-if="channelType === channelTypeRedis">
                         <div class="form-group">
                             <label for="database">Database</label>
                             <input v-model="channelInfos.db" type="text" class="form-control" id="database" required>
@@ -101,9 +68,6 @@ import AuthCheck from "@/components/connection/AuthCheck.vue";
             AuthCheck
         },
         props: {
-            channelTypeEmail: String,
-            channelTypeTelegram: String,
-            channelTypeDiscord: String,
             channelTypeRedis: String
         },
         data() {

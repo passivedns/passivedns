@@ -4,14 +4,12 @@
         <ChannelsAvailableList
                 @setup="setup"
                 :channels-list="channelsAvailableList"
-                :channel-type-email="channelTypeEmail"
                 :channel-type-redis="channelTypeRedis"
         />
 
         <ChannelSetupModal
                 ref="channelSetupModal"
                 @success="refreshLists"
-                :channel-type-email="channelTypeEmail"
                 :channel-type-redis="channelTypeRedis"
         />
 
@@ -20,7 +18,6 @@
                 @remove="remove"
                 @test="test"
                 :channels-list="channelsLinkedList"
-                :channel-type-email="channelTypeEmail"
                 :channel-type-redis="channelTypeRedis"
                 :channel-default="channelDefault"
         />
@@ -28,7 +25,6 @@
         <ChannelVerifyModal
                 ref="channelVerifyModal"
                 @success="refreshLists"
-                :channel-type-email="channelTypeEmail"
                 :channel-type-redis="channelTypeRedis"
         />
 

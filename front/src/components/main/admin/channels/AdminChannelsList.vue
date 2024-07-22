@@ -12,16 +12,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="ch in channelsList" :key="ch._key">
-                    <td v-if="ch.type === channelTypeEmail">
-                        <img class="light" src="../../../../assets/icons/icons8-mail-48.png" alt="mail">
-                    </td>
-                    <td v-else-if="ch.type === channelTypeTelegram">
-                        <img class="light" src="../../../../assets/icons/icons8-telegram-app-48.png" alt="telegram">
-                    </td>
-                    <td v-else-if="ch.type === channelTypeDiscord">
-                        <img class="light" src="../../../../assets/icons/icons8-discord-48.png" alt="discord">
-                    </td>
-                    <td v-else-if="ch.type === channelTypeRedis">
+                    <td v-if="ch.type === channelTypeRedis">
                         <img class="light" src="../../../../assets/icons/redis-48.png" alt="redis">
                     </td>
 
@@ -56,9 +47,6 @@
         name: "AdminChannelsList",
         props: {
             channelsList: Array,
-            channelTypeEmail: String,
-            channelTypeTelegram: String,
-            channelTypeDiscord: String,
             channelTypeRedis: String,
         },
         data() {

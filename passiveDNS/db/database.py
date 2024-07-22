@@ -127,12 +127,12 @@ class DatabaseSession(object):
             self._db.collection("Channel").insert(
                 {
                     "_key": "_default",
-                    "type": "email",
+                    "type": "redis",
                     "infos": {
-                        "smtp_host": "",
-                        "smtp_port": "",
-                        "sender_email": "",
-                        "sender_password": "",
+                        "host": "",
+                        "port": "",
+                        "db": "",
+                        "queue_name": "",
                     },
                 }
             )

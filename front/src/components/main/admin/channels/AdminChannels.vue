@@ -11,27 +11,18 @@
                 @select="select"
                 @removeConfirm="removeConfirm"
                 :channels-list="channelsList"
-                :channel-type-email="channelTypeEmail"
-                :channel-type-telegram="channelTypeTelegram"
-                :channel-type-discord="channelTypeDiscord"
                 :channel-type-redis="channelTypeRedis"
         />
 
         <AdminChannelModalUpdate
                 ref="adminChannelModalUpdate"
                 @updated="getChannelList"
-                :channel-type-telegram="channelTypeTelegram"
-                :channel-type-email="channelTypeEmail"
-                :channel-type-discord="channelTypeDiscord"
                 :channel-type-redis="channelTypeRedis"
         />
 
         <AdminChannelModalCreate
                 ref="adminChannelModalCreate"
                 @created="getChannelList"
-                :channel-type-email="channelTypeEmail"
-                :channel-type-telegram="channelTypeTelegram"
-                :channel-type-discord="channelTypeDiscord"
                 :channel-type-redis="channelTypeRedis"
         />
 
@@ -55,9 +46,6 @@
         data() {
             return {
                 channelsList: [],
-                channelTypeEmail: "email",
-                channelTypeTelegram: "telegram",
-                channelTypeDiscord: "discord",
                 channelTypeRedis: "redis",
             }
         },

@@ -13,51 +13,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form v-if="channel.type === channelTypeEmail">
-                        <div class="form-group">
-                            <label for="smtpHost">SMTP host</label>
-                            <input v-model="channel.infos.smtp_host" type="text" class="form-control" id="smtpHost">
-                        </div>
-                        <div class="form-group">
-                            <label for="smtpPort">SMTP port</label>
-                            <input v-model="channel.infos.smtp_port" type="text" class="form-control" id="smtpPort">
-                        </div>
-                        <div class="form-group">
-                            <label for="senderEmail">Sender email</label>
-                            <input v-model="channel.infos.sender_email" type="email" class="form-control" id="senderEmail">
-                        </div>
-                        <div class="form-group">
-                            <label for="senderPassword">Password</label>
-                            <input v-model="channel.infos.sender_password" type="password" class="form-control" id="senderPassword">
-                        </div>
-                    </form>
-                    <form v-else-if="channel.type === channelTypeTelegram">
-                        <div class="form-group">
-                            <label for="botToken">Bot token</label>
-                            <div class="input-group">
-                                <input v-model="channel.infos.bot_token" type="password" class="form-control" id="botToken">
-                                <div class="input-group-append">
-                                    <button @mousedown="showBotToken('botToken')" @mouseup="hideBotToken('botToken')" class="btn btn-outline-primary" type="button">
-                                        <img class="light" src="../../../../assets/icons/icons8-eye-30.png" alt="eye">
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <form v-else-if="channel.type === channelTypeDiscord">
-                        <div class="form-group">
-                            <label for="discordBotToken">Bot token</label>
-                            <div class="input-group">
-                                <input v-model="channel.infos.bot_token" type="password" class="form-control" id="discordBotToken">
-                                <div class="input-group-append">
-                                    <button @mousedown="showBotToken('discordBotToken')" @mouseup="hideBotToken('discordBotToken')" class="btn btn-outline-primary" type="button">
-                                        <img class="light" src="../../../../assets/icons/icons8-eye-30.png" alt="eye">
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <form v-else-if="channel.type === channelTypeRedis">
+                    <form v-if="channel.type === channelTypeRedis">
                         <div class="form-group">
                             <label for="redisDatabase">Database</label>
                             <input v-model="channel.infos.db" type="text" class="form-control" id="redisDatabase">
@@ -98,9 +54,6 @@ import AuthCheck from "@/components/connection/AuthCheck.vue";
         name: "AdminChannelModal",
         components: {AuthCheck},
         props: {
-            channelTypeEmail: String,
-            channelTypeTelegram: String,
-            channelTypeDiscord: String,
             channelTypeRedis: String,
         },
         data() {
