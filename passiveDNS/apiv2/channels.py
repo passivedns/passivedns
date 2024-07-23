@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 
 from passiveDNS.apiv2.auth import get_current_user
+from passiveDNS.utils.channels.send import test_send
 from passiveDNS.models.channel import Channel
 from passiveDNS.models.user import User
 from passiveDNS.models.user_channel import UserChannel
@@ -41,3 +42,13 @@ async def channel_get(channel_name):
         raise HTTPException(status_code=404, detail="channel not found")
 
     return {"msg": f"channel {ch.name} retrieved", "channel": ch.safe_json()}
+
+@channels_router.get("/channels/test/{channel_name}")
+async def channel_test(channel_name):
+    try:
+        ch = Channel.get(channel_name)
+    except ObjectNotFound:
+        raise HTTPException(status_code=404, detail="channel not found")
+    
+    test_send(ch)
+    return {"msg":f"test message sent to channel {ch.name}","channel":ch.safe_json()}

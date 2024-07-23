@@ -10,5 +10,5 @@ def send_redis(channel: ChannelRedis, template: ChannelTemplate):
     :param template: the message to send
     :return:
     """
-    r = redis.Redis(host=channel.host, port=channel.port, db=channel.db)
-    r.lpush(channel.queue, template.get_redis_msg())
+    r = redis.Redis(host=channel.infos.host, port=channel.infos.port, db=channel.infos.db)
+    r.publish(channel.infos.queue_name, template.get_redis_msg())

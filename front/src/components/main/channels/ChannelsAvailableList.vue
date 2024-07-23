@@ -15,6 +15,9 @@
                                 <img src="../../../assets/icons/icons8-settings-24.png" alt="setup">
                                 Setup
                             </button>
+                            <button v-else="c.type === channelTypeRedis" @click="test(c)" class="btn btn-primary">Test channel</button>
+                            <AuthCheck :loading="loading" :valid="valid" valid-msg="Test sent"
+                               loading-msg="Sending test" invalid-msg="Could not send"></AuthCheck>
                         </span>
                     </div>
                 </div>
@@ -24,15 +27,43 @@
 </template>
 
 <script>
+import AuthCheck from "@/components/connection/AuthCheck.vue";
+import Services from "../../../services/services.js";
     export default {
         name: "ChannelsAvailableList",
+        components: {
+            AuthCheck
+        },
         props: {
             channelsList: Array,
             channelTypeRedis: String,
         },
+        data() {
+            return {
+                loading: false,
+                valid: null,
+            }
+        },
+        mounted() {
+            let jwt = localStorage.getItem('jwt');
+            this.service = Services.getPfaApiService(jwt);
+        },
         methods: {
             setup(channel) {
                 this.$emit('setup', channel)
+            },
+            test(channel) {
+                let self = this;
+                this.loading = true;
+                this.valid = null;
+                this.service.testChannel(channel._key)
+                    .then(function(b) {
+                        self.valid = b;
+                        if (b) {
+                            self.loading = false;
+                            self.close();
+                        }
+                    })
             }
         }
     }

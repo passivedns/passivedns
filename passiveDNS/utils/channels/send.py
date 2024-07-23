@@ -5,7 +5,7 @@ import logging
 
 from passiveDNS.utils import timezone, config
 from passiveDNS.utils.channels.redis import send_redis
-from passiveDNS.utils.channels.templates_list import ALERT_DN_TEMPLATE
+from passiveDNS.utils.channels.templates_list import ALERT_DN_TEMPLATE, TEST_TEMPLATE
 from passiveDNS.models.channel import Channel
 from passiveDNS.models.user_channel import UserChannel
 from passiveDNS.models.user import User, UserRole
@@ -31,6 +31,13 @@ def send(channel: Channel, template):
 
     send_channels[channel.type](channel, template)
 
+def test_send(channel: Channel):
+    template = TEST_TEMPLATE
+    template.set_format(
+        date=timezone.get_current_datetime(config.g.TIMEZONE)
+    )
+    logging.debug(f"sending test message to {channel.infos.queue_name}")
+    send(channel, template)
 
 def alert_all_process(domain_name):
     """

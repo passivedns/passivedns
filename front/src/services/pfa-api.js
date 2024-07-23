@@ -17,6 +17,7 @@ export default class PfaApi {
             "alertExport": "apiv2/alert/export",
             "resolution": "/apiv2/resolution",
             "channels": "/apiv2/channels",
+            "channelsTest":"/apiv2/channels/test",
             "userChannels": "/apiv2/user/channels",
             "tag": "/apiv2/tag",
             "tagLinked": "/apiv2/tag_dn_ip",
@@ -181,7 +182,7 @@ export default class PfaApi {
     }
 
     testChannel(channelName) {
-        return this.service.get(`${this.routes.userChannels}/${channelName}/test`)
+        return this.service.get(`${this.routes.channelsTest}/${channelName}`)
             .then(function(d) {
                 console.log(d.data.msg);
                 return true;
