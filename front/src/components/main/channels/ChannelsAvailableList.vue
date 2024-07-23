@@ -5,17 +5,13 @@
             <div class="col-" v-for="c in channelsList" :key="c._key">
                 <div class="card m-1" style="width: 20rem;">
                     <div class="card-header">
-                        <img v-if="c.type === channelTypeRedis" class="mr-2 light"
+                        <img class="mr-2 light"
                              src="../../../assets/icons/redis-48.png" alt="redis">
                         <span style="font-size: 24px" class="card-title">{{c._key}}</span>
                     </div>
                     <div class="card-body">
                         <span class="card-link">
-                            <button v-if="c.type !== channelTypeRedis" @click="setup(c)" class="btn btn-primary">
-                                <img src="../../../assets/icons/icons8-settings-24.png" alt="setup">
-                                Setup
-                            </button>
-                            <button v-else="c.type === channelTypeRedis" @click="test(c)" class="btn btn-primary">Test channel</button>
+                            <button @click="test(c)" class="btn btn-primary">Test channel</button>
                             <AuthCheck :loading="loading" :valid="valid" valid-msg="Test sent"
                                loading-msg="Sending test" invalid-msg="Could not send"></AuthCheck>
                         </span>
@@ -36,7 +32,6 @@ import Services from "../../../services/services.js";
         },
         props: {
             channelsList: Array,
-            channelTypeRedis: String,
         },
         data() {
             return {
@@ -49,9 +44,6 @@ import Services from "../../../services/services.js";
             this.service = Services.getPfaApiService(jwt);
         },
         methods: {
-            setup(channel) {
-                this.$emit('setup', channel)
-            },
             test(channel) {
                 let self = this;
                 this.loading = true;

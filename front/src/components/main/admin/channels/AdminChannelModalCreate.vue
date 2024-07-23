@@ -15,17 +15,8 @@
                             <label for="channelCreateName">Channel name</label>
                             <input v-model="channelName" type="text" class="form-control" id="channelCreateName" required>
                         </div>
-
-                        <div class="form-group">
-                            <label for="channelTypeSelect" class="sr-only">Channel type select</label>
-                            <select v-model="channelType" class="custom-select" id="channelTypeSelect">
-                                <option :value="channelTypeRedis">Redis</option>
-                            </select>
-                        </div>
-
                     </div>
-
-                    <form v-if="channelType === channelTypeRedis">
+                    <form>
                         <div class="form-group">
                             <label for="database">Database</label>
                             <input v-model="channelInfos.db" type="text" class="form-control" id="database" required>
@@ -37,10 +28,6 @@
                         <div class="form-group">
                             <label for="senderEmail">Port</label>
                             <input v-model="channelInfos.port" type="text" class="form-control" id="senderEmail" value="6379" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="queueName">Queue name</label>
-                            <input v-model="channelInfos.queue_name" type="text" class="form-control" id="queueName" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
@@ -67,9 +54,6 @@ import AuthCheck from "@/components/connection/AuthCheck.vue";
         components: {
             AuthCheck
         },
-        props: {
-            channelTypeRedis: String
-        },
         data() {
             return {
                 loading: false,
@@ -83,7 +67,6 @@ import AuthCheck from "@/components/connection/AuthCheck.vue";
             }
         },
         mounted() {
-            this.channelType = this.channelTypeEmail;
 
             let jwt = localStorage.getItem('jwt');
             this.service = Services.getPfaApiAdminService(jwt);

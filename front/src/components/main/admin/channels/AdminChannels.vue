@@ -11,19 +11,16 @@
                 @select="select"
                 @removeConfirm="removeConfirm"
                 :channels-list="channelsList"
-                :channel-type-redis="channelTypeRedis"
         />
 
         <AdminChannelModalUpdate
                 ref="adminChannelModalUpdate"
                 @updated="getChannelList"
-                :channel-type-redis="channelTypeRedis"
         />
 
         <AdminChannelModalCreate
                 ref="adminChannelModalCreate"
                 @created="getChannelList"
-                :channel-type-redis="channelTypeRedis"
         />
 
         <ModalConfirm ref="modalConfirm" @confirm="removeConfirmed"
@@ -46,7 +43,6 @@
         data() {
             return {
                 channelsList: [],
-                channelTypeRedis: "redis",
             }
         },
         mounted() {

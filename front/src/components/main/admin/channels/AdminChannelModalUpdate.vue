@@ -13,7 +13,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form v-if="channel.type === channelTypeRedis">
+                    <form>
                         <div class="form-group">
                             <label for="redisDatabase">Database</label>
                             <input v-model="channel.infos.db" type="text" class="form-control" id="redisDatabase">
@@ -25,10 +25,6 @@
                         <div class="form-group">
                             <label for="redisPort">Port</label>
                             <input v-model="channel.infos.port" type="text" class="form-control" id="redisPort">
-                        </div>
-                        <div class="form-group">
-                            <label for="redisQueueName">Queue name</label>
-                            <input v-model="channel.infos.queue_name" type="text" class="form-control" id="redisQueueName">
                         </div>
                         <div class="form-group">
                             <label for="redisPassword">Password</label>
@@ -53,9 +49,6 @@ import AuthCheck from "@/components/connection/AuthCheck.vue";
     export default {
         name: "AdminChannelModal",
         components: {AuthCheck},
-        props: {
-            channelTypeRedis: String,
-        },
         data() {
             return {
                 channel: null,

@@ -83,15 +83,6 @@ class DatabaseSession(object):
         self.create_edge_definition(
             self.graph("passive_dns"),
             {
-                "edge_collection": "UsersChannel",
-                "from_vertex_collections": ["Users"],
-                "to_vertex_collections": ["Channel"],
-            },
-        )
-
-        self.create_edge_definition(
-            self.graph("passive_dns"),
-            {
                 "edge_collection": "DomainNameResolution",
                 "from_vertex_collections": ["DomainName"],
                 "to_vertex_collections": ["IPAddress"],
@@ -132,7 +123,6 @@ class DatabaseSession(object):
                         "host": "",
                         "port": "",
                         "db": "",
-                        "queue_name": "",
                     },
                 }
             )

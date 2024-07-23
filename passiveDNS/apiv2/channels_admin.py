@@ -2,7 +2,6 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from passiveDNS.models.channel import Channel, ChannelTypeError
-from passiveDNS.models.user_channel import UserChannel
 
 channels_admin_router = APIRouter()
 
@@ -76,9 +75,6 @@ async def channel_delete(name):
         raise HTTPException(status_code=404, detail=f"channel {name} not found")
 
     ch = Channel.get(name)
-    user_channel_list = UserChannel.list_from_channel(ch.name)
-    for user_ch in user_channel_list:
-        user_ch.delete()
 
     ch.delete()
 

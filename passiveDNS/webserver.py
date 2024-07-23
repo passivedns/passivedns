@@ -26,7 +26,6 @@ from passiveDNS.apiv2.scheduler import scheduler_router  # noqa: E402
 from passiveDNS.apiv2.scheduler_admin import scheduler_admin_router  # noqa: E402
 from passiveDNS.apiv2.tag import tag_router  # noqa: E402
 from passiveDNS.apiv2.tag_dn_ip import tag_dn_ip_router  # noqa: E402
-from passiveDNS.apiv2.user_channel import users_channel_router  # noqa: E402
 from passiveDNS.apiv2.users import users_router  # noqa: E402
 from passiveDNS.apiv2.users_admin import users_admin_router  # noqa: E402
 from passiveDNS.apiv2.api_integration import api_integration_router  # noqa: E402
@@ -75,10 +74,6 @@ api_router.include_router(
 api_router.include_router(
     channels_admin_router,
     dependencies=[Depends(get_current_user), Depends(check_admin_role)],
-)
-api_router.include_router(
-    users_channel_router,
-    dependencies=[Depends(get_current_user), Depends(check_admin_user_role)],
 )
 api_router.include_router(
     tag_router, dependencies=[Depends(get_current_user), Depends(check_admin_user_role)]

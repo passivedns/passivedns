@@ -18,7 +18,6 @@ export default class PfaApi {
             "resolution": "/apiv2/resolution",
             "channels": "/apiv2/channels",
             "channelTest":"/apiv2/channel/test",
-            "userChannels": "/apiv2/user/channels",
             "tag": "/apiv2/tag",
             "tagLinked": "/apiv2/tag_dn_ip",
             "tagLinkedList": "/apiv2/tag_dn_ip/list/from",
@@ -138,63 +137,8 @@ export default class PfaApi {
             })
     }
 
-    getChannelLinkedList() {
-        return this.service.get(this.routes.userChannels)
-            .then(function(d) {
-                console.log(d.data.msg);
-                return d.data.channel_list;
-            })
-            .catch(function(err) {
-                console.log(err.response.data.msg);
-            })
-    }
-
-    setupChannel(channelName, contact) {
-        return this.service.post(`${this.routes.userChannels}/${channelName}`, {}, {
-            params: {
-                contact: contact
-            }
-        })
-            .then(function(d) {
-                console.log(d.data.msg);
-                return true;
-            })
-            .catch(function(err) {
-                console.log(err.response.data.msg);
-                return false;
-            })
-    }
-
-    verifyChannel(channelName, token) {
-        return this.service.put(`${this.routes.userChannels}/${channelName}`, {}, {
-            params: {
-                token: token
-            }
-        })
-            .then(function(d) {
-                console.log(d.data.msg);
-                return true;
-            })
-            .catch(function(err) {
-                console.log(err.response.data.msg);
-                return false;
-            })
-    }
-
     testChannel(channelName) {
         return this.service.get(`${this.routes.channelTest}/${channelName}`)
-            .then(function(d) {
-                console.log(d.data.msg);
-                return true;
-            })
-            .catch(function(err) {
-                console.log(err.response.data.msg);
-                return false;
-            })
-    }
-
-    removeChannel(channelName) {
-        return this.service.delete(`${this.routes.userChannels}/${channelName}`)
             .then(function(d) {
                 console.log(d.data.msg);
                 return true;

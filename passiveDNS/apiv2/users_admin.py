@@ -9,7 +9,6 @@ from passiveDNS.models.channel import Channel
 from passiveDNS.models.user import User, UserRole
 from passiveDNS.models.user_pending import UserPending
 from passiveDNS.models.user_request import UserRequest
-from passiveDNS.models.user_channel import UserChannel
 
 users_admin_router = APIRouter()
 
@@ -80,10 +79,6 @@ async def remove_user(username):
 
     if user.role != UserRole.ADMIN.value:
         user.delete()
-
-        user_channels = UserChannel.list_from_username(user.username)
-        for user_ch in user_channels:
-            user_ch.delete()
 
         return {"msg": f"user {user.username} deleted", "user": user.safe_json()}
 

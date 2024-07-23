@@ -6,7 +6,6 @@ from passiveDNS.models.user import User
 from passiveDNS.models.user_pending import UserPending
 from passiveDNS.models.user_request import UserRequest
 from passiveDNS.models.channel import Channel
-from passiveDNS.models.user_channel import UserChannel
 from passiveDNS.models.api_integration import APIIntegration
 from passiveDNS.analytics.extern_api import ExternAPI, RequestException
 
@@ -51,18 +50,6 @@ async def register(user_data: UserRegistration):
     created_user = User.new(user_data.username, user_data.password, user_pending.email)
     created_user.insert()
     user_pending.delete()
-
-    try:
-        default_channel = Channel.get(Channel.DEFAULT)
-    except ObjectNotFound as o:
-        raise HTTPException(
-            status_code=404, detail=f"default channel not found: {str(o)}"
-        )
-    user_channel = UserChannel.new(
-        created_user.username, default_channel.name, created_user.email
-    )
-    user_channel.verified = True
-    user_channel.insert()
 
     return {
         "msg": f"user {created_user.username} created",

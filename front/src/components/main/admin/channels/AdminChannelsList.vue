@@ -12,7 +12,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="ch in channelsList" :key="ch._key">
-                    <td v-if="ch.type === channelTypeRedis">
+                    <td>
                         <img class="light" src="../../../../assets/icons/redis-48.png" alt="redis">
                     </td>
 
@@ -47,7 +47,6 @@
         name: "AdminChannelsList",
         props: {
             channelsList: Array,
-            channelTypeRedis: String,
         },
         data() {
             return {

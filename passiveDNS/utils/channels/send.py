@@ -1,6 +1,5 @@
 from multiprocessing import Process
 
-import pandas
 import logging
 
 from passiveDNS.utils import timezone, config
@@ -34,7 +33,7 @@ def test_send(channel: Channel):
     template.set_format(
         date=timezone.get_current_datetime(config.g.TIMEZONE)
     )
-    logging.debug(f"sending test message to {channel.infos.queue_name}")
+    logging.debug(f"sending test message to {channel.name}")
     send(channel, template)
 
 def alert_all_process(domain_name):
@@ -60,7 +59,7 @@ def alert_all_process(domain_name):
     
     channels = Channel.list()
     for c in channels:
-        logging.debug(f"alerting about {domain_name["domain_name"]} with {c.infos.queue_name}")
+        logging.debug(f"alerting about {domain_name["domain_name"]} with {c.name}")
         send(c, template)
 
 
