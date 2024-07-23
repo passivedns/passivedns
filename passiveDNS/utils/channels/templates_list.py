@@ -5,9 +5,7 @@ from passiveDNS.utils.channels.templates import (
 
 TEST_TEMPLATE = ChannelTemplate(
     RedisTemplate(
-        """
-        {date}: **Testing** channel redis
-        """
+        """**Testing** channel redis"""
     ),
 )
 
@@ -32,8 +30,6 @@ CHANNEL_VERIFY_TEMPLATE = ChannelTemplate(
 
 ALERT_DN_TEMPLATE = ChannelTemplate(
     RedisTemplate(
-        """
-        {date}: **Testing** The following domain name was updated: {dn}.
-        """
+        """{date}: **Testing** The following domain name was updated: {dn}."""
     ),
 )

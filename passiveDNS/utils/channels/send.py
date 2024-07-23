@@ -7,8 +7,6 @@ from passiveDNS.utils import timezone, config
 from passiveDNS.utils.channels.redis import send_redis
 from passiveDNS.utils.channels.templates_list import ALERT_DN_TEMPLATE, TEST_TEMPLATE
 from passiveDNS.models.channel import Channel
-from passiveDNS.models.user_channel import UserChannel
-from passiveDNS.models.user import User, UserRole
 from passiveDNS.models.channel_meta import (
     ChannelRedis,
 )
