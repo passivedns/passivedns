@@ -25,4 +25,4 @@ class ChannelTemplate(object):
         self.formatted_att = formatted_att
 
     def get_redis_msg(self):
-        return self.redis_channel.msg
+        return self.redis_channel.msg.format(**self.formatted_att)

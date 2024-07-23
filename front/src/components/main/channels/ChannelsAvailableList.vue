@@ -61,7 +61,6 @@ import Services from "../../../services/services.js";
                         self.valid = b;
                         if (b) {
                             self.loading = false;
-                            self.close();
                         }
                     })
             }

@@ -43,7 +43,7 @@ async def channel_get(channel_name):
 
     return {"msg": f"channel {ch.name} retrieved", "channel": ch.safe_json()}
 
-@channels_router.get("/channels/test/{channel_name}")
+@channels_router.get("/channel/test/{channel_name}")
 async def channel_test(channel_name):
     try:
         ch = Channel.get(channel_name)

@@ -5,7 +5,7 @@ from passiveDNS.utils.channels.templates import (
 
 TEST_TEMPLATE = ChannelTemplate(
     RedisTemplate(
-        """**Testing** channel redis"""
+        """{date}: **Testing** channel redis"""
     ),
 )
 
