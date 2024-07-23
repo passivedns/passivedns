@@ -27,12 +27,13 @@ async def channel_get(channel_name):
 
     return {"msg": f"channel {ch.name} retrieved", "channel": ch.safe_json()}
 
+
 @channels_router.get("/channel/test/{channel_name}")
 async def channel_test(channel_name):
     try:
         ch = Channel.get(channel_name)
     except ObjectNotFound:
         raise HTTPException(status_code=404, detail="channel not found")
-    
+
     test_send(ch)
-    return {"msg":f"test message sent to channel {ch.name}","channel":ch.safe_json()}
+    return {"msg": f"test message sent to channel {ch.name}", "channel": ch.safe_json()}

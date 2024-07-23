@@ -123,7 +123,7 @@ async def invite(user_data: Invite):
 
     try:
         send(user_pending.email, default_channel, template)
-    except (MailSendingError):
+    except MailSendingError:
         # in case the mail cannot be sent, abort the invitation and delete the pending user in database
         if user_pending is not None:
             user_pending.delete()
@@ -172,7 +172,7 @@ async def verify_requested_user(user_data: VerifyUser):
     template.set_format(token=user_pending.token)
     try:
         send(user_pending.email, default_channel, template)
-    except (MailSendingError):
+    except MailSendingError:
         # in case the mail cannot be sent, abort the invitation and delete the pending user in database
         if user_pending is not None:
             user_pending.delete()

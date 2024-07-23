@@ -17,6 +17,7 @@ class ChannelMeta(object):
 
         return out
 
+
 class ChannelEmail(ChannelMeta):
     TYPE = "email"
 
@@ -24,6 +25,7 @@ class ChannelEmail(ChannelMeta):
         super().__init__(
             infos_json, ["smtp_host", "smtp_port", "sender_email", "sender_password"]
         )
+
 
 class ChannelRedis(ChannelMeta):
     TYPE = "redis"

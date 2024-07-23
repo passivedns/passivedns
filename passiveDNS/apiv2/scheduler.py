@@ -45,9 +45,9 @@ async def update_dn_alert(domain_name):
     if not Resolution.exists(domain_name, ip_address):
         # ip change detected
         domain_alert = {
-            "domain_name":domain_name,
-            "last_ip_address":Resolution.get_current_from_domain(domain_name),
-            "current_ip_address":ip_address,
+            "domain_name": domain_name,
+            "last_ip_address": Resolution.get_current_from_domain(domain_name),
+            "current_ip_address": ip_address,
         }
         resolution = Resolution.new(domain_name, ip_address, "PassiveDNS")
         resolution.insert()

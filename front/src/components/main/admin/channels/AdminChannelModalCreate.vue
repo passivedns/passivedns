@@ -61,7 +61,7 @@ import AuthCheck from "@/components/connection/AuthCheck.vue";
 
                 channelName: "",
                 channelInfos: {},
-                channelType: "",
+                channelType: "redis",
 
                 modal: null,
             }

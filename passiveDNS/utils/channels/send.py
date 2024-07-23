@@ -28,13 +28,13 @@ def send(channel: Channel, template):
 
     send_channels[channel.type](channel, template)
 
+
 def test_send(channel: Channel):
     template = TEST_TEMPLATE
-    template.set_format(
-        date=timezone.get_current_datetime(config.g.TIMEZONE)
-    )
+    template.set_format(date=timezone.get_current_datetime(config.g.TIMEZONE))
     logging.debug(f"sending test message to {channel.name}")
     send(channel, template)
+
 
 def alert_all_process(domain_name):
     """
@@ -44,19 +44,15 @@ def alert_all_process(domain_name):
     """
 
     data = {
-        "domain name":domain_name["domain_name"],
-        "last ip":domain_name["last_ip_address"],
-        "current ip":domain_name["current_ip_address"],
+        "domain name": domain_name["domain_name"],
+        "last ip": domain_name["last_ip_address"],
+        "current ip": domain_name["current_ip_address"],
     }
     logging.debug(f"Data: {data}")
 
     template = ALERT_DN_TEMPLATE
-    template.set_format(
-        date=timezone.get_current_datetime(config.g.TIMEZONE),
-        dn=data
-    )
+    template.set_format(date=timezone.get_current_datetime(config.g.TIMEZONE), dn=data)
 
-    
     channels = Channel.list()
     for c in channels:
         logging.debug(f"alerting about {domain_name["domain_name"]} with {c.name}")

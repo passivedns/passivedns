@@ -4,9 +4,7 @@ from passiveDNS.utils.channels.templates import (
 )
 
 TEST_TEMPLATE = ChannelTemplate(
-    RedisTemplate(
-        """{date}: **Testing** channel redis"""
-    ),
+    RedisTemplate("""{date}: **Testing** channel redis"""),
 )
 
 INVITE_TEMPLATE = ChannelTemplate(

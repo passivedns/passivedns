@@ -1,6 +1,7 @@
 PARSE_MODE_HTML = "HTML"
 PARSE_MODE_MARKDOWN = "Markdown"
 
+
 class RedisTemplate(object):
     """
     The Redis template
