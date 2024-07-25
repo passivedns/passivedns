@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="container">
-      <img class="light" src="../assets/icons/passive_dns_white.png" alt="main">
+      <img class="light" src="../assets/icons/passive_dns_white.png" alt="main" width="80%">
       <h1>Passive DNS</h1>
       <Ribbon></Ribbon>
       <span>Monitor DNS resolutions</span>
@@ -9,32 +9,20 @@
 
     <div class="container login">
 
-      <transition name="fade" @after-leave="toTab">
-        <div v-if="tab === tabLogin ">
+      <transition name="fade">
+        <div>
           <div class="input-group mb-3">
-            <input v-model="identity" type="text" class="form-control" placeholder="Username or email" aria-label="Username" aria-describedby="button-login" v-on:keyup="validateEmailAddress">
-            <div class="input-group-append">
-              <button @click="toTabPassword" class="btn btn-outline-primary" type="button" id="button-login" v-on:click="postEmailAddress">Login</button>
-            </div>
+            <input v-model="identity" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="button-login">
           </div>
-        </div>
-      </transition>
-
-      <transition name="fade" @after-leave="toTab">
-        <div v-if="tab === tabPassword ">
           <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <button @click="toTabLogin" class="btn btn-outline-secondary">&lt;&lt; Back</button>
-            </div>
-            <input v-model="password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="button-password" v-on:keyup="validateEmailAddress">
-            <div class="input-group-append">
-              <button @click="login" class="btn btn-outline-primary" type="button" id="button-password" v-on:click="postEmailAddress">Login</button>
-            </div>
+            <input v-model="password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="button-password" v-on:keyup.enter="login">
+          </div>
+          <div class="center">
+              <button @click="login" class="btn btn-outline-primary" type="button" id="button-password">Login</button>
           </div>
           <AuthCheck :valid="valid" :loading="loading" loading-msg="Checking credentials" valid-msg="Credentials valid" invalid-msg="Invalid credentials" v-if="loading"/>
         </div>
       </transition>
-
     </div>
   </div>
 </template>
@@ -49,11 +37,6 @@ export default {
   components: {AuthCheck, Ribbon},
   data() {
     return {
-      tab: "login",
-      nextTab: "",
-      tabLogin: "login",
-      tabPassword: "password",
-
       identity: "",
       password: "",
 
@@ -65,18 +48,6 @@ export default {
     this.service = Services.getPfaApiPublicService()
   },
   methods: {
-    toTabPassword() {
-      this.tab = null;
-      this.nextTab = this.tabPassword;
-    },
-    toTabLogin() {
-      this.tab = null;
-      this.nextTab = this.tabLogin
-    },
-    toTab() {
-      this.tab = this.nextTab;
-      this.loading = false;
-    },
     login() {
       let self = this;
       this.loading = true;
