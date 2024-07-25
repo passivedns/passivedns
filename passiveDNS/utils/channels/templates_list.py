@@ -9,6 +9,8 @@ TEST_TEMPLATE = ChannelTemplate(
 
 ALERT_DN_TEMPLATE = ChannelTemplate(
     RedisTemplate(
-        """{date}: The following domain name was updated: {dn}."""
+        """{
+        {date}: {data}
+        }"""
     ),
 )

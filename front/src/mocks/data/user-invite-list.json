@@ -1,9 +1,0 @@
-{
-  "msg": "invited user list retrieved",
-  "user_pending_list": [
-    {
-      "email": "martin.dupont@example.com",
-      "invited_at": "2021-03-16T17:07:40.535909"
-    }
-  ]
-}

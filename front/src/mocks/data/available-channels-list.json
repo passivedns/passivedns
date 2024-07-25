@@ -1,9 +1,0 @@
-{
-  "channel_list": [
-    {
-      "_key": "telegram_bot",
-      "type": "telegram"
-    }
-  ],
-  "msg": "available channel list retrieved"
-}

@@ -1,9 +1,0 @@
-{
-  "msg": "user request list",
-  "user_request_list": [
-    {
-      "_key": "john.doe@example.com",
-      "requested_at": "2021-03-16T17:07:40.535909"
-    }
-  ]
-}
