@@ -8,9 +8,6 @@ export default class PfaApiPublic {
         this.routes = {
             "infos": "/apiv2/infos",
             "login": "/apiv2/token",
-            "request": "/apiv2/request",
-            "registerCheck": "/apiv2/register/check",
-            "register": "/apiv2/register"
         };
     }
 
@@ -44,50 +41,6 @@ export default class PfaApiPublic {
             })
             .catch(function() {
                 return false
-            })
-    }
-
-    requestAccess(email) {
-        return this.service.post(this.routes.request, {
-            "email": email
-        })
-            .then(function(d) {
-                console.log(d.data.msg)
-            })
-    }
-
-    register(token, username, password) {
-        return this.service.post(this.routes.register, {
-            username: username,
-            password: password
-        }, {
-            params: {
-                token: token
-            }
-        })
-            .then(function(response) {
-                console.log(response.data.msg);
-                return true;
-            })
-            .catch(function(err) {
-                console.log(err.response.data.msg);
-                return false;
-            })
-    }
-
-    checkRegisterToken(token) {
-        return this.service.post(this.routes.registerCheck, {}, {
-            params: {
-                token: token
-            }
-        })
-            .then(function(r) {
-                console.log(r.data.msg);
-                return true;
-            })
-            .catch(function(err) {
-                console.log(err.response.data.msg);
-                return false;
             })
     }
 

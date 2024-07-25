@@ -1,24 +1,27 @@
 <template>
     <div>
         <h3>User list</h3>
-        <div>
-            <button @click="createScheduler" class="btn btn-primary">Add scheduler user...</button>
+        <div class="row">
+            <div class="form-group col-md-2">
+                <button @click="createScheduler" class="btn btn-primary">Add scheduler...</button>
+            </div>
+            <div class="form-group col-md-2">
+                <button @click="createUser" class="btn btn-primary">Add user...</button>
+            </div>
         </div>
         <div class="mt-2">
             <table v-if="userList.length > 0" class="table">
                 <thead>
                 <tr>
                     <th scope="col">Username</th>
-                    <th scope="col">Email</th>
-                    <th scope="col" style="width: 10%">Role</th>
-                    <th scope="col" style="width: 5%">Edit</th>
-                    <th scope="col" style="width: 5%">Remove</th>
+                    <th scope="col" style="width: 15%">Role</th>
+                    <th scope="col" style="width: 10%">Edit</th>
+                    <th scope="col" style="width: 10%">Remove</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="u in userList" :key="u._key">
                     <td>{{u._key}}</td>
-                    <td>{{u.email}}</td>
                     <td class="align-middle">
                         <span v-if="u.role === 'admin'" class="badge badge-danger">
                             <img src="../../../../assets/icons/icons8-microsoft-admin-32.png" alt="admin">
@@ -57,6 +60,8 @@
 
         <SchedulerCreateModal ref="schedulerCreateModal" @schedulerCreated="schedulerCreated"/>
 
+        <UserCreateModal ref="userCreateModal" @userCreated="userCreated"/>
+
         <SchedulerUpdateModal ref="schedulerUpdateModal"/>
     </div>
 </template>
@@ -65,9 +70,10 @@
     import ModalConfirm from "@/components/main/ModalConfirm.vue";
     import SchedulerCreateModal from "@/components/main/admin/users/SchedulerCreateModal.vue";
     import SchedulerUpdateModal from "@/components/main/admin/users/SchedulerUpdateModal.vue";
+    import UserCreateModal from "@/components/main/admin/users/UserCreateModal.vue";
     export default {
         name: "UsersList",
-        components: {SchedulerUpdateModal, SchedulerCreateModal, ModalConfirm},
+        components: {SchedulerUpdateModal, SchedulerCreateModal, ModalConfirm, UserCreateModal},
         props: {
             userList: Array
         },
@@ -84,6 +90,12 @@
             },
             schedulerCreated() {
                 this.$emit('schedulerCreated')
+            },
+            createUser() {
+                this.$refs.userCreateModal.show()
+            },
+            userCreated() {
+                this.$emit('userCreated')
             },
             schedulerUpdate(schedulerName) {
                 this.$refs.schedulerUpdateModal.show(schedulerName)

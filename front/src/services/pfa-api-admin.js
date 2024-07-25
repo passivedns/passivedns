@@ -9,70 +9,11 @@ export default class PfaApiAdmin {
         });
 
         this.routes = {
-            "invite": "/apiv2/admin/invite",
-            "verify": "/apiv2/admin/verify",
-            "request": "/apiv2/admin/request",
-            "requestList": "/apiv2/admin/request/list",
-            "inviteList": "/apiv2/admin/invite/list",
             "userList": "/apiv2/admin/users/list",
             "users": "/apiv2/admin/users",
             "channels": "/apiv2/admin/channels",
             "scheduler": "/apiv2/admin/scheduler"
         };
-    }
-
-    invite(email) {
-        return this.service.post(this.routes.invite, {
-            email: email
-        })
-            .then(function(d) {
-                console.log(d.data.msg)
-            })
-            .catch(function(err) {
-                console.log(err.response.data.msg)
-            })
-    }
-
-    verify(email) {
-        return this.service.post(this.routes.verify, {
-            email: email
-        })
-            .then(function(d) {
-                console.log(d.data.msg)
-            })
-            .catch(function(err) {
-                console.log(err.response.data.msg)
-            })
-    }
-
-    requestList() {
-        return this.service.get(this.routes.requestList)
-            .then(function(d) {
-                return d.data.user_request_list
-            })
-            .catch(function(err) {
-                console.log(err.response.data.msg)
-            })
-    }
-
-    requestDelete(email) {
-        return this.service.delete(`${this.routes.request}/${email}`)
-            .then(function(d) {
-                console.log(d.data.msg)
-            })
-            .catch(function(err) {
-                console.log(err.response.data.msg)
-            })
-    }
-
-    inviteList() {
-        return this.service.get(this.routes.inviteList)
-            .then(function(d) {
-                return d.data.user_pending_list
-            })
-            .catch(function(err) {
-                console.log(err.response.data.msg)
-            })
     }
 
     userList() {
@@ -87,6 +28,19 @@ export default class PfaApiAdmin {
 
     userDelete(username) {
         return this.service.delete(`${this.routes.users}/${username}`)
+            .then(function(d) {
+                console.log(d.data.msg);
+                return d.data.user
+            })
+            .catch(function(err) {
+                console.log(err.response.data.msg)
+            })
+    }
+
+    userCreate(username, password) {
+        return this.service.post(`${this.routes.users}/${username}`, {
+            password: password,
+        })
             .then(function(d) {
                 console.log(d.data.msg);
                 return d.data.user
@@ -175,7 +129,5 @@ export default class PfaApiAdmin {
             })
 
     }
-
-
 
 }
