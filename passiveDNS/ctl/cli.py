@@ -19,20 +19,18 @@ def list_users():
 @cli.command()
 @click.argument("username")
 @click.argument("password")
-@click.argument("email")
 @click.option("--scheduler", is_flag=True, default=False)
 @click.option("--admin", is_flag=True, default=False)
 def create_user(
     username: str,
     password: str,
-    email: str,
     scheduler: bool = False,
     admin: bool = False,
 ) -> None:
     """Creates a new user in the system."""
     if User.exists(username):
         raise RuntimeError(f"User with username {username} already exists")
-    user = User.new(username, password, email, is_scheduler=scheduler, is_admin=admin)
+    user = User.new(username, password, is_scheduler=scheduler, is_admin=admin)
     user.insert()
     click.echo(f"User {username} succesfully created!")
 

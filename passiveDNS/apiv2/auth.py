@@ -123,11 +123,6 @@ async def login(response: Response, form_data: LoginCred):
     password = form_data.password
 
     try:
-        if User.exists_from_email(identity):
-            # assume identity is email
-            user = User.get_from_email(identity)
-        else:
-            # assume identity is username
             user = User.get(identity)
     except ObjectNotFound as o:
         raise HTTPException(status_code=404, detail=f"error logging in : {str(o)}")

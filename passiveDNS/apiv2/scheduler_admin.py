@@ -13,13 +13,13 @@ class PasswordJson(BaseModel):
 
 @scheduler_admin_router.post("/admin/scheduler/{scheduler_name}")
 async def create_scheduler(
-    scheduler_name, data: PasswordJson, admin_user: User = Depends(get_current_user)
+    scheduler_name, data: PasswordJson
 ):
     if User.exists(scheduler_name):
         raise HTTPException(status_code=500, detail="name unavailable")
 
     new_scheduler = User.new(
-        scheduler_name, data.password, admin_user.email, is_scheduler=True
+        scheduler_name, data.password, is_scheduler=True
     )
     new_scheduler.insert()
 

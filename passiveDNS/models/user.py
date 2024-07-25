@@ -22,7 +22,6 @@ class User(Node):
         self.username = user_json["_key"]
         super().__init__(USER_COLLECTION, self.username)
 
-        self.email = user_json["email"]
         self.hashed_password = user_json["hashed_password"]
         self.role = user_json["role"]
         self.api_keys = user_json["api_keys"]
@@ -35,7 +34,6 @@ class User(Node):
         return {
             "_key": self.username,
             "hashed_password": self.hashed_password,
-            "email": self.email,
             "role": self.role,
             "api_keys": self.api_keys,
         }
@@ -47,7 +45,6 @@ class User(Node):
         """
         return {
             "_key": self.username,
-            "email": self.email,
             "role": self.role,
         }
 
@@ -93,7 +90,7 @@ class User(Node):
 
     @staticmethod
     def new(
-        username: str, password: str, email: str, is_scheduler=False, is_admin=False
+        username: str, password: str, is_scheduler=False, is_admin=False
     ):
         """
         Build a new User object
@@ -113,7 +110,6 @@ class User(Node):
 
         return User(
             _key=username,
-            email=email,
             hashed_password=hashed_password,
             role=role,
             api_keys={},
@@ -139,16 +135,6 @@ class User(Node):
         return User(**u)
 
     @staticmethod
-    def get_from_email(email):
-        """
-        Get an existing User from its email
-        :param email: the User email
-        :return: an existing User
-        """
-        u = User._get_from_key(USER_COLLECTION, "email", email)
-        return User(**u)
-
-    @staticmethod
     def exists(username: str):
         """
         Check if a User exists from its name
@@ -156,15 +142,6 @@ class User(Node):
         :return: True if exists, False else
         """
         return User._exists(USER_COLLECTION, username)
-
-    @staticmethod
-    def exists_from_email(email: str) -> bool:
-        """
-        Check whether an email is used by an existing User
-        :type email: the User email
-        :return True if User with this email exists
-        """
-        return User._exists_from_key(USER_COLLECTION, "email", email)
 
     @staticmethod
     def list():

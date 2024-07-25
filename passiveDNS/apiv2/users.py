@@ -3,9 +3,6 @@ from pydantic import BaseModel
 
 from passiveDNS.db.database import ObjectNotFound
 from passiveDNS.models.user import User
-from passiveDNS.models.user_pending import UserPending
-from passiveDNS.models.user_request import UserRequest
-from passiveDNS.models.channel import Channel
 from passiveDNS.models.api_integration import APIIntegration
 from passiveDNS.analytics.extern_api import ExternAPI, RequestException
 
@@ -13,87 +10,9 @@ from passiveDNS.apiv2.auth import get_current_user
 
 users_router = APIRouter()
 
-
-class UserRegistration(BaseModel):
-    username: str
-    password: str
-    token: str
-
-
-class CheckToken(BaseModel):
-    token: str
-
-
-class Access(BaseModel):
-    email: str
-
-
 class ChangePassword(BaseModel):
     current_password: str
     new_password: str
-
-
-# require a token from the UsersPending table (sent by email)
-@users_router.post("/register")
-async def register(user_data: UserRegistration):
-    if User.exists(user_data.username):
-        raise HTTPException(
-            status_code=500,
-            detail=f"user with username `{user_data.username}` already exists",
-        )
-
-    try:
-        user_pending = UserPending.get(user_data.token)
-    except ObjectNotFound as o:
-        raise HTTPException(status_code=404, detail=f"user pending not found: {str(o)}")
-
-    created_user = User.new(user_data.username, user_data.password, user_pending.email)
-    created_user.insert()
-    user_pending.delete()
-
-    return {
-        "msg": f"user {created_user.username} created",
-        "user": created_user.safe_json(),
-    }
-
-
-# require a token from the UsersPending table (sent by email)
-@users_router.post("/register/check")
-async def token_check(token_data: CheckToken):
-    token = token_data.token
-
-    if UserPending.exists(token):
-        return {"msg": "valid token"}
-    else:
-        raise HTTPException(status_code=400, detail="invalid token")
-
-
-# require nothing
-@users_router.post("/request")
-async def request_access(access_data: Access):
-    email = access_data.email
-
-    if User.exists_from_email(email):
-        raise HTTPException(status_code=500, detail="email unavailable")
-
-    if UserPending.exists_from_email(email):
-        raise HTTPException(
-            status_code=500, detail="an invitation has already been sent to this email"
-        )
-
-    if UserRequest.exists(email):
-        raise HTTPException(
-            status_code=500, detail="a request for this email has already been sent"
-        )
-
-    user_request = UserRequest.new(email)
-    user_request.insert()
-
-    return {
-        "msg": f"request for access with mail {user_request.email} sent to admin",
-        "user_request": user_request.json(),
-    }
-
 
 @users_router.put("/password", dependencies=[Depends(get_current_user)])
 async def change_password(

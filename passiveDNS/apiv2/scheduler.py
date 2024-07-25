@@ -1,16 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, HTTPException
 from defang import refang
 import validators
 from passiveDNS.utils.channels.send import alert_all_dn
-from passiveDNS.apiv2.auth import get_current_user
 from passiveDNS.models.domain_name import (
     DomainName,
-    DomainNameFilterNotFound,
-    DomainNameSortNotFound,
 )
 from passiveDNS.models.ip_address import IPAddress
 from passiveDNS.models.resolution import Resolution
-from passiveDNS.models.user import User
 from passiveDNS.db.database import ObjectNotFound
 
 scheduler_router = APIRouter()
@@ -51,6 +47,7 @@ async def update_dn_alert(domain_name):
         }
         resolution = Resolution.new(domain_name, ip_address, "PassiveDNS")
         resolution.insert()
+        # alert users
         alert_all_dn(domain_alert)
 
     else:
