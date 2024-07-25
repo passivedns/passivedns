@@ -23,11 +23,11 @@
                         </div>
                         <div class="form-group">
                             <label for="host">Host</label>
-                            <input v-model="channelInfos.host" type="text" class="form-control" id="host" value="redis" required>
+                            <input v-model="channelInfos.host" type="text" class="form-control" id="host" required>
                         </div>
                         <div class="form-group">
                             <label for="senderEmail">Port</label>
-                            <input v-model="channelInfos.port" type="text" class="form-control" id="senderEmail" value="6379" required>
+                            <input v-model="channelInfos.port" type="text" class="form-control" id="senderEmail" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
@@ -60,7 +60,10 @@ import AuthCheck from "@/components/connection/AuthCheck.vue";
                 valid: null,
 
                 channelName: "",
-                channelInfos: {},
+                channelInfos: {
+                    host: "redis",
+                    port: "6379",
+                },
                 channelType: "redis",
 
                 modal: null,
