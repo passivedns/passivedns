@@ -19,18 +19,15 @@ The database is based on [ArangoDB](https://www.arangodb.com/)
 
 ### Front
 
-The front is using [Bootstrap 4.4](https://getbootstrap.com/) and [VueJS 2](http://vuejs.org/).
+The front is using [Bootstrap 4.4](https://getbootstrap.com/) and [VueJS 3](http://vuejs.org/).
 
-### Scheduler
-[![Docker Image Version (latest by date)](https://img.shields.io/docker/v/dadard29/passive-dns-scheduler?label=docker)](https://hub.docker.com/repository/docker/dadard29/passive-dns-scheduler)
-[![Docker Pulls](https://img.shields.io/docker/pulls/dadard29/passive-dns-scheduler)](https://hub.docker.com/repository/docker/dadard29/passive-dns-scheduler)
 
 # Installation
 
-Please follow the instructions from the [installation section](https://github.com/Dadard29/PassiveDNS/wiki/Installation). of the wiki.
+Please follow the instructions from the [installation section](https://passivedns.github.io/docs/installation/) of the documentation.
 
 # Authors
 
-This projects has been made by students. See the [authors section](https://github.com/Dadard29/PassiveDNS/wiki/Authors) of the wiki.
+This projects has been made by students. See the [authors section](https://passivedns.github.io/docs/authors/) of the documentation.
 
 
