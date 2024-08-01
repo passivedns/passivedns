@@ -10,9 +10,11 @@ from passiveDNS.apiv2.auth import get_current_user
 
 users_router = APIRouter()
 
+
 class ChangePassword(BaseModel):
     current_password: str
     new_password: str
+
 
 @users_router.put("/password", dependencies=[Depends(get_current_user)])
 async def change_password(

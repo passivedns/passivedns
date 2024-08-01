@@ -8,8 +8,10 @@ from passiveDNS.apiv2.domain_name import delete
 
 users_admin_router = APIRouter()
 
+
 class CreateUser(BaseModel):
     password: str
+
 
 # the list of the users registered
 # require admin JWT
@@ -37,7 +39,7 @@ async def remove_user(username):
         for user_dn in user_dn_list:
             if user_dn.owned:
                 user_list = UserDn.list_user_from_dn(user_dn.domain_name)
-                print("user_dn from domain name",user_list)
+                print("user_dn from domain name", user_list)
                 for u_d in user_list:
                     u_d.delete()
                 await delete(user_dn.domain_name, user)
@@ -52,16 +54,13 @@ async def remove_user(username):
 
 
 # create a user
-# require admin JWT
+# require admin JWT
 @users_admin_router.post("/admin/users/{username}")
 async def verify_requested_user(username, user_data: CreateUser):
-    
     if User.exists(username):
         raise HTTPException(status_code=500, detail="name unavailable")
 
-    new_user = User.new(
-        username, user_data.password
-    )
+    new_user = User.new(username, user_data.password)
     new_user.insert()
 
     return {"msg": "user created", "user": new_user.safe_json()}

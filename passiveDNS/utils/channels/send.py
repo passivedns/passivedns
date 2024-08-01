@@ -51,7 +51,9 @@ def alert_all_process(domain_name):
     logging.debug(f"Data: {data}")
 
     template = ALERT_DN_TEMPLATE
-    template.set_format(date=timezone.get_current_datetime(config.g.TIMEZONE), data=data)
+    template.set_format(
+        date=timezone.get_current_datetime(config.g.TIMEZONE), data=data
+    )
 
     channels = Channel.list()
     for c in channels:

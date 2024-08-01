@@ -15,9 +15,7 @@ class UsersTest(unittest.TestCase):
         cls.db.clear()
         cls.db.connect()
 
-        cls.user1 = User.new(
-            username="TestUser1", password="user1"
-        )
+        cls.user1 = User.new(username="TestUser1", password="user1")
         cls.user1.insert()
 
         client.post("/apiv2/token", json={"identity": "TestUser1", "password": "user1"})

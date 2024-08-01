@@ -23,9 +23,7 @@ class AuthTest(unittest.TestCase):
         )
         cls.admin1.insert()
 
-        cls.user1 = User.new(
-            username="TestUser1", password="user1"
-        )
+        cls.user1 = User.new(username="TestUser1", password="user1")
         cls.user1.insert()
 
     @classmethod

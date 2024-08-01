@@ -91,7 +91,7 @@ class UserDn(Edge):
         """
         user_dn_list = UserDn._list_to(USER_DN_COLLECTION, USER_COLLECTION, username)
         return [UserDn(**user_dn) for user_dn in user_dn_list]
-    
+
     @staticmethod
     def list_user_from_dn(domain_name):
         """
@@ -99,5 +99,7 @@ class UserDn(Edge):
         :param domain_name: the Domain name
         :return: all User DN connected
         """
-        user_dn_list = UserDn._list_from(USER_DN_COLLECTION, DOMAIN_NAME_COLLECTION, domain_name)
+        user_dn_list = UserDn._list_from(
+            USER_DN_COLLECTION, DOMAIN_NAME_COLLECTION, domain_name
+        )
         return [UserDn(**user_dn) for user_dn in user_dn_list]
