@@ -17,7 +17,6 @@ class AuthTest(unittest.TestCase):
 
         cls.admin1 = User(
             _key="TestAdmin1",
-            email="admin1@test.com",
             hashed_password=User._hash_password("admin1"),
             role="admin",
             api_keys={},
@@ -25,7 +24,7 @@ class AuthTest(unittest.TestCase):
         cls.admin1.insert()
 
         cls.user1 = User.new(
-            username="TestUser1", password="user1", email="user1@test.com"
+            username="TestUser1", password="user1"
         )
         cls.user1.insert()
 

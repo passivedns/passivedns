@@ -17,7 +17,6 @@ class AdminChannelTest(unittest.TestCase):
         cls.db.connect()
         cls.admin1 = User(
             _key="TestAdmin1",
-            email="admin1@test.com",
             hashed_password=User._hash_password("admin1"),
             role="admin",
             api_keys={},
@@ -26,24 +25,22 @@ class AdminChannelTest(unittest.TestCase):
 
         cls.channel1 = Channel.new(
             "channelTest1",
-            "email",
+            "redis",
             {
-                "smtp_host": "test",
-                "smtp_port": "test",
-                "sender_email": "test",
-                "sender_password": "test",
+                "host": "test",
+                "port": "test",
+                "db": "test",
             },
         )
         cls.channel1.insert()
 
         cls.channel2 = Channel.new(
             "channelTest2",
-            "email",
+            "redis",
             {
-                "smtp_host": "test2",
-                "smtp_port": "test2",
-                "sender_email": "test2",
-                "sender_password": "test2",
+                "host": "test2",
+                "port": "test2",
+                "db": "test2",
             },
         )
         cls.channel2.insert()
@@ -67,12 +64,11 @@ class AdminChannelTest(unittest.TestCase):
         response = client.post(
             "/apiv2/admin/channels/test1",
             json={
-                "type": "email",
+                "type": "redis",
                 "infos": {
-                    "smtp_host": "test",
-                    "smtp_port": "test",
-                    "sender_email": "test",
-                    "sender_password": "test",
+                    "host": "test",
+                    "port": "test",
+                    "db": "test",
                 },
             },
         )
@@ -83,12 +79,11 @@ class AdminChannelTest(unittest.TestCase):
         response = client.post(
             "/apiv2/admin/channels/_default",
             json={
-                "type": "email",
+                "type": "redis",
                 "infos": {
-                    "smtp_host": "test",
-                    "smtp_port": "test",
-                    "sender_email": "test",
-                    "sender_password": "test",
+                    "host": "test",
+                    "port": "test",
+                    "db": "test",
                 },
             },
         )
@@ -97,7 +92,7 @@ class AdminChannelTest(unittest.TestCase):
     def test_admin_create_channel_parsing_error(self) -> None:
         response = client.post(
             "/apiv2/admin/channels/test3",
-            json={"type": "email", "infos": {"smtp_host": "test", "smtp_port": "test"}},
+            json={"type": "redis", "infos": {"host": "test", "port": "test"}},
         )
         self.assertEqual(response.status_code, 500)
 
@@ -107,10 +102,9 @@ class AdminChannelTest(unittest.TestCase):
             json={
                 "type": "test",
                 "infos": {
-                    "smtp_host": "test",
-                    "smtp_port": "test",
-                    "sender_email": "test",
-                    "sender_password": "test",
+                    "host": "test",
+                    "port": "test",
+                    "db": "test",
                 },
             },
         )
@@ -131,12 +125,11 @@ class AdminChannelTest(unittest.TestCase):
         response = client.put(
             "/apiv2/admin/channels/channelTest1",
             json={
-                "type": "email",
+                "type": "redis",
                 "infos": {
-                    "smtp_host": "changed",
-                    "smtp_port": "changed",
-                    "sender_email": "changed",
-                    "sender_password": "changed",
+                    "host": "changed",
+                    "port": "changed",
+                    "db": "changed",
                 },
             },
         )
@@ -147,12 +140,11 @@ class AdminChannelTest(unittest.TestCase):
         response = client.put(
             "/apiv2/admin/channels/test5",
             json={
-                "type": "email",
+                "type": "redis",
                 "infos": {
-                    "smtp_host": "changed",
-                    "smtp_port": "changed",
-                    "sender_email": "changed",
-                    "sender_password": "changed",
+                    "host": "changed",
+                    "port": "changed",
+                    "db": "changed",
                 },
             },
         )

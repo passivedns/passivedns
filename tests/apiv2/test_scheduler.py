@@ -16,12 +16,11 @@ class SchedulerTest(unittest.TestCase):
         cls.db.connect()
         cls.db.clear()
 
-        cls.user1 = User.new("TestSched1", "sched1", "sched1@test.com", True)
+        cls.user1 = User.new("TestSched1", "sched1", True)
         cls.user1.insert()
 
         cls.admin1 = User(
             _key="TestAdmin1",
-            email="admin1@test.com",
             hashed_password=User._hash_password("admin1"),
             role="admin",
             api_keys={},
