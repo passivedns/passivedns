@@ -3,6 +3,8 @@ from pydantic import BaseModel
 
 from passiveDNS.db.database import ObjectNotFound
 from passiveDNS.models.user import User, UserRole
+from passiveDNS.models.users_dn import UserDn
+from passiveDNS.apiv2.domain_name import delete
 
 users_admin_router = APIRouter()
 
@@ -30,6 +32,17 @@ async def remove_user(username):
         raise HTTPException(status_code=404, detail="user not found")
 
     if user.role != UserRole.ADMIN.value:
+        user_dn_list = UserDn.list_dn_from_user(username)
+
+        for user_dn in user_dn_list:
+            if user_dn.owned:
+                user_list = UserDn.list_user_from_dn(user_dn.domain_name)
+                print("user_dn from domain name",user_list)
+                for u_d in user_list:
+                    u_d.delete()
+                await delete(user_dn.domain_name, user)
+            user_dn.delete()
+
         user.delete()
 
         return {"msg": f"user {user.username} deleted", "user": user.safe_json()}
